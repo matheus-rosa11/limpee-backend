@@ -1,13 +1,33 @@
 package school.sptech.limpee.model;
 
 public class Prestador extends Usuario {
-    private int qtdServico;
+    private int qtdServicoFinalizado;
     private int anosExperiencia;
 
-    public Prestador(String nome, String email, String senha, String genero, int ranking, int qtdServico, int anosExperiencia) {
+    public Prestador(String nome, String email, String senha, String genero, int ranking, int anosExperiencia) {
         super(nome, email, senha, genero, ranking);
-        this.qtdServico = qtdServico;
+        this.qtdServicoFinalizado = 0;
         this.anosExperiencia = anosExperiencia;
+    }
+
+    public int getQtdServicoFinalizado() {
+        return qtdServicoFinalizado;
+    }
+
+    public void setQtdServico(int qtdServicoFinalizado) {
+        this.qtdServicoFinalizado = qtdServicoFinalizado;
+    }
+
+    public int getAnosExperiencia() {
+        return anosExperiencia;
+    }
+
+    public void setAnosExperiencia(int anosExperiencia) {
+        this.anosExperiencia = anosExperiencia;
+    }
+
+    public void prestarServico(){
+
     }
 
     @Override

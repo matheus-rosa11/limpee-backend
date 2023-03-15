@@ -3,9 +3,19 @@ package school.sptech.limpee.model;
 public class Cliente extends Usuario {
     private int qtdServicoSolicitado;
 
-    public Cliente(String nome, String email, String senha, String genero, int ranking, int qtdServicoSolicitado) {
+    public Cliente(String nome, String email, String senha, String genero, int ranking) {
         super(nome, email, senha, genero, ranking);
+        this.qtdServicoSolicitado = 0;
+    }
+
+    public int getQtdServicoSolicitado() {
+        return qtdServicoSolicitado;
+    }
+
+    public void setQtdServicoSolicitado(int qtdServicoSolicitado) {
         this.qtdServicoSolicitado = qtdServicoSolicitado;
+    }
+    public void solicitarServico(){
     }
 
     @Override
