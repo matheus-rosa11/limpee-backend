@@ -1,4 +1,7 @@
-package school.sptech.limpee;
+package school.sptech.limpee.model;
+
+import school.sptech.limpee.model.Cliente;
+import school.sptech.limpee.model.Servico;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +13,8 @@ public abstract class Usuario {
     private String genero;
     private int ranking;
     private List<Servico> servicos;
+
+    public Usuario() {}
 
     public Usuario(String nome, String email, String senha, String genero, int ranking) {
         this.nome = nome;

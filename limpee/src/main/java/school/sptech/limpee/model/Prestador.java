@@ -1,12 +1,6 @@
-package school.sptech.limpee;
+package school.sptech.limpee.model;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-@RequestMapping("usuarios")
-public class Prestador extends Usuario{
+public class Prestador extends Usuario {
     private int qtdServico;
     private int anosExperiencia;
 
