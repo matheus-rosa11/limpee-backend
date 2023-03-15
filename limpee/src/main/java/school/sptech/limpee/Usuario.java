@@ -11,6 +11,8 @@ public abstract class Usuario {
     private int ranking;
     private List<Servico> servicos;
 
+    public Usuario() {}
+
     public Usuario(String nome, String email, String senha, String genero, int ranking) {
         this.nome = nome;
         this.email = email;
