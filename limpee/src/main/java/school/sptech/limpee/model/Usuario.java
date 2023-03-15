@@ -1,4 +1,7 @@
-package school.sptech.limpee;
+package school.sptech.limpee.model;
+
+import school.sptech.limpee.model.Cliente;
+import school.sptech.limpee.model.Servico;
 
 import java.util.ArrayList;
 import java.util.List;
