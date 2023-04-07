@@ -1,8 +1,18 @@
 package school.sptech.limpee.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Prestador extends Usuario {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private int qtdServicoFinalizado;
     private int anosExperiencia;
+    public Prestador() {}
 
     public Prestador(String nome, String email, String senha, String genero, int ranking, int anosExperiencia) {
         super(nome, email, senha, genero, ranking);
