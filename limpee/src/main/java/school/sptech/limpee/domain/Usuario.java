@@ -1,8 +1,8 @@
-package school.sptech.limpee.model;
+package school.sptech.limpee.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.MappedSuperclass;
 
+@MappedSuperclass
 public abstract class Usuario {
     private String nome;
     private String email;

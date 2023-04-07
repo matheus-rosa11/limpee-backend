@@ -1,4 +1,4 @@
-package school.sptech.limpee.model;
+package school.sptech.limpee.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,11 +18,11 @@ public class Cliente extends Usuario {
         this.qtdServicosSolicitados = 0;
     }
 
-    public int getqtdServicosSolicitados() {
+    public int getQtdServicosSolicitados() {
         return qtdServicosSolicitados;
     }
 
-    public void setqtdServicosSolicitados(int qtdServicosSolicitados) {
+    public void setQtdServicosSolicitados(int qtdServicosSolicitados) {
         this.qtdServicosSolicitados = qtdServicosSolicitados;
     }
     public void solicitarServico(){

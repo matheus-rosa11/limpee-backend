@@ -1,4 +1,4 @@
-package school.sptech.limpee.model;
+package school.sptech.limpee.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
