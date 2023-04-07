@@ -8,7 +8,6 @@ import school.sptech.limpee.domain.Login;
 import school.sptech.limpee.domain.LoginResponse;
 import school.sptech.limpee.service.ClienteService;
 
-import javax.swing.text.html.Option;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +22,22 @@ public class ClienteController {
     public ResponseEntity<Cliente> cadastrar(@RequestBody Cliente cliente){
         clienteService.save(cliente);
         return ResponseEntity.ok(cliente);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody Login login) throws Exception {
+        Optional<Cliente> optionalCliente = clienteService.findByEmailAndSenha(login.getEmail(), login.getSenha());
+
+        if (optionalCliente.isEmpty())
+            throw new Exception(String.format("Usuário %s não encontrado"));
+
+
+        return ResponseEntity.ok(new LoginResponse(
+                optionalCliente.get().getId(),
+                optionalCliente.get().getNome(),
+                "Login realizado com sucesso!",
+                "token")
+        );
     }
 
     @GetMapping
@@ -55,14 +70,5 @@ public class ClienteController {
 
         List<Cliente> clientes = clienteService.findAllByNome(nome);
         return ResponseEntity.ok(clientes);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody Login login) {
-        Optional<Cliente> optionalCliente = clienteService.findByEmailAndSenha(login.getEmail(), login.getSenha());
-
-        return optionalCliente.isPresent() ?
-                ResponseEntity.ok(new LoginResponse("teste","teste")) :
-                ResponseEntity.notFound().build();
     }
 }
