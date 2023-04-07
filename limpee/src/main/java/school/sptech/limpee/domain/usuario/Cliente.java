@@ -1,16 +1,20 @@
-package school.sptech.limpee.domain;
+package school.sptech.limpee.domain.usuario;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
 
 @Entity
 public class Cliente extends Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private final String tipoUsuario = "cliente";
+    @Min(0)
     private int qtdServicosSolicitados;
+
     public Cliente() {}
 
     public Cliente(String nome, String email, String senha, String genero, int ranking) {

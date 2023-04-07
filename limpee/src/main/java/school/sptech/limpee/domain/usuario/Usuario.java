@@ -1,12 +1,20 @@
-package school.sptech.limpee.domain;
+package school.sptech.limpee.domain.usuario;
 
 import jakarta.persistence.MappedSuperclass;
+import jakarta.validation.constraints.*;
 
 @MappedSuperclass
 public abstract class Usuario {
+    @Size(min = 2, max = 100)
     private String nome;
+    @Email
+    @NotBlank
+    @Size(min = 6, max = 100)
     private String email;
+    @NotBlank
+    @Size(min = 6, max = 100)
     private String senha;
+    @NotBlank
     private String genero;
     private int ranking;
 
@@ -59,12 +67,6 @@ public abstract class Usuario {
     public void setRanking(int ranking) {
         this.ranking = ranking;
     }
-    public String logar(String email, String senha){
-        if(this.email.equals(email) && this.senha.equals(senha)){
-            return "Login realizado com sucesso";
-        }
-        return "Conta ou senha inválida";
-    };
     public double calcularMedia(int qtdServico){
         double notaMedia;
         return notaMedia = (ranking/qtdServico);

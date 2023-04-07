@@ -1,31 +1,35 @@
-package school.sptech.limpee.domain;
+package school.sptech.limpee.domain.usuario;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
 
 @Entity
 public class Prestador extends Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private int qtdServicoFinalizado;
+    private final String tipoUsuario = "prestador";
+    @Min(0)
+    private int qtdServicosFinalizados;
+    @Min(3)
     private int anosExperiencia;
     public Prestador() {}
 
     public Prestador(String nome, String email, String senha, String genero, int ranking, int anosExperiencia) {
         super(nome, email, senha, genero, ranking);
-        this.qtdServicoFinalizado = 0;
+        this.qtdServicosFinalizados = 0;
         this.anosExperiencia = anosExperiencia;
     }
 
     public int getQtdServicoFinalizado() {
-        return qtdServicoFinalizado;
+        return qtdServicosFinalizados;
     }
 
-    public void setQtdServico(int qtdServicoFinalizado) {
-        this.qtdServicoFinalizado = qtdServicoFinalizado;
+    public void setQtdServico(int qtdServicosFinalizados) {
+        this.qtdServicosFinalizados = qtdServicosFinalizados;
     }
 
     public int getAnosExperiencia() {

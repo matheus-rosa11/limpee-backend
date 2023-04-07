@@ -2,7 +2,7 @@ package school.sptech.limpee.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.limpee.domain.Prestador;
+import school.sptech.limpee.domain.usuario.Prestador;
 
 import java.util.ArrayList;
 import java.util.List;
