@@ -49,7 +49,7 @@ public class ClienteController {
         List<Cliente> clientes = clienteService.findAll();
 
         if (clientes.isEmpty())
-            return ResponseEntity.ok(clientes);
+            return ResponseEntity.noContent().build();
 
         if (quantidade > 0) {
             clientes = clientes.stream()
@@ -69,6 +69,9 @@ public class ClienteController {
             return ResponseEntity.badRequest().build();
 
         List<Cliente> clientes = clienteService.findAllByNome(nome);
-        return ResponseEntity.ok(clientes);
+
+        return clientes.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok(clientes);
     }
 }

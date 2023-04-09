@@ -24,6 +24,26 @@ public class Prestador extends Usuario {
         this.anosExperiencia = anosExperiencia;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public int getQtdServicosFinalizados() {
+        return qtdServicosFinalizados;
+    }
+
+    public void setQtdServicosFinalizados(int qtdServicosFinalizados) {
+        this.qtdServicosFinalizados = qtdServicosFinalizados;
+    }
+
     public int getQtdServicoFinalizado() {
         return qtdServicosFinalizados;
     }
