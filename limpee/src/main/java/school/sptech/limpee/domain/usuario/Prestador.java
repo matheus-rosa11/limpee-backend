@@ -1,21 +1,55 @@
-package school.sptech.limpee.model;
+package school.sptech.limpee.domain.usuario;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
+
+@Entity
 public class Prestador extends Usuario {
-    private int qtdServicoFinalizado;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private final String tipoUsuario = "prestador";
+    @Min(0)
+    private int qtdServicosFinalizados;
+    @Min(3)
     private int anosExperiencia;
+    public Prestador() {}
 
     public Prestador(String nome, String email, String senha, String genero, int ranking, int anosExperiencia) {
         super(nome, email, senha, genero, ranking);
-        this.qtdServicoFinalizado = 0;
+        this.qtdServicosFinalizados = 0;
         this.anosExperiencia = anosExperiencia;
     }
 
-    public int getQtdServicoFinalizado() {
-        return qtdServicoFinalizado;
+    public long getId() {
+        return id;
     }
 
-    public void setQtdServico(int qtdServicoFinalizado) {
-        this.qtdServicoFinalizado = qtdServicoFinalizado;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public int getQtdServicosFinalizados() {
+        return qtdServicosFinalizados;
+    }
+
+    public void setQtdServicosFinalizados(int qtdServicosFinalizados) {
+        this.qtdServicosFinalizados = qtdServicosFinalizados;
+    }
+
+    public int getQtdServicoFinalizado() {
+        return qtdServicosFinalizados;
+    }
+
+    public void setQtdServico(int qtdServicosFinalizados) {
+        this.qtdServicosFinalizados = qtdServicosFinalizados;
     }
 
     public int getAnosExperiencia() {
