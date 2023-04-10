@@ -1,6 +1,7 @@
 package school.sptech.limpee.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.limpee.domain.usuario.Cliente;
@@ -19,9 +20,14 @@ public class ClienteController {
     ClienteService clienteService;
 
     @PostMapping
-    public ResponseEntity<Cliente> cadastrar(@RequestBody Cliente cliente){
-        clienteService.save(cliente);
-        return ResponseEntity.ok(cliente);
+    public ResponseEntity<Object> cadastrar(@RequestBody Cliente cliente){
+        Optional<Cliente> optionalCliente = clienteService.findByEmailAndSenha(cliente.getEmail(), cliente.getSenha());
+
+        if (optionalCliente.isEmpty()) {
+            clienteService.save(cliente);
+            return ResponseEntity.ok(cliente);
+        }
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Error Message");
     }
 
     @PostMapping("/login")

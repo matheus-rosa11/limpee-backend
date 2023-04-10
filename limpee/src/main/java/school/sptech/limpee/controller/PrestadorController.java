@@ -1,10 +1,12 @@
 package school.sptech.limpee.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.limpee.domain.Login;
 import school.sptech.limpee.domain.LoginResponse;
+import school.sptech.limpee.domain.usuario.Cliente;
 import school.sptech.limpee.domain.usuario.Prestador;
 import school.sptech.limpee.service.PrestadorService;
 
@@ -19,9 +21,14 @@ public class PrestadorController {
     PrestadorService prestadorService;
     
     @PostMapping
-    public ResponseEntity<Prestador> cadastrar(@RequestBody Prestador prestador){
-        prestadorService.save(prestador);
-        return ResponseEntity.status(201).body(prestador);
+    public ResponseEntity<Object> cadastrar(@RequestBody Prestador prestador){
+        Optional<Prestador> optionalPrestador = prestadorService.findByEmailAndSenha(prestador.getEmail(), prestador.getSenha());
+
+        if (optionalPrestador.isEmpty()) {
+            prestadorService.save(prestador);
+            return ResponseEntity.ok(prestador);
+        }
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Error Message");
     }
 
     @GetMapping
