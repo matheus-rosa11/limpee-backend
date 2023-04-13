@@ -1,19 +1,41 @@
-package school.sptech.limpee.model;
+package school.sptech.limpee.domain.usuario;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
+
+@Entity
 public class Cliente extends Usuario {
-    private int qtdServicoSolicitado;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private final String tipoUsuario = "cliente";
+    @Min(0)
+    private int qtdServicosSolicitados;
+
+    public Cliente() {}
 
     public Cliente(String nome, String email, String senha, String genero, int ranking) {
         super(nome, email, senha, genero, ranking);
-        this.qtdServicoSolicitado = 0;
+        this.qtdServicosSolicitados = 0;
     }
 
-    public int getQtdServicoSolicitado() {
-        return qtdServicoSolicitado;
+    public long getId() {
+        return id;
     }
 
-    public void setQtdServicoSolicitado(int qtdServicoSolicitado) {
-        this.qtdServicoSolicitado = qtdServicoSolicitado;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public int getQtdServicosSolicitados() {
+        return qtdServicosSolicitados;
+    }
+
+    public void setQtdServicosSolicitados(int qtdServicosSolicitados) {
+        this.qtdServicosSolicitados = qtdServicosSolicitados;
     }
     public void solicitarServico(){
     }
