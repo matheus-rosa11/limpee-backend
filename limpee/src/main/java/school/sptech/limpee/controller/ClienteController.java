@@ -1,5 +1,10 @@
 package school.sptech.limpee.controller;
 
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +18,22 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "Clientes", description = "Retorna métodos relativos a Clientes.")
 @RestController
 @RequestMapping("clientes")
 public class ClienteController {
     @Autowired
     ClienteService clienteService;
 
+    @ApiResponses({
+            @ApiResponse(responseCode = "204",
+                    description = "Clientes",
+                    content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "200", description = "Filmes encontrados")
+    })
+
     @PostMapping
-    public ResponseEntity<Object> cadastrar(@RequestBody Cliente cliente){
+    public ResponseEntity<Object> cadastrar(@RequestBody Cliente cliente) {
         Optional<Cliente> optionalCliente = clienteService.findByEmailAndSenha(cliente.getEmail(), cliente.getSenha());
 
         if (optionalCliente.isEmpty()) {
