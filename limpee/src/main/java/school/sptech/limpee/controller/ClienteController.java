@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import school.sptech.limpee.domain.usuario.Cliente;
 import school.sptech.limpee.domain.Login;
 import school.sptech.limpee.domain.LoginResponse;
-import school.sptech.limpee.service.ClienteService;
+import school.sptech.limpee.service.usuario.ClienteService;
 
 import java.util.Comparator;
 import java.util.List;
@@ -48,7 +48,7 @@ public class ClienteController {
         Optional<Cliente> optionalCliente = clienteService.findByEmailAndSenha(login.getEmail(), login.getSenha());
 
         if (optionalCliente.isEmpty())
-            throw new Exception(String.format("Usuário %s não encontrado"));
+            throw new Exception(String.format("Usuário %s não encontrado", login.getEmail()));
 
 
         return ResponseEntity.ok(new LoginResponse(
@@ -79,7 +79,6 @@ public class ClienteController {
 
         return ResponseEntity.ok(clientes);
     }
-
 
     @GetMapping("/nome")
     public ResponseEntity<List<Cliente>> listarPorNome(@RequestHeader(required = false, defaultValue = "", name = "quantidade") String nome) {
