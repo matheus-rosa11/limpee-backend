@@ -1,14 +1,11 @@
-package school.sptech.limpee.controller;
+package school.sptech.limpee.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.limpee.domain.Login;
-import school.sptech.limpee.domain.LoginResponse;
-import school.sptech.limpee.domain.usuario.Cliente;
 import school.sptech.limpee.domain.usuario.Prestador;
-import school.sptech.limpee.service.PrestadorService;
+import school.sptech.limpee.service.usuario.PrestadorService;
 
 import java.util.Comparator;
 import java.util.List;
@@ -52,21 +49,21 @@ public class PrestadorController {
         return ResponseEntity.ok(prestadores);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody Login login) throws Exception {
-        Optional<Prestador> optionalPrestador = prestadorService.findByEmailAndSenha(login.getEmail(), login.getSenha());
-
-        if (optionalPrestador.isEmpty())
-            throw new Exception(String.format("Usuário %s não encontrado"));
-
-
-        return ResponseEntity.ok(new LoginResponse(
-                optionalPrestador.get().getId(),
-                optionalPrestador.get().getNome(),
-                "Login realizado com sucesso!",
-                "token")
-        );
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<LoginResponse> login(@RequestBody Login login) throws Exception {
+//        Optional<Prestador> optionalPrestador = prestadorService.findByEmailAndSenha(login.getEmail(), login.getSenha());
+//
+//        if (optionalPrestador.isEmpty())
+//            throw new Exception(String.format("Usuário %s não encontrado"));
+//
+//
+//        return ResponseEntity.ok(new LoginResponse(
+//                optionalPrestador.get().getId(),
+//                optionalPrestador.get().getNome(),
+//                "Login realizado com sucesso!",
+//                "token")
+//        );
+//    }
 
     @GetMapping("/nome")
     public ResponseEntity<List<Prestador>> listarPorNome(@RequestHeader(required = false, defaultValue = "", name = "quantidade") String nome) {

@@ -1,18 +1,20 @@
-package school.sptech.limpee.controller;
+package school.sptech.limpee.api.controller;
 
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.limpee.domain.usuario.Cliente;
-import school.sptech.limpee.domain.Login;
-import school.sptech.limpee.domain.LoginResponse;
 import school.sptech.limpee.service.usuario.ClienteService;
+import school.sptech.limpee.service.usuario.autenticacao.dto.ClienteLoginDto;
+import school.sptech.limpee.service.usuario.autenticacao.dto.ClienteTokenDto;
+import school.sptech.limpee.service.usuario.dto.ClienteCriacaoDto;
 
 import java.util.Comparator;
 import java.util.List;
@@ -43,20 +45,33 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.CONFLICT).body("Error Message");
     }
 
+    @PostMapping("/criar")
+    @SecurityRequirement(name = "Bearer")
+    public ResponseEntity<Void> criar(@RequestBody ClienteCriacaoDto usuarioCriacaoDto) {
+        this.clienteService.criar(usuarioCriacaoDto);
+        return ResponseEntity.status(201).build();
+    }
+
+//    @PostMapping("/login")
+//    public ResponseEntity<LoginResponse> login(@RequestBody Login login) throws Exception {
+//        Optional<Cliente> optionalCliente = clienteService.findByEmailAndSenha(login.getEmail(), login.getSenha());
+//
+//        if (optionalCliente.isEmpty())
+//            throw new Exception(String.format("Usuário %s não encontrado", login.getEmail()));
+//
+//
+//        return ResponseEntity.ok(new LoginResponse(
+//                optionalCliente.get().getId(),
+//                optionalCliente.get().getNome(),
+//                "Login realizado com sucesso!",
+//                "token")
+//        );
+//    }
+
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody Login login) throws Exception {
-        Optional<Cliente> optionalCliente = clienteService.findByEmailAndSenha(login.getEmail(), login.getSenha());
-
-        if (optionalCliente.isEmpty())
-            throw new Exception(String.format("Usuário %s não encontrado", login.getEmail()));
-
-
-        return ResponseEntity.ok(new LoginResponse(
-                optionalCliente.get().getId(),
-                optionalCliente.get().getNome(),
-                "Login realizado com sucesso!",
-                "token")
-        );
+    public ResponseEntity<ClienteTokenDto> login(@RequestBody ClienteLoginDto clienteLoginDto) {
+        ClienteTokenDto clienteToken = clienteService.autenticar(clienteLoginDto);
+        return ResponseEntity.ok(clienteToken);
     }
 
     @GetMapping

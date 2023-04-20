@@ -1,16 +1,8 @@
-package school.sptech.limpee.domain;
+package school.sptech.limpee.service.usuario.autenticacao.dto;
 
-public class Login {
+public class ClienteLoginDto {
     private String email;
     private String senha;
-
-    public Login() {
-    }
-
-    public Login(String email, String senha) {
-        this.email = email;
-        this.senha = senha;
-    }
 
     public String getEmail() {
         return email;
