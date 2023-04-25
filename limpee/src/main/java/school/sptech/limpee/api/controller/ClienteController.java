@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @Tag(name = "Clientes", description = "Retorna métodos relativos a Clientes.")
 @RestController
-@RequestMapping("clientes")
+@RequestMapping("/clientes")
 public class ClienteController {
     @Autowired
     ClienteService clienteService;
