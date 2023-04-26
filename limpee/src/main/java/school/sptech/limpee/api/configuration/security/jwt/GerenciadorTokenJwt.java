@@ -43,6 +43,7 @@ public class GerenciadorTokenJwt {
         Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
+
     public boolean validateToken(String token, UserDetails userDetails) {
         String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired (token));
@@ -66,7 +67,6 @@ public class GerenciadorTokenJwt {
                 .setSigningKey(secret)
                 .parseClaimsJws(token)
                 .getBody();
-
 
          */
     }
