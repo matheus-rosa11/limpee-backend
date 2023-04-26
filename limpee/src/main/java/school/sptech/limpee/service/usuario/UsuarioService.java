@@ -95,6 +95,8 @@ public class UsuarioService {
     public boolean existsByEmail(String email) {
         return usuarioRepository.existsByEmail(email);
     }
+
+
     public static void gravaArquivoCsv(ListaObj<Usuario> lista, String nomeArq) {
         FileWriter arq = null;
         Formatter saida = null;
