@@ -37,10 +37,8 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Usuário atualizado.",content = @Content(schema = @Schema(hidden = false))),
-            @ApiResponse(responseCode = "404", description = "Usuário não encontrado",content = @Content(schema = @Schema(hidden = false))),
-            @ApiResponse(responseCode = "401", description = "Não autorizado!",content = @Content(schema = @Schema(hidden = false))),
-
+            @ApiResponse(responseCode = "200", description = "Usuário atualizado."),
+            @ApiResponse(responseCode = "404", description = "Recurso não encontrado.")
     })
 
     @Operation(summary = "Login")
@@ -51,7 +49,7 @@ public class UsuarioController {
     }
 
     @ApiResponses({
-            @ApiResponse(responseCode = "201",description = "Cadastro realizado com sucesso.",content = @Content(schema = @Schema(hidden = false))),
+            @ApiResponse(responseCode = "201", description = "Cadastro realizado com sucesso."),
             @ApiResponse(responseCode = "409", description = "E-mail já existente.")
     })
 
@@ -66,13 +64,10 @@ public class UsuarioController {
     }
 
     @ApiResponses({
-            @ApiResponse(responseCode = "204",description = "Não há usuários cadastrado.",content = @Content(schema = @Schema(hidden = false))),
-            @ApiResponse(responseCode = "200",description = "Usuários encontrados."),
-            @ApiResponse(responseCode = "401",description = "Não autorizado")
-
+            @ApiResponse(responseCode = "204",description = "Listagem realizada com sucesso. Não foram encontrados registros de usuário."),
+            @ApiResponse(responseCode = "200",description = "Listagem realizada com sucesso."),
+            @ApiResponse(responseCode = "401",description = "Não autorizado.")
     })
-
-
 
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Lista usuários cadastrados")
@@ -126,16 +121,13 @@ public class UsuarioController {
 
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Atualizado com sucesso."),
-            @ApiResponse(responseCode = "204", description = "Não foram encontrados registros correspondentes."),
-            @ApiResponse(responseCode = "404", description = "O usuário solicitado não existe - id inválido..")
+            @ApiResponse(responseCode = "404", description = "Recurso não encontrado.")
     })
 
     @SecurityRequirement(name = "Bearer")
     @PatchMapping("/nome")
     @Operation(summary = "Atualiza nome de usuário")
     public ResponseEntity<UsuarioDto> atualizarNome(@RequestParam long id, @RequestBody UsuarioCriacaoDto novoUsuario) {
-        if (!usuarioService.existsById(id))
-            return ResponseEntity.notFound().build();
 
         Optional<Usuario> usuario = usuarioService.findById(id);
 
