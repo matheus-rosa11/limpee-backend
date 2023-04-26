@@ -1,6 +1,6 @@
 package school.sptech.limpee.service.usuario.autenticacao.dto;
 
-public class ClienteTokenDto {
+public class UsuarioTokenDto {
     private long userId;
     private String nome;
     private String email;

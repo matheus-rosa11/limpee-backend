@@ -1,12 +1,18 @@
 package school.sptech.limpee.domain.usuario;
 
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import school.sptech.limpee.domain.especialidade.Especialidade;
+import school.sptech.limpee.domain.especialidade.Especializacao;
 
 import javax.naming.directory.InvalidAttributeValueException;
+import java.util.List;
 
-@MappedSuperclass
-public abstract class Usuario {
+@Entity
+public class Usuario {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Size(min = 2, max = 100)
     private String nome;
     @Email
@@ -25,6 +31,9 @@ public abstract class Usuario {
     private int qtdServicosFinalizados;
     @Min(3)
     private int anosExperiencia;
+
+    @OneToMany(mappedBy = "usuario")
+    public List<Especializacao> especializacoes;
     private int ranking;
 
     public Usuario() {}
@@ -40,8 +49,6 @@ public abstract class Usuario {
         this.qtdServicosFinalizados = qtdServicosFinalizados;
         this.anosExperiencia = anosExperiencia;
     }
-
-    public abstract void calcularPontuacao(Cliente c, int pontuacao);
 
     public double calcularMedia(int qtdServico){
         double notaMedia;
@@ -92,9 +99,9 @@ public abstract class Usuario {
         return tipoUsuario;
     }
 
-    public void setTipoUsuario(String tipoUsuario) throws InvalidAttributeValueException {
+    public void setTipoUsuario(String tipoUsuario) {
         if (!(tipoUsuario.equalsIgnoreCase("cliente") || tipoUsuario.equalsIgnoreCase("prestador")))
-            throw new InvalidAttributeValueException("Tipo de cliente inválido.");
+            System.out.println("Tipo de cliente inválido.");
 
         this.tipoUsuario = tipoUsuario;
     }
@@ -121,5 +128,13 @@ public abstract class Usuario {
 
     public void setAnosExperiencia(int anosExperiencia) {
         this.anosExperiencia = anosExperiencia;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

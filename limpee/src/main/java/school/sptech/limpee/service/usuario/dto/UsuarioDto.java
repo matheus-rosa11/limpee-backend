@@ -1,13 +1,12 @@
 package school.sptech.limpee.service.usuario.dto;
 
-public class ClienteCriacaoDto {
+public class UsuarioDto {
     private String nome;
     private String email;
-    private String senha;
     private String genero;
     private int ranking;
     private int qtdServicosSolicitados;
-    private String tipoUsuario = "cliente";
+    private String tipoUsuario;
 
     public String getNome() {
         return nome;
@@ -23,14 +22,6 @@ public class ClienteCriacaoDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public String getGenero() {
@@ -61,4 +52,7 @@ public class ClienteCriacaoDto {
         return tipoUsuario;
     }
 
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
 }

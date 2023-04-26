@@ -19,30 +19,31 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class AutenticacaoFilter extends OncePerRequestFilter {
+    private  static final Logger LOGGER = LoggerFactory.getLogger(AutenticacaoFilter.class);
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AutenticacaoFilter.class);
     private final AutenticacaoService autenticacaoService;
-    private final GerenciadorTokenJwt jwtTokenManager;
 
-    public AutenticacaoFilter(AutenticacaoService autenticacaoService, GerenciadorTokenJwt jwtTokenManager) {
+    private final GerenciadorTokenJwt jwtTokenManager;
+    public AutenticacaoFilter(AutenticacaoService autenticacaoService, GerenciadorTokenJwt jwtTokenManager){
         this.autenticacaoService = autenticacaoService;
         this.jwtTokenManager = jwtTokenManager;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException{
+
         String username = null;
         String jwtToken = null;
 
         String requestTokenHeader = request.getHeader("Authorization");
 
-        if (Objects.nonNull(requestTokenHeader) && requestTokenHeader.startsWith("Bearer ")) {
+        if(Objects.nonNull(requestTokenHeader) && requestTokenHeader.startsWith("Bearer ")){
             jwtToken = requestTokenHeader.substring(7);
 
-            try {
+            try{
                 username = jwtTokenManager.getUsernameFromToken(jwtToken);
-            } catch (ExpiredJwtException exception) {
-
+            }catch (ExpiredJwtException exception){
                 LOGGER.info("[FALHA AUTENTICACAO] - Token expirado, usuario: {} - {}",
                         exception.getClaims().getSubject(), exception.getMessage());
 
@@ -50,24 +51,19 @@ public class AutenticacaoFilter extends OncePerRequestFilter {
 
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
-
         }
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null){
             addUsernameInContext(request, username, jwtToken);
         }
-
         filterChain.doFilter(request, response);
     }
 
-    private void addUsernameInContext(HttpServletRequest request, String username, String jwtToken) {
-
+    private void addUsernameInContext(HttpServletRequest request, String username, String jwtToken){
         UserDetails userDetails = autenticacaoService.loadUserByUsername(username);
-
-        if (jwtTokenManager.validateToken(jwtToken, userDetails)) {
-
+        if(jwtTokenManager.validateToken(jwtToken, userDetails)){
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities());
+                    userDetails,null, userDetails.getAuthorities());
 
             usernamePasswordAuthenticationToken
                     .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -75,4 +71,5 @@ public class AutenticacaoFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         }
     }
+
 }
