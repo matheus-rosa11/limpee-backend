@@ -4,6 +4,7 @@ public class UsuarioTokenDto {
     private long userId;
     private String nome;
     private String email;
+    private String tipoUsuario;
     private String token;
 
     public long getUserId() {
@@ -36,5 +37,13 @@ public class UsuarioTokenDto {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
 }

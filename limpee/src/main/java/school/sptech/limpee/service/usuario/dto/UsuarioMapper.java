@@ -29,6 +29,7 @@ public class UsuarioMapper {
         usuarioTokenDto.setUserId(usuario.getId());
         usuarioTokenDto.setEmail(usuario.getEmail());
         usuarioTokenDto.setNome(usuario.getNome());
+        usuarioTokenDto.setTipoUsuario(usuario.getTipoUsuario());
         usuarioTokenDto.setToken(token);
 
         return usuarioTokenDto;
