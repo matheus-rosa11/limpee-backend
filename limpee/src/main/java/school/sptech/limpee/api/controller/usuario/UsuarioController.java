@@ -28,7 +28,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-@Tag(name ="Usuários",description = "Grupo de requisições de Usuários")
+@Tag(name = "Usuários", description = "Grupo de requisições de Usuários")
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -43,9 +43,15 @@ public class UsuarioController {
 
     @Operation(summary = "Login")
     @PostMapping("/login")
-    public ResponseEntity<UsuarioTokenDto> login(@RequestBody UsuarioLoginDto usuarioLoginDto){
-        UsuarioTokenDto usuarioTokenDto = usuarioService.autenticar(usuarioLoginDto);
-        return  ResponseEntity.status(200).body(usuarioTokenDto);
+    public ResponseEntity<UsuarioTokenDto> login(@RequestBody UsuarioLoginDto usuarioLoginDto) {
+
+        try {
+            UsuarioTokenDto usuarioTokenDto = usuarioService.autenticar(usuarioLoginDto);
+            return ResponseEntity.status(200).body(usuarioTokenDto);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Houve um erro ao tentar realizar o login: " + e.getMessage());
+        }
     }
 
     @ApiResponses({
@@ -56,29 +62,43 @@ public class UsuarioController {
     @Operation(summary = "Cadastro de Usuário")
     @PostMapping
     public ResponseEntity<Usuario> criar(@RequestBody @Valid UsuarioCriacaoDto usuarioCriacaoDto) {
-        if (usuarioService.existsByEmail(usuarioCriacaoDto.getEmail())) {
-            return ResponseEntity.status(409).build();
+
+        try {
+            if (usuarioService.existsByEmail(usuarioCriacaoDto.getEmail())) {
+                return ResponseEntity.status(409).build();
+            }
+
+            Usuario usuario = this.usuarioService.criar(usuarioCriacaoDto);
+            return ResponseEntity.status(201).body(usuario);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Houve um erro ao tentar cadastrar o novo usuário: " + e.getMessage());
         }
-        Usuario usuario = this.usuarioService.criar(usuarioCriacaoDto);
-        return ResponseEntity.status(201).body(usuario);
     }
 
     @ApiResponses({
-            @ApiResponse(responseCode = "204",description = "Listagem realizada com sucesso. Não foram encontrados registros de usuário."),
-            @ApiResponse(responseCode = "200",description = "Listagem realizada com sucesso."),
-            @ApiResponse(responseCode = "401",description = "Não autorizado.")
+            @ApiResponse(responseCode = "204", description = "Listagem realizada com sucesso. Não foram encontrados registros de usuário."),
+            @ApiResponse(responseCode = "200", description = "Listagem realizada com sucesso."),
+            @ApiResponse(responseCode = "401", description = "Não autorizado.")
     })
 
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Lista usuários cadastrados")
     @GetMapping("/lista")
     public ResponseEntity<List<Usuario>> listar() {
-        List<Usuario> usuario = usuarioService.findAll();
 
-        if (usuario.isEmpty()) {
-            return ResponseEntity.status(204).build();
+        try {
+            List<Usuario> usuario = usuarioService.findAll();
+
+            if (usuario.isEmpty()) {
+                return ResponseEntity.status(204).build();
+            }
+
+            return ResponseEntity.status(200).body(usuario);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Houve um erro ao tentar listar os usuários: " + e.getMessage());
         }
-        return ResponseEntity.status(200).body(usuario);
     }
 
     @ApiResponses({
@@ -90,11 +110,17 @@ public class UsuarioController {
     @GetMapping("/lista/nome")
     @Operation(summary = "Busca usuários por nome")
     public ResponseEntity<List<Usuario>> buscarPorNome(@RequestParam String nome) {
-        List<Usuario> usuarios = usuarioService.findAllByNome(nome);
 
-        return usuarios.isEmpty() ?
-                ResponseEntity.noContent().build() :
-                ResponseEntity.ok(usuarios);
+        try {
+            List<Usuario> usuarios = usuarioService.findAllByNome(nome);
+
+            return usuarios.isEmpty() ?
+                    ResponseEntity.noContent().build() :
+                    ResponseEntity.ok(usuarios);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Houve um erro ao tentar buscar os usuários pelo nome solicitado.");
+        }
     }
 
     @ApiResponses({
@@ -106,17 +132,23 @@ public class UsuarioController {
     @GetMapping("/lista/tipoUsuario")
     @Operation(summary = "Busca usuários com base no seu tipo de usuário")
     public ResponseEntity<List<Usuario>> buscarPorTipo(@RequestParam String tipoUsuario) {
-        if (tipoUsuario.isBlank())
-            return ResponseEntity.badRequest().build();
 
-        if (!(tipoUsuario.equalsIgnoreCase("cliente") || tipoUsuario.equalsIgnoreCase("prestador")))
-            return ResponseEntity.badRequest().build();
+        try {
+            if (tipoUsuario.isBlank())
+                return ResponseEntity.badRequest().build();
 
-        List<Usuario> usuarios = usuarioService.findByTipoUsuarioIgnoreCase(tipoUsuario);
+            if (!(tipoUsuario.equalsIgnoreCase("cliente") || tipoUsuario.equalsIgnoreCase("prestador")))
+                return ResponseEntity.badRequest().build();
 
-        return usuarios.isEmpty() ?
-                ResponseEntity.noContent().build() :
-                ResponseEntity.ok(usuarios);
+            List<Usuario> usuarios = usuarioService.findByTipoUsuarioIgnoreCase(tipoUsuario);
+
+            return usuarios.isEmpty() ?
+                    ResponseEntity.noContent().build() :
+                    ResponseEntity.ok(usuarios);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Houve um erro ao buscar os usuários pelo tipo solicitado.");
+        }
     }
 
     @ApiResponses({
@@ -129,15 +161,20 @@ public class UsuarioController {
     @Operation(summary = "Atualiza nome de usuário")
     public ResponseEntity<UsuarioDto> atualizarNome(@RequestParam long id, @RequestBody UsuarioCriacaoDto novoUsuario) {
 
-        Optional<Usuario> usuario = usuarioService.findById(id);
+        try {
+            Optional<Usuario> usuario = usuarioService.findById(id);
 
-        if (usuario.isPresent()) {
-            usuario.get().setNome(novoUsuario.getNome());
-            usuarioService.save(usuario.get());
-            return ResponseEntity.ok(UsuarioMapper.of(usuario.get()));
+            if (usuario.isPresent()) {
+                usuario.get().setNome(novoUsuario.getNome());
+                usuarioService.save(usuario.get());
+                return ResponseEntity.ok(UsuarioMapper.of(usuario.get()));
+            }
+
+            return ResponseEntity.notFound().build();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Houve um erro ao tentar atualizar o nome do usuário solicitado.");
         }
-
-        return ResponseEntity.notFound().build();
     }
 
     @ApiResponses({
@@ -150,15 +187,20 @@ public class UsuarioController {
     @Operation(summary = "Gravar arquivo CSV com dados de usuário")
     @GetMapping("/csv")
     public ResponseEntity<String> gravarCsv() {
-        List<Usuario> usuarios = usuarioService.findAll();
 
-        ListaObj<Usuario> clienteObj = new ListaObj<>(usuarios.size());
+        try {
+            List<Usuario> usuarios = usuarioService.findAll();
+            ListaObj<Usuario> clienteObj = new ListaObj<>(usuarios.size());
 
-        for (int i = 0; i < usuarios.size(); i++) {
-            clienteObj.adiciona(usuarios.get(i));
+            for (int i = 0; i < usuarios.size(); i++) {
+                clienteObj.adiciona(usuarios.get(i));
+            }
+
+            usuarioService.gravaArquivoCsv(clienteObj, "ClientesLimpee");
+            return ResponseEntity.ok("CSV gerado com sucesso.");
+
+        } catch (Exception e) {
+            throw new RuntimeException("Houve um erro ao gerar o arquivo CSV.");
         }
-
-        usuarioService.gravaArquivoCsv(clienteObj, "ClientesLimpee");
-        return ResponseEntity.ok("CSV gerado com sucesso.");
     }
 }
