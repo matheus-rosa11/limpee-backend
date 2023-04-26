@@ -139,9 +139,9 @@ public class UsuarioController {
         Optional<Usuario> usuario = usuarioService.findById(id);
 
         if (usuario.isPresent()) {
-            usuario.get().setTipoUsuario(novoUsuario.getTipoUsuario());
+            usuario.get().setNome(novoUsuario.getNome());
             usuarioService.save(usuario.get());
-            return ResponseEntity.status(200).body(UsuarioMapper.of(usuario.get()));
+            return ResponseEntity.ok(UsuarioMapper.of(usuario.get()));
         }
 
         return ResponseEntity.notFound().build();
