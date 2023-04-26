@@ -27,3 +27,8 @@ VALUES
   ('Limpeza de ar condicionado'),
   ('Limpeza de forno'),
   ('Limpeza de grelhas');
+
+INSERT INTO
+    Especializacao(fk_especialidade, fk_usuario)
+VALUES
+    (1, 1);

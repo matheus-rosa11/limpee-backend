@@ -13,7 +13,7 @@ public class Especializacao {
     @JoinColumn(name = "fk_usuario")
     public Usuario usuario;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "fk_especialidade")
     public Especialidade especialidade;
 
