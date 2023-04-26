@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import school.sptech.limpee.domain.csv.ListaObj;
 import school.sptech.limpee.domain.usuario.Usuario;
 import school.sptech.limpee.service.usuario.UsuarioService;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioDetalhesDto;
@@ -145,5 +146,27 @@ public class UsuarioController {
         }
 
         return ResponseEntity.notFound().build();
+    }
+
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "CSV gerado com sucesso."),
+            @ApiResponse(responseCode = "404", description = "O recurso solicitado não foi encontrado."),
+            @ApiResponse(responseCode = "500", description = "Houve um erro ao gerar o arquivo CSV.")
+    })
+
+    @SecurityRequirement(name = "Bearer")
+    @Operation(summary = "Gravar arquivo CSV com dados de usuário")
+    @GetMapping("/csv")
+    public ResponseEntity<String> gravarCsv() {
+        List<Usuario> usuarios = usuarioService.findAll();
+
+        ListaObj<Usuario> clienteObj = new ListaObj<>(usuarios.size());
+
+        for (int i = 0; i < usuarios.size(); i++) {
+            clienteObj.adiciona(usuarios.get(i));
+        }
+
+        usuarioService.gravaArquivoCsv(clienteObj, "ClientesLimpee");
+        return ResponseEntity.ok("CSV gerado com sucesso.");
     }
 }

@@ -10,12 +10,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import school.sptech.limpee.api.configuration.security.jwt.GerenciadorTokenJwt;
 import school.sptech.limpee.api.repository.usuario.UsuarioRepository;
+import school.sptech.limpee.domain.csv.ListaObj;
 import school.sptech.limpee.domain.usuario.Usuario;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Formatter;
+import java.util.FormatterClosedException;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,5 +94,43 @@ public class UsuarioService {
 
     public boolean existsByEmail(String email) {
         return usuarioRepository.existsByEmail(email);
+    }
+    public static void gravaArquivoCsv(ListaObj<Usuario> lista, String nomeArq) {
+        FileWriter arq = null;
+        Formatter saida = null;
+        Boolean deuRuim = false;
+
+        if (!nomeArq.contains(".csv"))
+            nomeArq += ".csv";
+
+        try {
+            arq = new FileWriter(nomeArq);
+            saida = new Formatter(arq);
+        } catch (IOException erro) {
+            System.out.println("Houve um erro ao abrir o arquivo CSV: " + erro.getMessage());
+        }
+
+        try {
+            for (int i = 0; i < lista.getTamanho(); i++) {
+                Usuario usuario = lista.getElemento(i);
+                saida.format("%d;%S;%S;%S;%s;%d\n", usuario.getId(), usuario.getTipoUsuario(), usuario.getNome(), usuario.getGenero(), usuario.getEmail(), usuario.getRanking());
+            }
+        } catch (FormatterClosedException erro){
+            System.out.println("Houve um erro ao gravar o arquivo CSV: " + erro.getMessage());
+            deuRuim = true;
+
+        } finally {
+            saida.close();
+            try {
+                arq.close();
+            } catch (IOException erro){
+                System.out.println("Erro ao fechar o arquivo: " + erro.getMessage());
+                deuRuim = true;
+            }
+
+            if (deuRuim){
+                throw new RuntimeException("Houve um erro ao gravar o arquivo CSV.");
+            }
+        }
     }
 }
