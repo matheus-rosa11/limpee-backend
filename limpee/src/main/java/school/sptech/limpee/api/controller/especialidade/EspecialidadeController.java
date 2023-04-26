@@ -30,11 +30,17 @@ public class EspecialidadeController {
     @GetMapping
     @Operation(summary = "Lista todas as especialidades cadastradas")
     public ResponseEntity<List<Especialidade>> listar() {
-        List<Especialidade> especialidades = especialidadeService.findAll();
 
-        return especialidades.isEmpty() ?
-                ResponseEntity.noContent().build() :
-                ResponseEntity.ok(especialidades);
+        try {
+            List<Especialidade> especialidades = especialidadeService.findAll();
+
+            return especialidades.isEmpty() ?
+                    ResponseEntity.noContent().build() :
+                    ResponseEntity.ok(especialidades);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Houve um erro ao tentar listar as especialidades.");
+        }
     }
 
     @ApiResponses({
@@ -45,8 +51,14 @@ public class EspecialidadeController {
     @PostMapping
     @Operation(summary = "Cadastrar nova especialidade")
     public ResponseEntity<Especialidade> cadastrar(@RequestBody EspecialidadeDto especialidadeDto) {
-        Especialidade especialidade = EspecialidadeMapper.of(especialidadeDto);
-        Especialidade novaEspecialidade = especialidadeService.save(especialidade);
-        return ResponseEntity.status(201).body(novaEspecialidade);
+
+        try {
+            Especialidade especialidade = EspecialidadeMapper.of(especialidadeDto);
+            Especialidade novaEspecialidade = especialidadeService.save(especialidade);
+            return ResponseEntity.status(201).body(novaEspecialidade);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Houve um erro ao tentar realizar o cadastro da nova especialidade.");
+        }
     }
 }

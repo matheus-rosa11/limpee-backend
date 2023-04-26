@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Configuration;
                         name = "Limpee",
                         url = "https://github.com/limpee"
                 ),
-                version = "2.4.1"
+                version = "2.0"
         )
 )
 
