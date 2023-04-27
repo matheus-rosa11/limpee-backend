@@ -161,17 +161,13 @@ public class UsuarioService {
 
 
     public Usuario pesquisaBinaria(int ranking) {
-        try {
-            ListaObj<Usuario> usuarioListaObj = this.ordenarPorRanking();
-            Usuario usuario = usuarioListaObj.pesquisaBinaria(ranking, usuarioListaObj);
+        ListaObj<Usuario> usuarioListaObj = this.ordenarPorRanking();
+        Usuario usuario = usuarioListaObj.pesquisaBinaria(ranking, usuarioListaObj);
 
-            if (usuario == null)
-                throw new Exception();
+        return usuario;
+    }
 
-            return usuario;
-
-        } catch (Exception e) {
-            throw new RuntimeException("Não foi encontrado um usuário com o ranking especificado.");
-        }
+    public List<Usuario> findAllByNomeIgnoreCase(String nome) {
+        return usuarioRepository.findAllByNomeIgnoreCase(nome);
     }
 }

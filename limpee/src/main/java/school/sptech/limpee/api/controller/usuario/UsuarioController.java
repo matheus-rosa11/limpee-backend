@@ -112,7 +112,7 @@ public class UsuarioController {
     public ResponseEntity<List<Usuario>> buscarPorNome(@RequestParam String nome) {
 
         try {
-            List<Usuario> usuarios = usuarioService.findAllByNome(nome);
+            List<Usuario> usuarios = usuarioService.findAllByNomeIgnoreCase(nome);
 
             return usuarios.isEmpty() ?
                     ResponseEntity.noContent().build() :
@@ -198,8 +198,15 @@ public class UsuarioController {
         }
     }
 
-    @GetMapping("/ordenar/{indice}")
-    public ResponseEntity<Usuario> pesquisaBinaria(@PathVariable int ranking) {
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Pesquisa binária gerada com sucesso."),
+            @ApiResponse(responseCode = "401", description = "Não autorizado.")
+    })
+
+    @SecurityRequirement(name = "Bearer")
+    @Operation(summary = "Realizar pesquisa binária por ranking de usuário")
+    @GetMapping("/pesquisaBinaria/ranking")
+    public ResponseEntity<Usuario> pesquisaBinaria(@RequestParam int ranking) {
         Usuario usuario = usuarioService.pesquisaBinaria(ranking);
 
         return ResponseEntity.ok(usuario);

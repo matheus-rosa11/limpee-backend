@@ -81,21 +81,22 @@ public class ListaObj<T> {
     public Usuario pesquisaBinaria(int ranking, ListaObj<Usuario> prestadores) {
         int inicio = 0;
         int meio = 0;
-        int fim = nroElem;
+        int fim = prestadores.getTamanho();
 
-        while (inicio <= fim) {
+        do {
             meio = (fim + inicio) / 2;
 
             if (prestadores.getElemento(meio).getRanking() == ranking) {
                 return prestadores.getElemento(meio);
+            } else {
+                if (ranking > prestadores.getElemento(meio).getRanking()){
+                    fim = meio - 1;
+                }
+                else {
+                    inicio = meio + 1;
+                }
             }
-            else if (ranking < prestadores.getElemento(meio).getRanking()){
-                fim = meio - 1;
-            }
-            else {
-                inicio = meio + 1;
-            }
-        }
+        } while (inicio <= fim);
 
         return null;
     }
