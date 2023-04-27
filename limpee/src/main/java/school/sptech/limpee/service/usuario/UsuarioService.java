@@ -96,8 +96,11 @@ public class UsuarioService {
         return usuarioRepository.existsByEmail(email);
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     public void gravaArquivoCsv(ListaObj<Usuario> lista, String nomeArq) {
 =======
+=======
+>>>>>>> 1bea7c7ae45b611d1e217fe65be39af1226c2ef6
 
 
     public static void gravaArquivoCsv(ListaObj<Usuario> lista, String nomeArq) {

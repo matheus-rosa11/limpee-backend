@@ -190,9 +190,12 @@ public class UsuarioController {
 
         try {
 <<<<<<< HEAD
+<<<<<<< HEAD
             ListaObj<Usuario> usuariosOrdenados = usuarioService.ordenarPorRanking();
             usuarioService.gravaArquivoCsv(usuariosOrdenados, "ClientesLimpee");
 =======
+=======
+>>>>>>> 1bea7c7ae45b611d1e217fe65be39af1226c2ef6
 
             List<Usuario> usuarios = usuarioService.findAll();
             ListaObj<Usuario> clienteObj = new ListaObj<>(usuarios.size());
