@@ -189,37 +189,8 @@ public class UsuarioController {
     public ResponseEntity<String> gravarCsv() {
 
         try {
-<<<<<<< HEAD
-<<<<<<< HEAD
             ListaObj<Usuario> usuariosOrdenados = usuarioService.ordenarPorRanking();
             usuarioService.gravaArquivoCsv(usuariosOrdenados, "ClientesLimpee");
-=======
-=======
->>>>>>> 1bea7c7ae45b611d1e217fe65be39af1226c2ef6
-
-            List<Usuario> usuarios = usuarioService.findAll();
-            ListaObj<Usuario> clienteObj = new ListaObj<>(usuarios.size());
-
-            for (int i = 0; i < usuarios.size(); i++) {
-                clienteObj.adiciona(usuarios.get(i));
-            }
-
-            Usuario aux;
-
-
-            for (int i = 0; i < clienteObj.getTamanho() - 1; i++){
-                for (int j = i + 1; j  < clienteObj.getTamanho(); j++){
-                    if(!(clienteObj.getElemento(j).getRanking() < clienteObj.getElemento(i).getRanking())){
-                        aux = clienteObj.getElemento(i);
-
-                        clienteObj.setElemento(i, clienteObj.getElemento(j));
-                        clienteObj.setElemento(j, aux);
-
-                    }
-                }
-            }
-            usuarioService.gravaArquivoCsv(clienteObj, "ClientesLimpee");
->>>>>>> 1bea7c7ae45b611d1e217fe65be39af1226c2ef6
             return ResponseEntity.ok("CSV gerado com sucesso.");
 
         } catch (Exception e) {
