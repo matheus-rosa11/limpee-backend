@@ -17,7 +17,7 @@ public class UsuarioMapper {
         usuario.setQtdServicosSolicitados(usuarioCriacaoDto.getQtdServicosSolicitados());
         usuario.setQtdServicosFinalizados(3);
         usuario.setGenero(usuarioCriacaoDto.getGenero());
-        usuario.setTipoUsuario("cliente");
+        usuario.setTipoUsuario(usuarioCriacaoDto.getTipoUsuario());
         usuario.setAnosExperiencia(10);
 
         return usuario;

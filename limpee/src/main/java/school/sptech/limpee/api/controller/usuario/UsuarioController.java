@@ -189,14 +189,8 @@ public class UsuarioController {
     public ResponseEntity<String> gravarCsv() {
 
         try {
-            List<Usuario> usuarios = usuarioService.findAll();
-            ListaObj<Usuario> clienteObj = new ListaObj<>(usuarios.size());
-
-            for (int i = 0; i < usuarios.size(); i++) {
-                clienteObj.adiciona(usuarios.get(i));
-            }
-
-            usuarioService.gravaArquivoCsv(clienteObj, "ClientesLimpee");
+            ListaObj<Usuario> usuariosOrdenados = usuarioService.ordenarPorRanking();
+            usuarioService.gravaArquivoCsv(usuariosOrdenados, "ClientesLimpee");
             return ResponseEntity.ok("CSV gerado com sucesso.");
 
         } catch (Exception e) {

@@ -7,7 +7,7 @@ public class UsuarioCriacaoDto {
     private String genero;
     private int ranking;
     private int qtdServicosSolicitados;
-    private String tipoUsuario = "cliente";
+    private String tipoUsuario;
 
     public String getNome() {
         return nome;
@@ -61,4 +61,7 @@ public class UsuarioCriacaoDto {
         return tipoUsuario;
     }
 
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
 }

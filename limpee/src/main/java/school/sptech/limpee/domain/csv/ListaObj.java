@@ -70,6 +70,12 @@ public class ListaObj<T> {
             }
         }
 
+        public void setElemento(int indice, T usuario){
+            if (!(indice < 0 || indice >= nroElem)){
+                vetor[indice] = usuario;
+            }
+        }
+
         public void limpa() {
             nroElem = 0;
         }

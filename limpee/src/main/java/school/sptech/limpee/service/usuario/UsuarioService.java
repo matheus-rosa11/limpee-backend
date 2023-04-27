@@ -95,7 +95,7 @@ public class UsuarioService {
     public boolean existsByEmail(String email) {
         return usuarioRepository.existsByEmail(email);
     }
-    public static void gravaArquivoCsv(ListaObj<Usuario> lista, String nomeArq) {
+    public void gravaArquivoCsv(ListaObj<Usuario> lista, String nomeArq) {
         FileWriter arq = null;
         Formatter saida = null;
         Boolean deuRuim = false;
@@ -132,5 +132,29 @@ public class UsuarioService {
                 throw new RuntimeException("Houve um erro ao gravar o arquivo CSV.");
             }
         }
+    }
+
+    public ListaObj<Usuario> ordenarPorRanking() {
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        ListaObj<Usuario> clienteObj = new ListaObj<>(usuarios.size());
+
+        for (Usuario u : usuarios) {
+            clienteObj.adiciona(u);
+        }
+
+        Usuario aux;
+
+        for (int i = 0; i < clienteObj.getTamanho() - 1; i++){
+            for (int j = i + 1; j < clienteObj.getTamanho(); j++){
+                if (clienteObj.getElemento(j).getRanking() > clienteObj.getElemento(i).getRanking()){
+                    aux = clienteObj.getElemento(i);
+
+                    clienteObj.setElemento(i, clienteObj.getElemento(j));
+                    clienteObj.setElemento(j, aux);
+                }
+            }
+        }
+
+        return clienteObj;
     }
 }
