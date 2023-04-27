@@ -1,5 +1,7 @@
 package school.sptech.limpee.domain.csv;
 
+import school.sptech.limpee.domain.usuario.Usuario;
+
 public class ListaObj<T> {
         private T[] vetor;
         private int nroElem;
@@ -69,6 +71,12 @@ public class ListaObj<T> {
                 return vetor[indice];
             }
         }
+        public void setElemento(int indice, T usuario){
+            if (!(indice < 0 || indice >= nroElem)){
+                vetor[indice] = usuario;
+            }
+        }
+
 
         public void setElemento(int indice, T usuario){
             if (!(indice < 0 || indice >= nroElem)){
