@@ -78,7 +78,29 @@ public class ListaObj<T> {
             }
         }
 
-        public void limpa() {
+    public Usuario pesquisaBinaria(int ranking, ListaObj<Usuario> prestadores) {
+        int inicio = 0;
+        int meio = 0;
+        int fim = nroElem;
+
+        while (inicio <= fim) {
+            meio = (fim + inicio) / 2;
+
+            if (prestadores.getElemento(meio).getRanking() == ranking) {
+                return prestadores.getElemento(meio);
+            }
+            else if (ranking < prestadores.getElemento(meio).getRanking()){
+                fim = meio - 1;
+            }
+            else {
+                inicio = meio + 1;
+            }
+        }
+
+        return null;
+    }
+
+    public void limpa() {
             nroElem = 0;
         }
 }

@@ -15,6 +15,7 @@ import school.sptech.limpee.domain.usuario.Usuario;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
+import school.sptech.limpee.service.usuario.dto.UsuarioDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
 
 import java.io.FileWriter;
@@ -156,5 +157,21 @@ public class UsuarioService {
         }
 
         return clienteObj;
+    }
+
+
+    public Usuario pesquisaBinaria(int ranking) {
+        try {
+            ListaObj<Usuario> usuarioListaObj = this.ordenarPorRanking();
+            Usuario usuario = usuarioListaObj.pesquisaBinaria(ranking, usuarioListaObj);
+
+            if (usuario == null)
+                throw new Exception();
+
+            return usuario;
+
+        } catch (Exception e) {
+            throw new RuntimeException("Não foi encontrado um usuário com o ranking especificado.");
+        }
     }
 }

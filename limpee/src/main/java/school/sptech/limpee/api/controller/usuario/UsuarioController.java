@@ -197,4 +197,11 @@ public class UsuarioController {
             throw new RuntimeException("Houve um erro ao gerar o arquivo CSV.");
         }
     }
+
+    @GetMapping("/ordenar/{indice}")
+    public ResponseEntity<Usuario> pesquisaBinaria(@PathVariable int ranking) {
+        Usuario usuario = usuarioService.pesquisaBinaria(ranking);
+
+        return ResponseEntity.ok(usuario);
+    }
 }
