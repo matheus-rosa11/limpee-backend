@@ -31,11 +31,9 @@ public class Usuario {
     private int qtdServicosFinalizados;
     @Min(3)
     private int anosExperiencia;
-
     @OneToMany(mappedBy = "usuario")
     public List<Especializacao> especializacoes;
     private int ranking;
-
     public Usuario() {}
 
     public Usuario(String nome, String email, String senha, String genero, int ranking, String tipoUsuario, int qtdServicosSolicitados, int qtdServicosFinalizados, int anosExperiencia) {
@@ -101,7 +99,7 @@ public class Usuario {
 
     public void setTipoUsuario(String tipoUsuario) {
         if (!(tipoUsuario.equalsIgnoreCase("cliente") || tipoUsuario.equalsIgnoreCase("prestador")))
-            System.out.println("Tipo de cliente inválido.");
+            throw new IllegalArgumentException("Tipo de cliente inválido.");
 
         this.tipoUsuario = tipoUsuario;
     }

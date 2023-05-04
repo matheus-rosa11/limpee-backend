@@ -9,8 +9,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import school.sptech.limpee.api.configuration.security.jwt.GerenciadorTokenJwt;
+import school.sptech.limpee.api.repository.especialidade.EspecialidadeRepository;
+import school.sptech.limpee.api.repository.especializacao.EspecializacaoRepository;
 import school.sptech.limpee.api.repository.usuario.UsuarioRepository;
 import school.sptech.limpee.domain.csv.ListaObj;
+import school.sptech.limpee.domain.especialidade.Especialidade;
+import school.sptech.limpee.domain.especialidade.Especializacao;
 import school.sptech.limpee.domain.usuario.Usuario;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
@@ -20,10 +24,7 @@ import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Formatter;
-import java.util.FormatterClosedException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UsuarioService {
@@ -35,6 +36,10 @@ public class UsuarioService {
     private GerenciadorTokenJwt gerenciadorTokenJwt;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private EspecializacaoRepository especializacaoRepository;
+    @Autowired
+    private EspecialidadeRepository especialidadeRepository;
 
     public List<Usuario> findAll() {
         return usuarioRepository.findAll();

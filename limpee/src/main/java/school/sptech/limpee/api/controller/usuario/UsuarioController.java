@@ -157,9 +157,9 @@ public class UsuarioController {
     })
 
     @SecurityRequirement(name = "Bearer")
-    @PatchMapping("/nome")
+    @PatchMapping("/nome/{id}")
     @Operation(summary = "Atualiza nome de usuário")
-    public ResponseEntity<UsuarioDto> atualizarNome(@RequestParam long id, @RequestBody UsuarioCriacaoDto novoUsuario) {
+    public ResponseEntity<UsuarioDto> atualizarNome(@PathVariable long id, @RequestBody UsuarioCriacaoDto novoUsuario) {
 
         try {
             Optional<Usuario> usuario = usuarioService.findById(id);

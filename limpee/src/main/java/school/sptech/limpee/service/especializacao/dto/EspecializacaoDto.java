@@ -1,26 +1,17 @@
-package school.sptech.limpee.domain.especialidade;
+package school.sptech.limpee.service.especializacao.dto;
 
-import jakarta.persistence.*;
+import school.sptech.limpee.domain.especialidade.Especialidade;
 import school.sptech.limpee.domain.usuario.Usuario;
 
-@Entity
-public class Especializacao {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class EspecializacaoDto {
     private long id;
-
-    @ManyToOne
-    @JoinColumn(name = "fk_usuario")
     private Usuario usuario;
-
-    @OneToOne
-    @JoinColumn(name = "fk_especialidade")
     private Especialidade especialidade;
 
-    public Especializacao() {
+    public EspecializacaoDto() {
     }
 
-    public Especializacao(Usuario usuario, Especialidade especialidade) {
+    public EspecializacaoDto(Usuario usuario, Especialidade especialidade) {
         this.usuario = usuario;
         this.especialidade = especialidade;
     }
