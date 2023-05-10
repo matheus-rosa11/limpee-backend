@@ -47,4 +47,18 @@ public class UsuarioMapper {
 
         return usuarioDto;
     }
+
+    public static Usuario of(UsuarioDto usuarioDto) {
+        Usuario u = new Usuario();
+
+        u.setEmail(usuarioDto.getEmail());
+        u.setNome(usuarioDto.getNome());
+        u.setRanking(u.getRanking());
+        u.setQtdServicosSolicitados(u.getQtdServicosSolicitados());
+        u.setQtdServicosFinalizados(u.getQtdServicosFinalizados());
+        u.setGenero(usuarioDto.getGenero());
+        u.setTipoUsuario(usuarioDto.getTipoUsuario());
+
+        return u;
+    }
 }
