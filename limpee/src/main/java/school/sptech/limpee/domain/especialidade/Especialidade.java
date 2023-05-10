@@ -10,10 +10,6 @@ public class Especialidade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String descricao;
-
-    @OneToMany
-    private List<Especializacao> especializacoes;
-
     public String getDescricao() {
         return descricao;
     }

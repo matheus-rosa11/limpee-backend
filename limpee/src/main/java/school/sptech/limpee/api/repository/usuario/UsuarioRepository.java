@@ -1,6 +1,7 @@
 package school.sptech.limpee.api.repository.usuario;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import school.sptech.limpee.domain.usuario.Usuario;
 
@@ -16,4 +17,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     List<Usuario> findAllByNomeIgnoreCase(String nome);
     boolean existsByEmail(String email);
+    @Query("SELECT u FROM Usuario u")
+    List<Usuario> listarUsuarios();
 }

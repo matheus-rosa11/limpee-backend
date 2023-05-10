@@ -5,6 +5,7 @@ import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioDetalhesDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
 
 import javax.naming.directory.InvalidAttributeValueException;
+import java.util.ArrayList;
 
 public class UsuarioMapper {
     public static Usuario of(UsuarioCriacaoDto usuarioCriacaoDto) {
@@ -46,5 +47,18 @@ public class UsuarioMapper {
         usuarioDto.setTipoUsuario("cliente");
 
         return usuarioDto;
+    }
+
+    public static UsuarioResponseDto mapToResponse(Usuario usuario) {
+        UsuarioResponseDto usuarioResponseDto = new UsuarioResponseDto();
+
+        usuarioResponseDto.setEmail(usuario.getEmail());
+        usuarioResponseDto.setNome(usuario.getNome());
+        usuarioResponseDto.setRanking(usuario.getRanking());
+        usuarioResponseDto.setQtdServicosSolicitados(usuario.getQtdServicosSolicitados());
+        usuarioResponseDto.setGenero(usuario.getGenero());
+        usuarioResponseDto.setTipoUsuario(usuario.getTipoUsuario());
+
+        return usuarioResponseDto;
     }
 }
