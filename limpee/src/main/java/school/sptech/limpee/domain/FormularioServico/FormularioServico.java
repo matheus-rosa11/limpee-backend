@@ -21,7 +21,9 @@ public class FormularioServico {
     public int qtdComodos;
     public int qtdBanheiro;
     @ManyToOne
-    public Usuario usuario;
+    public Usuario cliente;
+    @ManyToOne
+    public Usuario prestador;
     public FormularioServico(Long id, String tipoServico, String localServico, Boolean areaExterna, Boolean armario, Boolean geladeira, Boolean janelas, Boolean lavarRoupa, Boolean passarRoupa, Boolean outros, String outrosAdcional, int qtdComodos, int qtdBanheiro) {
         this.id = id;
         this.tipoServico = tipoServico;
@@ -145,11 +147,19 @@ public class FormularioServico {
         this.qtdBanheiro = qtdBanheiro;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Usuario getCliente() {
+        return cliente;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setCliente(Usuario cliente) {
+        this.cliente = cliente;
+    }
+
+    public Usuario getPrestador() {
+        return prestador;
+    }
+
+    public void setPrestador(Usuario prestador) {
+        this.prestador = prestador;
     }
 }

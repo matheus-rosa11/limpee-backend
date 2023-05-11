@@ -39,8 +39,10 @@ public class Usuario {
     private int ranking;
     @OneToOne
     public Endereco endereco;
-    @OneToMany(mappedBy = "usuario")
-    public List<FormularioServico> formularioServicos;
+    @OneToMany(mappedBy = "cliente")
+    public List<FormularioServico> formularioCliente;
+    @OneToMany(mappedBy = "prestador")
+    public List<FormularioServico> formularioPrestador;
     public Usuario() {}
 
     public Usuario(String nome, String email, String senha, String genero, int ranking, String tipoUsuario, int qtdServicosSolicitados, int qtdServicosFinalizados, int anosExperiencia) {
@@ -141,5 +143,37 @@ public class Usuario {
 
     public Long getId() {
         return id;
+    }
+
+    public List<Especializacao> getEspecializacoes() {
+        return especializacoes;
+    }
+
+    public void setEspecializacoes(List<Especializacao> especializacoes) {
+        this.especializacoes = especializacoes;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    public List<FormularioServico> getFormularioCliente() {
+        return formularioCliente;
+    }
+
+    public void setFormularioCliente(List<FormularioServico> formularioCliente) {
+        this.formularioCliente = formularioCliente;
+    }
+
+    public List<FormularioServico> getFormularioPrestador() {
+        return formularioPrestador;
+    }
+
+    public void setFormularioPrestador(List<FormularioServico> formularioPrestador) {
+        this.formularioPrestador = formularioPrestador;
     }
 }

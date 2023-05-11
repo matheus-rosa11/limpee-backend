@@ -27,21 +27,27 @@ public class FormularioServicoController {
     @Autowired
     UsuarioService usuarioService;
     @SecurityRequirement(name = "Bearer")
-    @PostMapping("/{id}")
-    public ResponseEntity<FormularioServico> criar(@PathVariable Long id, @RequestBody FormularioServicoDTO formularioServicoDTO){
-        Usuario usuario = usuarioService.findById(id).get();
-        UsuarioDto usuarioDto = UsuarioMapper.of(usuario);
-        formularioServicoDTO.setUsuarioDto(usuarioDto);
+    @PostMapping
+    public ResponseEntity<FormularioServicoDTO> criar(@RequestParam Long idCliente, @RequestParam long idPrestador, @RequestBody FormularioServicoDTO formularioServicoDTO){
+        Optional<Usuario> cliente = usuarioService.findById(idCliente);
+        Optional<Usuario> prestador = usuarioService.findById(idPrestador);
 
-        FormularioServicoDTO teste = this.formularioServicoService.save(formularioServicoDTO);
-        FormularioServico formularioServico = FormularioServicoMapper.of(teste);
-        return ResponseEntity.status(201).body(formularioServico);
+        if (cliente.isEmpty() || prestador.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        formularioServicoDTO.setCliente(cliente.get().getId());
+        formularioServicoDTO.setPrestador(prestador.get().getId());
+
+        FormularioServicoDTO formularioDto = this.formularioServicoService.save(formularioServicoDTO, cliente.get(), prestador.get());
+        return ResponseEntity.status(201).body(formularioDto);
     }
     @SecurityRequirement(name = "Bearer")
     @GetMapping()
-    public ResponseEntity<List<FormularioServico>> listar(){
-        List<FormularioServico> formularioServicos = formularioServicoService.findAll();
-        return ResponseEntity.status(200).body(formularioServicos);
+    public ResponseEntity<List<FormularioServicoDTO>> listar(){
+        List<FormularioServicoDTO> list = formularioServicoService.findAll();
+        return list.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok(list);
     }
 
 }

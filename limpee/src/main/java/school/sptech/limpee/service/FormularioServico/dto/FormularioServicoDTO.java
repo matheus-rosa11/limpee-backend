@@ -15,7 +15,9 @@ public class FormularioServicoDTO {
     private String outrosAdcional;
     private int qtdComodos;
     private int qtdBanheiro;
-    private UsuarioDto usuarioDto;
+//    private UsuarioDto usuarioDto;
+    private long cliente;
+    private long prestador;
 
     public String getTipoServico() {
         return tipoServico;
@@ -113,11 +115,19 @@ public class FormularioServicoDTO {
         this.qtdBanheiro = qtdBanheiro;
     }
 
-    public UsuarioDto getUsuarioDto() {
-        return usuarioDto;
+    public long getCliente() {
+        return cliente;
     }
 
-    public void setUsuarioDto(UsuarioDto usuarioDto) {
-        this.usuarioDto = usuarioDto;
+    public void setCliente(long cliente) {
+        this.cliente = cliente;
+    }
+
+    public long getPrestador() {
+        return prestador;
+    }
+
+    public void setPrestador(long prestador) {
+        this.prestador = prestador;
     }
 }
