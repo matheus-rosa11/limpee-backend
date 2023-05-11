@@ -2,10 +2,12 @@ package school.sptech.limpee.domain.usuario;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import school.sptech.limpee.domain.FormularioServico.FormularioServico;
+import school.sptech.limpee.domain.endereco.Endereco;
 import school.sptech.limpee.domain.especialidade.Especialidade;
-import school.sptech.limpee.domain.especialidade.Especializacao;
+import school.sptech.limpee.domain.especializacao.Especializacao;
 
-import javax.naming.directory.InvalidAttributeValueException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,30 +15,30 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Size(min = 2, max = 100)
     private String nome;
-    @Email
-    @NotBlank
-    @Size(min = 6, max = 100)
     private String email;
-    @NotBlank
-    @Size(min = 6, max = 100)
     private String senha;
-    @NotBlank
     private String genero;
     private String tipoUsuario;
-    @Min(0)
     private int qtdServicosSolicitados;
-    @Min(0)
     private int qtdServicosFinalizados;
-    @Min(3)
     private int anosExperiencia;
-
-    @OneToMany(mappedBy = "usuario")
-    public List<Especializacao> especializacoes;
     private int ranking;
-
+    @OneToOne
+    public Endereco endereco;
+    @OneToMany(mappedBy = "cliente")
+    public List<FormularioServico> formularioCliente;
+    @OneToMany(mappedBy = "prestador")
+    public List<FormularioServico> formularioPrestador;
     public Usuario() {}
+    @OneToMany(mappedBy = "usuario")
+    private List<Especializacao> especializacoes;
+
+    public Usuario() {
+        especializacoes = new ArrayList<>();
+        formularioCliente = new ArrayList<>();
+        formularioPrestador = new ArrayList<>();
+    }
 
     public Usuario(String nome, String email, String senha, String genero, int ranking, String tipoUsuario, int qtdServicosSolicitados, int qtdServicosFinalizados, int anosExperiencia) {
         this.nome = nome;
@@ -48,6 +50,7 @@ public class Usuario {
         this.qtdServicosSolicitados = qtdServicosSolicitados;
         this.qtdServicosFinalizados = qtdServicosFinalizados;
         this.anosExperiencia = anosExperiencia;
+        especializacoes = new ArrayList<>();
     }
 
     public double calcularMedia(int qtdServico){
@@ -101,7 +104,7 @@ public class Usuario {
 
     public void setTipoUsuario(String tipoUsuario) {
         if (!(tipoUsuario.equalsIgnoreCase("cliente") || tipoUsuario.equalsIgnoreCase("prestador")))
-            System.out.println("Tipo de cliente inválido.");
+            throw new IllegalArgumentException("Tipo usuário inválido");
 
         this.tipoUsuario = tipoUsuario;
     }
@@ -136,5 +139,37 @@ public class Usuario {
 
     public Long getId() {
         return id;
+    }
+
+    public List<Especializacao> getEspecializacoes() {
+        return especializacoes;
+    }
+
+    public void setEspecializacoes(List<Especializacao> especializacoes) {
+        this.especializacoes = especializacoes;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    public List<FormularioServico> getFormularioCliente() {
+        return formularioCliente;
+    }
+
+    public void setFormularioCliente(List<FormularioServico> formularioCliente) {
+        this.formularioCliente = formularioCliente;
+    }
+
+    public List<FormularioServico> getFormularioPrestador() {
+        return formularioPrestador;
+    }
+
+    public void setFormularioPrestador(List<FormularioServico> formularioPrestador) {
+        this.formularioPrestador = formularioPrestador;
     }
 }

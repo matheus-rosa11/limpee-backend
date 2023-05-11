@@ -1,6 +1,8 @@
-package school.sptech.limpee.domain.especialidade;
+package school.sptech.limpee.domain.especializacao;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import school.sptech.limpee.domain.especialidade.Especialidade;
 import school.sptech.limpee.domain.usuario.Usuario;
 
 @Entity
@@ -9,13 +11,19 @@ public class Especializacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_usuario")
-    public Usuario usuario;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private Usuario usuario;
 
-    @OneToOne
-    @JoinColumn(name = "fk_especialidade")
-    public Especialidade especialidade;
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    private Especialidade especialidade;
+
+    public Especializacao() {
+    }
+
+    public Especializacao(Usuario usuario, Especialidade especialidade) {
+        this.usuario = usuario;
+        this.especialidade = especialidade;
+    }
 
     public long getId() {
         return id;

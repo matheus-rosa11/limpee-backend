@@ -1,10 +1,15 @@
 package school.sptech.limpee.service.usuario.dto;
 
+import school.sptech.limpee.domain.especializacao.Especializacao;
 import school.sptech.limpee.domain.usuario.Usuario;
+import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
+import school.sptech.limpee.service.especializacao.dto.EspecializacaoMapper;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioDetalhesDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
 
 import javax.naming.directory.InvalidAttributeValueException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioMapper {
     public static Usuario of(UsuarioCriacaoDto usuarioCriacaoDto) {
@@ -42,9 +47,43 @@ public class UsuarioMapper {
         usuarioDto.setNome(usuario.getNome());
         usuarioDto.setRanking(usuario.getRanking());
         usuarioDto.setQtdServicosSolicitados(usuario.getQtdServicosSolicitados());
+        usuarioDto.setQtdServicosFinalizados(usuario.getQtdServicosFinalizados());
         usuarioDto.setGenero(usuario.getGenero());
-        usuarioDto.setTipoUsuario("cliente");
+        usuarioDto.setTipoUsuario(usuario.getTipoUsuario());
+
+        if (!usuario.getEspecializacoes().isEmpty()) {
+            for (Especializacao e : usuario.getEspecializacoes()) {
+                usuarioDto.getEspecializacoes().add(EspecializacaoMapper.of(e));
+            }
+        }
 
         return usuarioDto;
+    }
+
+    public static UsuarioResponseDto mapToResponse(Usuario usuario) {
+        UsuarioResponseDto usuarioResponseDto = new UsuarioResponseDto();
+
+        usuarioResponseDto.setEmail(usuario.getEmail());
+        usuarioResponseDto.setNome(usuario.getNome());
+        usuarioResponseDto.setRanking(usuario.getRanking());
+        usuarioResponseDto.setQtdServicosSolicitados(usuario.getQtdServicosSolicitados());
+        usuarioResponseDto.setGenero(usuario.getGenero());
+        usuarioResponseDto.setTipoUsuario(usuario.getTipoUsuario());
+
+        return usuarioResponseDto;
+    }
+
+    public static Usuario of(UsuarioDto usuarioDto) {
+        Usuario u = new Usuario();
+
+        u.setEmail(usuarioDto.getEmail());
+        u.setNome(usuarioDto.getNome());
+        u.setRanking(u.getRanking());
+        u.setQtdServicosSolicitados(u.getQtdServicosSolicitados());
+        u.setQtdServicosFinalizados(u.getQtdServicosFinalizados());
+        u.setGenero(usuarioDto.getGenero());
+        u.setTipoUsuario(usuarioDto.getTipoUsuario());
+
+        return u;
     }
 }

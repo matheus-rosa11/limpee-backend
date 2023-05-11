@@ -1,6 +1,9 @@
 package school.sptech.limpee.service.usuario;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -9,21 +12,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import school.sptech.limpee.api.configuration.security.jwt.GerenciadorTokenJwt;
+import school.sptech.limpee.api.repository.especializacao.EspecializacaoRepository;
 import school.sptech.limpee.api.repository.usuario.UsuarioRepository;
 import school.sptech.limpee.domain.csv.ListaObj;
+import school.sptech.limpee.domain.especialidade.Especialidade;
+import school.sptech.limpee.domain.especializacao.Especializacao;
 import school.sptech.limpee.domain.usuario.Usuario;
+import school.sptech.limpee.service.especializacao.EspecializacaoService;
+import school.sptech.limpee.service.especializacao.dto.EspecializacaoCriacaoDto;
+import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
+import school.sptech.limpee.service.especializacao.dto.EspecializacaoMapper;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
+import school.sptech.limpee.service.usuario.dto.UsuarioResponseDto;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Formatter;
-import java.util.FormatterClosedException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UsuarioService {
@@ -35,6 +43,8 @@ public class UsuarioService {
     private GerenciadorTokenJwt gerenciadorTokenJwt;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private EspecializacaoRepository especializacaoRepository;
 
     public List<Usuario> findAll() {
         return usuarioRepository.findAll();
@@ -96,10 +106,12 @@ public class UsuarioService {
     public boolean existsByEmail(String email) {
         return usuarioRepository.existsByEmail(email);
     }
-    public void gravaArquivoCsv(ListaObj<Usuario> lista, String nomeArq) {
+
+    public String gravaArquivoCsv(String nomeArq) {
+        ListaObj<Usuario> lista = this.ordenarPorRanking();
         FileWriter arq = null;
         Formatter saida = null;
-        Boolean deuRuim = false;
+        boolean deuRuim = false;
 
         if (!nomeArq.contains(".csv"))
             nomeArq += ".csv";
@@ -116,7 +128,7 @@ public class UsuarioService {
                 Usuario usuario = lista.getElemento(i);
                 saida.format("%d;%S;%S;%S;%s;%d\n", usuario.getId(), usuario.getTipoUsuario(), usuario.getNome(), usuario.getGenero(), usuario.getEmail(), usuario.getRanking());
             }
-        } catch (FormatterClosedException erro){
+        } catch (FormatterClosedException erro) {
             System.out.println("Houve um erro ao gravar o arquivo CSV: " + erro.getMessage());
             deuRuim = true;
 
@@ -124,15 +136,17 @@ public class UsuarioService {
             saida.close();
             try {
                 arq.close();
-            } catch (IOException erro){
+            } catch (IOException erro) {
                 System.out.println("Erro ao fechar o arquivo: " + erro.getMessage());
                 deuRuim = true;
             }
 
-            if (deuRuim){
+            if (deuRuim) {
                 throw new RuntimeException("Houve um erro ao gravar o arquivo CSV.");
             }
         }
+
+        return "CSV gerado com sucesso";
     }
 
     public ListaObj<Usuario> ordenarPorRanking() {
@@ -145,9 +159,9 @@ public class UsuarioService {
 
         Usuario aux;
 
-        for (int i = 0; i < clienteObj.getTamanho() - 1; i++){
-            for (int j = i + 1; j < clienteObj.getTamanho(); j++){
-                if (clienteObj.getElemento(j).getRanking() > clienteObj.getElemento(i).getRanking()){
+        for (int i = 0; i < clienteObj.getTamanho() - 1; i++) {
+            for (int j = i + 1; j < clienteObj.getTamanho(); j++) {
+                if (clienteObj.getElemento(j).getRanking() > clienteObj.getElemento(i).getRanking()) {
                     aux = clienteObj.getElemento(i);
 
                     clienteObj.setElemento(i, clienteObj.getElemento(j));
@@ -160,14 +174,106 @@ public class UsuarioService {
     }
 
 
-    public Usuario pesquisaBinaria(int ranking) {
-        ListaObj<Usuario> usuarioListaObj = this.ordenarPorRanking();
-        Usuario usuario = usuarioListaObj.pesquisaBinaria(ranking, usuarioListaObj);
-
-        return usuario;
-    }
+//    public UsuarioResponseDto pesquisaBinaria(int ranking) {
+//        List<Especializacao> especializacoes = especializacaoRepository.findAll();
+//        ListaObj<Usuario> usuarioListaObj = this.ordenarPorRanking();
+//
+//        Usuario usuario = usuarioListaObj.pesquisaBinaria(ranking, usuarioListaObj);
+//
+//        UsuarioResponseDto usuarioResponseDto = UsuarioMapper.mapToResponse(usuario);
+//
+//
+//        for (Especializacao especializacao : especializacoes) {
+//            if (especializacao.getUsuario().getId().equals(usuario.getId())) {
+//
+//                EspecializacaoDto especializacaoDto = EspecializacaoMapper.of(especializacao);
+//
+//                usuarioResponseDto.getEspecializacoes().add(especializacaoDto);
+//            }
+//        }
+//
+//        return usuarioResponseDto;
+//    }
 
     public List<Usuario> findAllByNomeIgnoreCase(String nome) {
         return usuarioRepository.findAllByNomeIgnoreCase(nome);
     }
+
+//    public List<UsuarioResponseDto> listar() {
+//        List<Usuario> usuarios = usuarioRepository.findAll();
+//        List<Especializacao> especializacoes = especializacaoRepository.findAll();
+//
+//        List<UsuarioResponseDto> listUsuariosResponse = new ArrayList<>();
+//
+//        for (Usuario usuario : usuarios) {
+//
+//            UsuarioResponseDto usuarioResponseDto = UsuarioMapper.mapToResponse(usuario);
+//
+//            for (Especializacao especializacao : especializacoes) {
+//                if (especializacao.getUsuario().getId().equals(usuario.getId())) {
+//
+//                    EspecializacaoDto especializacaoDto = EspecializacaoMapper.of(especializacao);
+//
+//                    usuarioResponseDto.getEspecializacoes().add(especializacaoDto);
+//                }
+//            }
+//
+//            listUsuariosResponse.add(usuarioResponseDto);
+//        }
+//
+//        return listUsuariosResponse;
+//    }
+
+    public List<UsuarioDto> listar() {
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        List<UsuarioDto> usuariosDto = new ArrayList<>();
+
+        for (Usuario usuario : usuarios) {
+            usuario.getEspecializacoes().add(new Especializacao(usuario, new Especialidade("teste")));
+            usuariosDto.add(UsuarioMapper.of(usuario));
+        }
+
+        return usuariosDto;
+    }
+
+    public List<Usuario> buscarPorNome(String nome) {
+
+        if (nome.isBlank())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O nome do usuário está nulo ou vazio.");
+
+        return usuarioRepository.findAllByNomeIgnoreCase(nome);
+    }
+
+    public List<Usuario> buscarPorTipo(String tipoUsuario) {
+
+        if (tipoUsuario.isBlank())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O tipo do usuário está nulo ou vazio.");
+
+        if (!(tipoUsuario.equalsIgnoreCase("cliente") || tipoUsuario.equalsIgnoreCase("prestador")))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O tipo do usuário é inválido. Deve ser \"prestador\" ou \"cliente\".");
+
+
+        return usuarioRepository.findByTipoUsuarioIgnoreCase(tipoUsuario);
+    }
+
+    public UsuarioDto atualizarNome(long id, UsuarioCriacaoDto novoUsuario) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+
+        if (usuario.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário com id " + id + "não encontrado.");
+        }
+
+        usuario.get().setNome(novoUsuario.getNome());
+        return UsuarioMapper.of(usuarioRepository.save(usuario.get()));
+    }
+
+//    public void atualizarEspecializacao(long id, List<EspecializacaoCriacaoDto> especializacoesNovas) {
+//        if (!usuarioRepository.existsById(id))
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado.");
+//
+//        List<Especializacao> especializacoes = especializacaoRepository.findAllByUsuario(id);
+//
+//        if (especializacoes.isEmpty())
+//            especializacoes = EspecializacaoMapper.of(especializacoesNovas);
+//    }
 }
