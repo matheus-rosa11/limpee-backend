@@ -1,12 +1,37 @@
 package school.sptech.limpee.service.usuario.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class UsuarioDto {
+    @Size(min = 2, max = 100)
     private String nome;
+    @Email
+    @NotBlank
+    @Size(min = 6, max = 100)
     private String email;
+    @NotBlank
+    @Size(min = 6, max = 100)
     private String genero;
+    @NotBlank
     private int ranking;
     private int qtdServicosSolicitados;
+    private int qtdServicosFinalizados;
     private String tipoUsuario;
+    @Min(3)
+    private int anosExperiencia;
+
+    private List<EspecializacaoDto> especializacoes;
+
+    public UsuarioDto() {
+        especializacoes = new ArrayList<>();
+    }
 
     public String getNome() {
         return nome;
@@ -54,5 +79,29 @@ public class UsuarioDto {
 
     public void setTipoUsuario(String tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
+    }
+
+    public int getAnosExperiencia() {
+        return anosExperiencia;
+    }
+
+    public void setAnosExperiencia(int anosExperiencia) {
+        this.anosExperiencia = anosExperiencia;
+    }
+
+    public int getQtdServicosFinalizados() {
+        return qtdServicosFinalizados;
+    }
+
+    public void setQtdServicosFinalizados(int qtdServicosFinalizados) {
+        this.qtdServicosFinalizados = qtdServicosFinalizados;
+    }
+
+    public List<EspecializacaoDto> getEspecializacoes() {
+        return especializacoes;
+    }
+
+    public void setEspecializacoes(List<EspecializacaoDto> especializacoes) {
+        this.especializacoes = especializacoes;
     }
 }
