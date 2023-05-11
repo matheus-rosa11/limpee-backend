@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioDto {
@@ -26,7 +27,10 @@ public class UsuarioDto {
     @Min(3)
     private int anosExperiencia;
 
+    private List<EspecializacaoDto> especializacoes;
+
     public UsuarioDto() {
+        especializacoes = new ArrayList<>();
     }
 
     public String getNome() {
@@ -91,5 +95,13 @@ public class UsuarioDto {
 
     public void setQtdServicosFinalizados(int qtdServicosFinalizados) {
         this.qtdServicosFinalizados = qtdServicosFinalizados;
+    }
+
+    public List<EspecializacaoDto> getEspecializacoes() {
+        return especializacoes;
+    }
+
+    public void setEspecializacoes(List<EspecializacaoDto> especializacoes) {
+        this.especializacoes = especializacoes;
     }
 }

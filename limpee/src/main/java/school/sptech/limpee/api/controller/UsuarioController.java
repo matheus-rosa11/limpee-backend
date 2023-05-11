@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import school.sptech.limpee.domain.csv.ListaObj;
 import school.sptech.limpee.domain.usuario.Usuario;
 import school.sptech.limpee.service.especializacao.EspecializacaoService;
+import school.sptech.limpee.service.especializacao.dto.EspecializacaoCriacaoDto;
+import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
 import school.sptech.limpee.service.usuario.UsuarioService;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioDetalhesDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
@@ -78,6 +80,24 @@ public class UsuarioController {
         }
     }
 
+//    @ApiResponses({
+//            @ApiResponse(responseCode = "204", description = "Listagem realizada com sucesso. Não foram encontrados registros de usuário."),
+//            @ApiResponse(responseCode = "200", description = "Listagem realizada com sucesso."),
+//            @ApiResponse(responseCode = "401", description = "Não autorizado.")
+//    })
+//
+//    @SecurityRequirement(name = "Bearer")
+//    @Operation(summary = "Lista usuários cadastrados")
+//    @GetMapping("/lista")
+//    public ResponseEntity<List<UsuarioResponseDto>> listar() {
+//
+//        List<UsuarioResponseDto> usuarios = usuarioService.listar();
+//
+//        return usuarios.isEmpty() ?
+//                ResponseEntity.created(null).build() :
+//                ResponseEntity.ok(usuarios);
+//    }
+
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Listagem realizada com sucesso. Não foram encontrados registros de usuário."),
             @ApiResponse(responseCode = "200", description = "Listagem realizada com sucesso."),
@@ -87,9 +107,9 @@ public class UsuarioController {
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Lista usuários cadastrados")
     @GetMapping("/lista")
-    public ResponseEntity<List<UsuarioResponseDto>> listar() {
+    public ResponseEntity<List<UsuarioDto>> listar() {
 
-        List<UsuarioResponseDto> usuarios = usuarioService.listar();
+        List<UsuarioDto> usuarios = usuarioService.listar();
 
         return usuarios.isEmpty() ?
                 ResponseEntity.created(null).build() :
@@ -154,28 +174,28 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.gravaArquivoCsv("ClientesLimpee"));
     }
 
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Pesquisa binária gerada com sucesso."),
-            @ApiResponse(responseCode = "401", description = "Não autorizado.")
-    })
+//    @ApiResponses({
+//            @ApiResponse(responseCode = "200", description = "Pesquisa binária gerada com sucesso."),
+//            @ApiResponse(responseCode = "401", description = "Não autorizado.")
+//    })
+//
+//    @SecurityRequirement(name = "Bearer")
+//    @Operation(summary = "Realizar pesquisa binária por ranking de usuário")
+//    @GetMapping("/pesquisaBinaria/ranking")
+//    public ResponseEntity<UsuarioResponseDto> pesquisaBinaria(@RequestParam int ranking) {
+//        return ResponseEntity.ok(usuarioService.pesquisaBinaria(ranking));
+//    }
 
-    @SecurityRequirement(name = "Bearer")
-    @Operation(summary = "Realizar pesquisa binária por ranking de usuário")
-    @GetMapping("/pesquisaBinaria/ranking")
-    public ResponseEntity<UsuarioResponseDto> pesquisaBinaria(@RequestParam int ranking) {
-        return ResponseEntity.ok(usuarioService.pesquisaBinaria(ranking));
-    }
-
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Atualização realizada com sucesso."),
-            @ApiResponse(responseCode = "401", description = "Não autorizado."),
-            @ApiResponse(responseCode = "404", description = "Usuário não encontrado.")
-    })
-
-    @SecurityRequirement(name = "Bearer")
-    @Operation(summary = "Atualizar especializações de um usuário")
-    @PostMapping("/especializacoes")
-    public ResponseEntity<UsuarioResponseDto> atualizarEspecializacao(@RequestParam int ranking) {
-        return ResponseEntity.ok(usuarioService.pesquisaBinaria(ranking));
-    }
+//    @ApiResponses({
+//            @ApiResponse(responseCode = "200", description = "Atualização realizada com sucesso."),
+//            @ApiResponse(responseCode = "401", description = "Não autorizado."),
+//            @ApiResponse(responseCode = "404", description = "Usuário não encontrado.")
+//    })
+//
+//    @SecurityRequirement(name = "Bearer")
+//    @Operation(summary = "Atualizar especializações de um usuário")
+//    @PostMapping("/especializacoes/{id}")
+//    public ResponseEntity<UsuarioResponseDto> adicionarEspecializacoes(@PathVariable long id, @RequestParam List<EspecializacaoCriacaoDto> especializacoes) {
+//        return ResponseEntity.ok(usuarioService.atualizarEspecializacao(id, especializacoes));
+//    }
 }

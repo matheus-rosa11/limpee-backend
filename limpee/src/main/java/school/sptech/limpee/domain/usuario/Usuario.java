@@ -3,6 +3,7 @@ package school.sptech.limpee.domain.usuario;
 import jakarta.persistence.*;
 import school.sptech.limpee.domain.especializacao.Especializacao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,12 @@ public class Usuario {
     private int anosExperiencia;
     private int ranking;
 
-    public Usuario() {}
+    @OneToMany(mappedBy = "usuario")
+    private List<Especializacao> especializacoes;
+
+    public Usuario() {
+        especializacoes = new ArrayList<>();
+    }
 
     public Usuario(String nome, String email, String senha, String genero, int ranking, String tipoUsuario, int qtdServicosSolicitados, int qtdServicosFinalizados, int anosExperiencia) {
         this.nome = nome;
@@ -32,6 +38,7 @@ public class Usuario {
         this.qtdServicosSolicitados = qtdServicosSolicitados;
         this.qtdServicosFinalizados = qtdServicosFinalizados;
         this.anosExperiencia = anosExperiencia;
+        especializacoes = new ArrayList<>();
     }
 
     public double calcularMedia(int qtdServico){
@@ -120,5 +127,13 @@ public class Usuario {
 
     public Long getId() {
         return id;
+    }
+
+    public List<Especializacao> getEspecializacoes() {
+        return especializacoes;
+    }
+
+    public void setEspecializacoes(List<Especializacao> especializacoes) {
+        this.especializacoes = especializacoes;
     }
 }
