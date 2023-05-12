@@ -30,7 +30,6 @@ public class Usuario {
     public List<FormularioServico> formularioCliente;
     @OneToMany(mappedBy = "prestador")
     public List<FormularioServico> formularioPrestador;
-    public Usuario() {}
     @OneToMany(mappedBy = "usuario")
     private List<Especializacao> especializacoes;
 
