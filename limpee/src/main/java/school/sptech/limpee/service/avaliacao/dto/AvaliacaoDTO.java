@@ -1,18 +1,22 @@
 package school.sptech.limpee.service.avaliacao.dto;
 
 public class AvaliacaoDTO {
-    private Long id;
+
     private String comentario;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    private long usuario;
     private int nota;
+
+    public long getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(long usuario) {
+        this.usuario = usuario;
+    }
+
+
+
+
 
     public String getComentario() {
         return comentario;

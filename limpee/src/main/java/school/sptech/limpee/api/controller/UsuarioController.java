@@ -185,4 +185,6 @@ public class UsuarioController {
 //    public ResponseEntity<UsuarioResponseDto> adicionarEspecializacoes(@PathVariable long id, @RequestParam List<EspecializacaoCriacaoDto> especializacoes) {
 //        return ResponseEntity.ok(usuarioService.atualizarEspecializacao(id, especializacoes));
 //    }
+
+
 }

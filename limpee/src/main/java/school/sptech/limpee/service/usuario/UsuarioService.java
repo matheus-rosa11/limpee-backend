@@ -193,6 +193,7 @@ public class UsuarioService {
         return usuarioRepository.findAllByNomeIgnoreCase(nome);
     }
 
+
 //    public List<UsuarioResponseDto> listar() {
 //        List<Usuario> usuarios = usuarioRepository.findAll();
 //        List<Especializacao> especializacoes = especializacaoRepository.findAll();
