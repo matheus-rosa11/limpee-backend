@@ -13,6 +13,7 @@ import school.sptech.limpee.domain.usuario.Usuario;
 import school.sptech.limpee.service.usuario.UsuarioService;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
+import school.sptech.limpee.service.usuario.dto.UsuarioAvaliacaoDTO;
 import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
@@ -26,6 +27,7 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+
 
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Usuário atualizado."),
@@ -185,6 +187,18 @@ public class UsuarioController {
 //    public ResponseEntity<UsuarioResponseDto> adicionarEspecializacoes(@PathVariable long id, @RequestParam List<EspecializacaoCriacaoDto> especializacoes) {
 //        return ResponseEntity.ok(usuarioService.atualizarEspecializacao(id, especializacoes));
 //    }
+@SecurityRequirement(name = "Bearer")
+@Operation(summary = "Lista usuários cadastrados")
+@GetMapping("/lista/ranking")
+public ResponseEntity<List<UsuarioAvaliacaoDTO>> selectNomeOrderByMediaNota() {
+
+    List<UsuarioAvaliacaoDTO> usuarios = usuarioService.orderByUsuarioByNotaDesc();
+
+    return usuarios.isEmpty() ?
+            ResponseEntity.created(null).build() :
+            ResponseEntity.ok(usuarios);
+}
+
 
 
 }

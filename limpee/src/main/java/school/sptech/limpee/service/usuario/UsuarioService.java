@@ -18,6 +18,7 @@ import school.sptech.limpee.domain.especializacao.Especializacao;
 import school.sptech.limpee.domain.usuario.Usuario;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
+import school.sptech.limpee.service.usuario.dto.UsuarioAvaliacaoDTO;
 import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
@@ -191,6 +192,10 @@ public class UsuarioService {
 
     public List<Usuario> findAllByNomeIgnoreCase(String nome) {
         return usuarioRepository.findAllByNomeIgnoreCase(nome);
+    }
+    public List<UsuarioAvaliacaoDTO> orderByUsuarioByNotaDesc(){
+
+        return usuarioRepository.getUsuarioOrderByNota();
     }
 
 
