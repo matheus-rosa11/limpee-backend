@@ -2,8 +2,6 @@ package school.sptech.limpee.service.usuario;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,20 +16,16 @@ import school.sptech.limpee.domain.csv.ListaObj;
 import school.sptech.limpee.domain.especialidade.Especialidade;
 import school.sptech.limpee.domain.especializacao.Especializacao;
 import school.sptech.limpee.domain.usuario.Usuario;
-import school.sptech.limpee.service.especializacao.EspecializacaoService;
-import school.sptech.limpee.service.especializacao.dto.EspecializacaoCriacaoDto;
-import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
-import school.sptech.limpee.service.especializacao.dto.EspecializacaoMapper;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
-import school.sptech.limpee.service.usuario.dto.UsuarioResponseDto;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -236,12 +230,16 @@ public class UsuarioService {
         return usuariosDto;
     }
 
-    public List<Usuario> buscarPorNome(String nome) {
+    public List<UsuarioDto> buscarPorNome(String nome) {
 
         if (nome.isBlank())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O nome do usuário está nulo ou vazio.");
 
-        return usuarioRepository.findAllByNomeIgnoreCase(nome);
+        List<Usuario> usuarios = usuarioRepository.findAllByNomeIgnoreCase(nome);
+
+        return usuarios.stream()
+                .map(UsuarioMapper::of)
+                .toList();
     }
 
     public List<Usuario> buscarPorTipo(String tipoUsuario) {

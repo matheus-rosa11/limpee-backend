@@ -1,7 +1,11 @@
 package school.sptech.limpee.service.usuario.dto;
 
+import io.jsonwebtoken.lang.Objects;
+import school.sptech.limpee.domain.FormularioServico.FormularioServico;
 import school.sptech.limpee.domain.especializacao.Especializacao;
 import school.sptech.limpee.domain.usuario.Usuario;
+import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoDTO;
+import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoMapper;
 import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
 import school.sptech.limpee.service.especializacao.dto.EspecializacaoMapper;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioDetalhesDto;
@@ -51,6 +55,25 @@ public class UsuarioMapper {
         usuarioDto.setGenero(usuario.getGenero());
         usuarioDto.setTipoUsuario(usuario.getTipoUsuario());
 
+        List<FormularioServicoDTO> formulariosPrestadorDto = usuario.getFormularioPrestador()
+                .stream()
+                .map(FormularioServicoMapper::of)
+                .toList();
+
+        List<FormularioServicoDTO> formulariosClienteDto = usuario.getFormularioCliente()
+                .stream()
+                .map(FormularioServicoMapper::of)
+                .toList();
+
+        if (usuario.getTipoUsuario().equals("prestador"))
+            usuarioDto.setFormularios(formulariosPrestadorDto);
+        else if (usuario.getTipoUsuario().equals("cliente"))
+            usuarioDto.setFormularios(formulariosClienteDto);
+        else {
+            usuarioDto.setFormularios(new ArrayList<>());
+            throw new IllegalStateException("Tipo de usuário inválido");
+        }
+
         if (!usuario.getEspecializacoes().isEmpty()) {
             for (Especializacao e : usuario.getEspecializacoes()) {
                 usuarioDto.getEspecializacoes().add(EspecializacaoMapper.of(e));
@@ -60,18 +83,18 @@ public class UsuarioMapper {
         return usuarioDto;
     }
 
-    public static UsuarioResponseDto mapToResponse(Usuario usuario) {
-        UsuarioResponseDto usuarioResponseDto = new UsuarioResponseDto();
-
-        usuarioResponseDto.setEmail(usuario.getEmail());
-        usuarioResponseDto.setNome(usuario.getNome());
-        usuarioResponseDto.setRanking(usuario.getRanking());
-        usuarioResponseDto.setQtdServicosSolicitados(usuario.getQtdServicosSolicitados());
-        usuarioResponseDto.setGenero(usuario.getGenero());
-        usuarioResponseDto.setTipoUsuario(usuario.getTipoUsuario());
-
-        return usuarioResponseDto;
-    }
+//    public static UsuarioResponseDto mapToResponse(Usuario usuario) {
+//        UsuarioResponseDto usuarioResponseDto = new UsuarioResponseDto();
+//
+//        usuarioResponseDto.setEmail(usuario.getEmail());
+//        usuarioResponseDto.setNome(usuario.getNome());
+//        usuarioResponseDto.setRanking(usuario.getRanking());
+//        usuarioResponseDto.setQtdServicosSolicitados(usuario.getQtdServicosSolicitados());
+//        usuarioResponseDto.setGenero(usuario.getGenero());
+//        usuarioResponseDto.setTipoUsuario(usuario.getTipoUsuario());
+//
+//        return usuarioResponseDto;
+//    }
 
     public static Usuario of(UsuarioDto usuarioDto) {
         Usuario u = new Usuario();

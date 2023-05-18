@@ -4,6 +4,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import school.sptech.limpee.domain.FormularioServico.FormularioServico;
+import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoDTO;
 import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
 
 import java.util.ArrayList;
@@ -26,11 +28,12 @@ public class UsuarioDto {
     private String tipoUsuario;
     @Min(3)
     private int anosExperiencia;
-
+    private List<FormularioServicoDTO> formularios;
     private List<EspecializacaoDto> especializacoes;
 
     public UsuarioDto() {
         especializacoes = new ArrayList<>();
+        formularios = new ArrayList<>();
     }
 
     public String getNome() {
@@ -103,5 +106,13 @@ public class UsuarioDto {
 
     public void setEspecializacoes(List<EspecializacaoDto> especializacoes) {
         this.especializacoes = especializacoes;
+    }
+
+    public List<FormularioServicoDTO> getFormularios() {
+        return formularios;
+    }
+
+    public void setFormularios(List<FormularioServicoDTO> formularios) {
+        this.formularios = formularios;
     }
 }

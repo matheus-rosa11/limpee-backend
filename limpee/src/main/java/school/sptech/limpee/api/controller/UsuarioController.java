@@ -1,36 +1,23 @@
 package school.sptech.limpee.api.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.limpee.domain.csv.ListaObj;
 import school.sptech.limpee.domain.usuario.Usuario;
-import school.sptech.limpee.service.especializacao.EspecializacaoService;
-import school.sptech.limpee.service.especializacao.dto.EspecializacaoCriacaoDto;
-import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
 import school.sptech.limpee.service.usuario.UsuarioService;
-import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioDetalhesDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
-import school.sptech.limpee.service.usuario.dto.UsuarioResponseDto;
 
-import java.time.LocalDate;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @Tag(name = "Usuários", description = "Grupo de requisições de Usuários")
 @RestController
@@ -124,8 +111,8 @@ public class UsuarioController {
     @SecurityRequirement(name = "Bearer")
     @GetMapping("/lista/nome")
     @Operation(summary = "Busca usuários por nome")
-    public ResponseEntity<List<Usuario>> buscarPorNome(@RequestParam String nome) {
-        List<Usuario> usuarios = usuarioService.buscarPorNome(nome);
+    public ResponseEntity<List<UsuarioDto>> buscarPorNome(@RequestParam String nome) {
+        List<UsuarioDto> usuarios = usuarioService.buscarPorNome(nome);
 
         return usuarios.isEmpty() ?
                 ResponseEntity.noContent().build() :
