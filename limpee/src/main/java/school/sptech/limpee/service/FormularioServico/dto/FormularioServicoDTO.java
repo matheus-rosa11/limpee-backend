@@ -19,6 +19,7 @@ public class FormularioServicoDTO {
     private long cliente;
     private long prestador;
 
+
     public String getTipoServico() {
         return tipoServico;
     }

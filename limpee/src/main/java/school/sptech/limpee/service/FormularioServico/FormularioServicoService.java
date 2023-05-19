@@ -1,22 +1,30 @@
 package school.sptech.limpee.service.FormularioServico;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import school.sptech.limpee.api.repository.formularioServico.FormularioServicoRepository;
+import school.sptech.limpee.api.repository.usuario.UsuarioRepository;
 import school.sptech.limpee.domain.FormularioServico.FormularioServico;
 import school.sptech.limpee.domain.usuario.Usuario;
 import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoDTO;
 import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoMapper;
+import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
+import school.sptech.limpee.service.usuario.dto.UsuarioDto;
+import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class FormularioServicoService {
     @Autowired
     FormularioServicoRepository formularioServicoRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     public List<FormularioServicoDTO> findAll() {
         List<FormularioServico> formularioServicos = formularioServicoRepository.findAll();
@@ -39,4 +47,16 @@ public class FormularioServicoService {
         final FormularioServico formularioServico = FormularioServicoMapper.of(formularioServicoDTO, cliente, prestador);
         return FormularioServicoMapper.of(formularioServicoRepository.save(formularioServico));
     }
+
+//    public FormularioServicoDTO atualizarValor(long id, double valor) {
+//        Optional<FormularioServico> formularioServico = formularioServicoRepository.findById(id);
+//
+//        if (formularioServico.isEmpty()) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+//        }
+//
+//        formularioServico.get().setValorServico(valor);
+//        return FormularioServicoMapper.of(formularioServicoRepository.save(formularioServico.get()));
+//    }
+
 }

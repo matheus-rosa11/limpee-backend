@@ -8,6 +8,7 @@ public class FormularioServico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
+
     public String tipoServico;
     public String localServico;
     public Boolean areaExterna;
@@ -24,8 +25,10 @@ public class FormularioServico {
     public Usuario cliente;
     @ManyToOne
     public Usuario prestador;
-    public FormularioServico(Long id, String tipoServico, String localServico, Boolean areaExterna, Boolean armario, Boolean geladeira, Boolean janelas, Boolean lavarRoupa, Boolean passarRoupa, Boolean outros, String outrosAdcional, int qtdComodos, int qtdBanheiro) {
+
+    public FormularioServico(Long id, String tipoServico, String localServico, Boolean areaExterna, Boolean armario, Boolean geladeira, Boolean janelas, Boolean lavarRoupa, Boolean passarRoupa, Boolean outros, String outrosAdcional, int qtdComodos, int qtdBanheiro, Usuario cliente, Usuario prestador) {
         this.id = id;
+
         this.tipoServico = tipoServico;
         this.localServico = localServico;
         this.areaExterna = areaExterna;
@@ -38,7 +41,11 @@ public class FormularioServico {
         this.outrosAdcional = outrosAdcional;
         this.qtdComodos = qtdComodos;
         this.qtdBanheiro = qtdBanheiro;
+        this.cliente = cliente;
+        this.prestador = prestador;
     }
+
+
 
     public FormularioServico() {
     }

@@ -42,6 +42,7 @@ public class FormularioServicoMapper {
         formularioServico.setQtdComodos(formularioServicoDTO.getQtdComodos());
         formularioServico.setQtdBanheiro(formularioServicoDTO.getQtdBanheiro());
 
+
         return formularioServico;
     }
 
@@ -50,6 +51,7 @@ public class FormularioServicoMapper {
 
         formularioServicoDTO.setTipoServico(formularioServico.getTipoServico());
         formularioServicoDTO.setLocalServico(formularioServico.getLocalServico());
+
         formularioServicoDTO.setAreaExterna(formularioServico.getAreaExterna());
         formularioServicoDTO.setArmario(formularioServico.getArmario());
         formularioServicoDTO.setGeladeira(formularioServico.getGeladeira());
@@ -60,9 +62,13 @@ public class FormularioServicoMapper {
         formularioServicoDTO.setOutrosAdcional(formularioServico.getOutrosAdcional());
         formularioServicoDTO.setQtdComodos(formularioServico.getQtdComodos());
         formularioServicoDTO.setQtdBanheiro(formularioServico.getQtdBanheiro());
+
         formularioServicoDTO.setCliente(formularioServico.getCliente().getId());
         formularioServicoDTO.setPrestador(formularioServico.getPrestador().getId());
 
         return formularioServicoDTO;
     }
+
+
+
 }
