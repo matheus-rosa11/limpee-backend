@@ -52,11 +52,11 @@ public class FormularioServicoController {
                 ResponseEntity.ok(list);
     }
 
-//    @SecurityRequirement(name = "Bearer")
-//    @PatchMapping("/valor")
-//    public ResponseEntity<FormularioServicoDTO> atualizarValor(@RequestParam long id, @RequestParam double valor) {
-//        return ResponseEntity.ok(formularioServicoService.atualizarValor(id, valor));
-//    }
+    @SecurityRequirement(name = "Bearer")
+    @PatchMapping("/valor")
+    public ResponseEntity<FormularioServicoDTO> atualizarValor(@RequestParam long id, @RequestParam double valor) {
+        return ResponseEntity.ok(formularioServicoService.atualizarValor(id, valor));
+    }
 
 
 
