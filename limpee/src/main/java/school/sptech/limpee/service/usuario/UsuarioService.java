@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import school.sptech.limpee.api.configuration.security.jwt.GerenciadorTokenJwt;
+import school.sptech.limpee.api.repository.endereco.EnderecoRepository;
 import school.sptech.limpee.api.repository.especializacao.EspecializacaoRepository;
 import school.sptech.limpee.api.repository.usuario.UsuarioRepository;
 import school.sptech.limpee.domain.csv.ListaObj;
@@ -39,6 +40,8 @@ public class UsuarioService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private EspecializacaoRepository especializacaoRepository;
+    @Autowired
+    private EnderecoRepository enderecoRepository;
 
     public List<Usuario> findAll() {
         return usuarioRepository.findAll();
@@ -60,7 +63,11 @@ public class UsuarioService {
     public UsuarioDto criar(UsuarioCriacaoDto usuarioCriacaoDto) {
         final Usuario novoUsuario = UsuarioMapper.of(usuarioCriacaoDto);
         String senhaCriptografada = passwordEncoder.encode(novoUsuario.getSenha());
+
         novoUsuario.setSenha(senhaCriptografada);
+
+        novoUsuario.setEndereco(enderecoRepository.save(novoUsuario.getEndereco()));
+
         usuarioRepository.save(novoUsuario);
         return UsuarioMapper.of(novoUsuario);
     }
@@ -223,7 +230,7 @@ public class UsuarioService {
         List<UsuarioDto> usuariosDto = new ArrayList<>();
 
         for (Usuario usuario : usuarios) {
-            usuario.getEspecializacoes().add(new Especializacao(usuario, new Especialidade("teste")));
+//            usuario.getEspecializacoes().add(new Especializacao(usuario, new Especialidade("teste")));
             usuariosDto.add(UsuarioMapper.of(usuario));
         }
 

@@ -1,18 +1,13 @@
 package school.sptech.limpee.service.usuario.dto;
 
-import io.jsonwebtoken.lang.Objects;
-import school.sptech.limpee.domain.FormularioServico.FormularioServico;
 import school.sptech.limpee.domain.especializacao.Especializacao;
 import school.sptech.limpee.domain.usuario.Usuario;
 import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoDTO;
 import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoMapper;
 import school.sptech.limpee.service.endereco.dto.EnderecoMapper;
-import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
 import school.sptech.limpee.service.especializacao.dto.EspecializacaoMapper;
-import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioDetalhesDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
 
-import javax.naming.directory.InvalidAttributeValueException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +20,7 @@ public class UsuarioMapper {
         usuario.setSenha(usuarioCriacaoDto.getSenha());
         usuario.setGenero(usuarioCriacaoDto.getGenero());
         usuario.setTipoUsuario(usuarioCriacaoDto.getTipoUsuario());
-        usuario.setEndereco(EnderecoMapper.of(usuarioCriacaoDto.getEnderecoDTO(), usuario));
+        usuario.setEndereco(EnderecoMapper.of(usuarioCriacaoDto.getEnderecoDTO()));
 
         return usuario;
     }
@@ -52,7 +47,7 @@ public class UsuarioMapper {
         usuarioDto.setQtdServicosFinalizados(usuario.getQtdServicosFinalizados());
         usuarioDto.setGenero(usuario.getGenero());
         usuarioDto.setTipoUsuario(usuario.getTipoUsuario());
-        usuarioDto.setEnderecoDTO(EnderecoMapper.of(usuario.getEndereco()));
+        usuarioDto.setEndereco(EnderecoMapper.of(usuario.getEndereco()));
 
         List<FormularioServicoDTO> formulariosPrestadorDto = usuario.getFormularioPrestador()
                 .stream()

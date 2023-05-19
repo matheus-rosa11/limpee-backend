@@ -18,20 +18,20 @@ public class EnderecoMapper {
         return endereco;
     }
 
-    public static Endereco of(EnderecoDTO enderecoDTO, Usuario usuario){
-        Endereco endereco = new Endereco();
-
-        endereco.setCep(enderecoDTO.getCep());
-        endereco.setBairro(enderecoDTO.getBairro());
-        endereco.setLogradouro(enderecoDTO.getLogradouro());
-        endereco.setComplemento(enderecoDTO.getComplemento());
-        endereco.setCidade(enderecoDTO.getCidade());
-        endereco.setEstado(enderecoDTO.getEstado());
-        endereco.setNumero(enderecoDTO.getNumero());
-        endereco.setUsuario(usuario);
-
-        return endereco;
-    }
+//    public static Endereco of(EnderecoDTO enderecoDTO, Usuario usuario){
+//        Endereco endereco = new Endereco();
+//
+//        endereco.setCep(enderecoDTO.getCep());
+//        endereco.setBairro(enderecoDTO.getBairro());
+//        endereco.setLogradouro(enderecoDTO.getLogradouro());
+//        endereco.setComplemento(enderecoDTO.getComplemento());
+//        endereco.setCidade(enderecoDTO.getCidade());
+//        endereco.setEstado(enderecoDTO.getEstado());
+//        endereco.setNumero(enderecoDTO.getNumero());
+//        endereco.setUsuario(usuario);
+//
+//        return endereco;
+//    }
 
     public static EnderecoDTO of(Endereco endereco){
         EnderecoDTO enderecoDTO = new EnderecoDTO();

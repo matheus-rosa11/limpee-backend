@@ -4,7 +4,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import school.sptech.limpee.domain.FormularioServico.FormularioServico;
 import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoDTO;
 import school.sptech.limpee.service.endereco.dto.EnderecoDTO;
 import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
@@ -29,7 +28,7 @@ public class UsuarioDto {
     private int qtdServicosFinalizados;
     @Min(3)
     private int anosExperiencia;
-    private EnderecoDTO enderecoDTO;
+    private EnderecoDTO endereco;
     private List<FormularioServicoDTO> formularios;
     private List<EspecializacaoDto> especializacoes;
 
@@ -118,11 +117,11 @@ public class UsuarioDto {
         this.formularios = formularios;
     }
 
-    public EnderecoDTO getEnderecoDTO() {
-        return enderecoDTO;
+    public EnderecoDTO getEndereco() {
+        return endereco;
     }
 
-    public void setEnderecoDTO(EnderecoDTO enderecoDTO) {
-        this.enderecoDTO = enderecoDTO;
+    public void setEndereco(EnderecoDTO enderecoDTO) {
+        this.endereco = enderecoDTO;
     }
 }
