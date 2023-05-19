@@ -47,43 +47,20 @@ public class UsuarioController {
 
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Cadastro realizado com sucesso."),
-            @ApiResponse(responseCode = "409", description = "E-mail já existente.")
+            @ApiResponse(responseCode = "409", description = "E-mail já cadastrado.")
     })
 
     @Operation(summary = "Cadastro de Usuário")
     @PostMapping
-    public ResponseEntity<Usuario> criar(@RequestBody @Valid UsuarioCriacaoDto usuarioCriacaoDto) {
+    public ResponseEntity<UsuarioDto> criar(@RequestBody @Valid UsuarioCriacaoDto usuarioCriacaoDto) {
 
-        try {
-            if (usuarioService.existsByEmail(usuarioCriacaoDto.getEmail())) {
-                return ResponseEntity.status(409).build();
-            }
-
-            Usuario usuario = this.usuarioService.criar(usuarioCriacaoDto);
-            return ResponseEntity.status(201).body(usuario);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Houve um erro ao tentar cadastrar o novo usuário: " + e.getMessage());
+        if (usuarioService.existsByEmail(usuarioCriacaoDto.getEmail())) {
+            return ResponseEntity.status(409).build();
         }
-    }
 
-//    @ApiResponses({
-//            @ApiResponse(responseCode = "204", description = "Listagem realizada com sucesso. Não foram encontrados registros de usuário."),
-//            @ApiResponse(responseCode = "200", description = "Listagem realizada com sucesso."),
-//            @ApiResponse(responseCode = "401", description = "Não autorizado.")
-//    })
-//
-//    @SecurityRequirement(name = "Bearer")
-//    @Operation(summary = "Lista usuários cadastrados")
-//    @GetMapping("/lista")
-//    public ResponseEntity<List<UsuarioResponseDto>> listar() {
-//
-//        List<UsuarioResponseDto> usuarios = usuarioService.listar();
-//
-//        return usuarios.isEmpty() ?
-//                ResponseEntity.created(null).build() :
-//                ResponseEntity.ok(usuarios);
-//    }
+        UsuarioDto usuarioDto = this.usuarioService.criar(usuarioCriacaoDto);
+        return ResponseEntity.created(null).body(usuarioDto);
+    }
 
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Listagem realizada com sucesso. Não foram encontrados registros de usuário."),

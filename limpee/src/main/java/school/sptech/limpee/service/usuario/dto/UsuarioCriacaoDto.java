@@ -1,14 +1,14 @@
 package school.sptech.limpee.service.usuario.dto;
 
+import school.sptech.limpee.service.endereco.dto.EnderecoDTO;
+
 public class UsuarioCriacaoDto {
     private String nome;
     private String email;
     private String senha;
     private String genero;
-    private int ranking;
-    private int qtdServicosSolicitados;
     private String tipoUsuario;
-
+    private EnderecoDTO enderecoDTO;
     public String getNome() {
         return nome;
     }
@@ -41,27 +41,19 @@ public class UsuarioCriacaoDto {
         this.genero = genero;
     }
 
-    public int getRanking() {
-        return ranking;
-    }
-
-    public void setRanking(int ranking) {
-        this.ranking = ranking;
-    }
-
-    public int getQtdServicosSolicitados() {
-        return qtdServicosSolicitados;
-    }
-
-    public void setQtdServicosSolicitados(int qtdServicosSolicitados) {
-        this.qtdServicosSolicitados = qtdServicosSolicitados;
-    }
-
     public String getTipoUsuario() {
         return tipoUsuario;
     }
 
     public void setTipoUsuario(String tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
+    }
+
+    public EnderecoDTO getEnderecoDTO() {
+        return enderecoDTO;
+    }
+
+    public void setEnderecoDTO(EnderecoDTO enderecoDTO) {
+        this.enderecoDTO = enderecoDTO;
     }
 }

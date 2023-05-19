@@ -6,6 +6,7 @@ import school.sptech.limpee.domain.especializacao.Especializacao;
 import school.sptech.limpee.domain.usuario.Usuario;
 import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoDTO;
 import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoMapper;
+import school.sptech.limpee.service.endereco.dto.EnderecoMapper;
 import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
 import school.sptech.limpee.service.especializacao.dto.EspecializacaoMapper;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioDetalhesDto;
@@ -22,12 +23,9 @@ public class UsuarioMapper {
         usuario.setEmail(usuarioCriacaoDto.getEmail());
         usuario.setNome(usuarioCriacaoDto.getNome());
         usuario.setSenha(usuarioCriacaoDto.getSenha());
-        usuario.setRanking(usuarioCriacaoDto.getRanking());
-        usuario.setQtdServicosSolicitados(usuarioCriacaoDto.getQtdServicosSolicitados());
-        usuario.setQtdServicosFinalizados(3);
         usuario.setGenero(usuarioCriacaoDto.getGenero());
         usuario.setTipoUsuario(usuarioCriacaoDto.getTipoUsuario());
-        usuario.setAnosExperiencia(10);
+        usuario.setEndereco(EnderecoMapper.of(usuarioCriacaoDto.getEnderecoDTO(), usuario));
 
         return usuario;
     }
@@ -54,6 +52,7 @@ public class UsuarioMapper {
         usuarioDto.setQtdServicosFinalizados(usuario.getQtdServicosFinalizados());
         usuarioDto.setGenero(usuario.getGenero());
         usuarioDto.setTipoUsuario(usuario.getTipoUsuario());
+        usuarioDto.setEnderecoDTO(EnderecoMapper.of(usuario.getEndereco()));
 
         List<FormularioServicoDTO> formulariosPrestadorDto = usuario.getFormularioPrestador()
                 .stream()

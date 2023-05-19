@@ -57,12 +57,12 @@ public class UsuarioService {
     }
 
     // Tem retorno de um
-    public Usuario criar(UsuarioCriacaoDto usuarioCriacaoDto) {
+    public UsuarioDto criar(UsuarioCriacaoDto usuarioCriacaoDto) {
         final Usuario novoUsuario = UsuarioMapper.of(usuarioCriacaoDto);
         String senhaCriptografada = passwordEncoder.encode(novoUsuario.getSenha());
         novoUsuario.setSenha(senhaCriptografada);
         usuarioRepository.save(novoUsuario);
-        return novoUsuario;
+        return UsuarioMapper.of(novoUsuario);
     }
 
     public UsuarioTokenDto autenticar(UsuarioLoginDto usuarioLoginDto) {
