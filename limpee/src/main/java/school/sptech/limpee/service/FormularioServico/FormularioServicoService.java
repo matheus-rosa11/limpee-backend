@@ -48,15 +48,15 @@ public class FormularioServicoService {
         return FormularioServicoMapper.of(formularioServicoRepository.save(formularioServico));
     }
 
-//    public FormularioServicoDTO atualizarValor(long id, double valor) {
-//        Optional<FormularioServico> formularioServico = formularioServicoRepository.findById(id);
-//
-//        if (formularioServico.isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-//        }
-//
-//        formularioServico.get().setValorServico(valor);
-//        return FormularioServicoMapper.of(formularioServicoRepository.save(formularioServico.get()));
-//    }
+    public FormularioServicoDTO atualizarValor(long id, double valor) {
+        Optional<FormularioServico> formularioServico = formularioServicoRepository.findById(id);
+
+        if (formularioServico.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        formularioServico.get().setValorServico(valor);
+        return FormularioServicoMapper.of(formularioServicoRepository.save(formularioServico.get()));
+    }
 
 }

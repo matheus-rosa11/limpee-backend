@@ -21,15 +21,17 @@ public class FormularioServico {
     public String outrosAdcional;
     public int qtdComodos;
     public int qtdBanheiro;
+    public double valorServico;
     @ManyToOne
     public Usuario cliente;
     @ManyToOne
     public Usuario prestador;
 
-    public FormularioServico(Long id, String tipoServico, String localServico, Boolean areaExterna, Boolean armario, Boolean geladeira, Boolean janelas, Boolean lavarRoupa, Boolean passarRoupa, Boolean outros, String outrosAdcional, int qtdComodos, int qtdBanheiro, Usuario cliente, Usuario prestador) {
+    public FormularioServico(Long id, double valorServico, String tipoServico, String localServico, Boolean areaExterna, Boolean armario, Boolean geladeira, Boolean janelas, Boolean lavarRoupa, Boolean passarRoupa, Boolean outros, String outrosAdcional, int qtdComodos, int qtdBanheiro, Usuario cliente, Usuario prestador) {
         this.id = id;
 
         this.tipoServico = tipoServico;
+        this.valorServico = valorServico;
         this.localServico = localServico;
         this.areaExterna = areaExterna;
         this.armario = armario;
@@ -60,6 +62,14 @@ public class FormularioServico {
 
     public String getTipoServico() {
         return tipoServico;
+    }
+
+    public double getValorServico() {
+        return valorServico;
+    }
+
+    public void setValorServico(double valorServico) {
+        this.valorServico = valorServico;
     }
 
     public void setTipoServico(String tipoServico) {
