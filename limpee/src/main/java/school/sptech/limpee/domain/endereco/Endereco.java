@@ -2,19 +2,22 @@ package school.sptech.limpee.domain.endereco;
 
 import jakarta.persistence.*;
 import school.sptech.limpee.domain.usuario.Usuario;
+import school.sptech.limpee.service.endereco.dto.EnderecoDTO;
 
 @Entity
 public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long id;
-
-    public String cep;
-    public String complemento;
-    public String logradouro;
-    public String bairro;
-
-
+    private long id;
+    private String cep;
+    private String complemento;
+    private String logradouro;
+    private String bairro;
+    private int numero;
+    private String cidade;
+    private String estado;
+    @OneToOne
+    private Usuario usuario;
 
     public Endereco(long id, String cep, String complemento, String logradouro, String bairro, Usuario usuario) {
         this.id = id;
@@ -68,4 +71,35 @@ public class Endereco {
         this.bairro = bairro;
     }
 
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }

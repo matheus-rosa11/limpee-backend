@@ -16,7 +16,6 @@ import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioAvaliacaoDTO;
 import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioDto;
-import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
 
 import java.util.List;
 
@@ -37,55 +36,26 @@ public class UsuarioController {
     @Operation(summary = "Login")
     @PostMapping("/login")
     public ResponseEntity<UsuarioTokenDto> login(@RequestBody UsuarioLoginDto usuarioLoginDto) {
-
-        try {
-            UsuarioTokenDto usuarioTokenDto = usuarioService.autenticar(usuarioLoginDto);
-            return ResponseEntity.status(200).body(usuarioTokenDto);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Houve um erro ao tentar realizar o login: " + e.getMessage());
-        }
+        UsuarioTokenDto usuarioTokenDto = usuarioService.autenticar(usuarioLoginDto);
+        return ResponseEntity.status(200).body(usuarioTokenDto);
     }
 
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Cadastro realizado com sucesso."),
-            @ApiResponse(responseCode = "409", description = "E-mail já existente.")
+            @ApiResponse(responseCode = "409", description = "E-mail já cadastrado.")
     })
 
     @Operation(summary = "Cadastro de Usuário")
     @PostMapping
-    public ResponseEntity<Usuario> criar(@RequestBody @Valid UsuarioCriacaoDto usuarioCriacaoDto) {
+    public ResponseEntity<UsuarioDto> criar(@RequestBody @Valid UsuarioCriacaoDto usuarioCriacaoDto) {
 
-        try {
-            if (usuarioService.existsByEmail(usuarioCriacaoDto.getEmail())) {
-                return ResponseEntity.status(409).build();
-            }
-
-            Usuario usuario = this.usuarioService.criar(usuarioCriacaoDto);
-            return ResponseEntity.status(201).body(usuario);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Houve um erro ao tentar cadastrar o novo usuário: " + e.getMessage());
+        if (usuarioService.existsByEmail(usuarioCriacaoDto.getEmail())) {
+            return ResponseEntity.status(409).build();
         }
-    }
 
-//    @ApiResponses({
-//            @ApiResponse(responseCode = "204", description = "Listagem realizada com sucesso. Não foram encontrados registros de usuário."),
-//            @ApiResponse(responseCode = "200", description = "Listagem realizada com sucesso."),
-//            @ApiResponse(responseCode = "401", description = "Não autorizado.")
-//    })
-//
-//    @SecurityRequirement(name = "Bearer")
-//    @Operation(summary = "Lista usuários cadastrados")
-//    @GetMapping("/lista")
-//    public ResponseEntity<List<UsuarioResponseDto>> listar() {
-//
-//        List<UsuarioResponseDto> usuarios = usuarioService.listar();
-//
-//        return usuarios.isEmpty() ?
-//                ResponseEntity.created(null).build() :
-//                ResponseEntity.ok(usuarios);
-//    }
+        UsuarioDto usuarioDto = this.usuarioService.criar(usuarioCriacaoDto);
+        return ResponseEntity.created(null).body(usuarioDto);
+    }
 
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Listagem realizada com sucesso. Não foram encontrados registros de usuário."),

@@ -6,6 +6,7 @@ import school.sptech.limpee.api.repository.endereco.EnderecoRepository;
 import school.sptech.limpee.domain.endereco.Endereco;
 import school.sptech.limpee.domain.usuario.Usuario;
 import school.sptech.limpee.service.endereco.dto.EnderecoDTO;
+import school.sptech.limpee.service.endereco.dto.EnderecoListagemDTO;
 import school.sptech.limpee.service.endereco.dto.EnderecoMapper;
 
 import java.util.List;
@@ -23,5 +24,9 @@ public class EnderecoService {
         final Endereco endereco = EnderecoMapper.of(enderecoDTO);
         enderecoRepository.save(endereco);
         return enderecoDTO;
+    }
+
+    public List<EnderecoListagemDTO> listar() {
+        return enderecoRepository.findAll().stream().map(EnderecoMapper::mapToListagem).toList();
     }
 }

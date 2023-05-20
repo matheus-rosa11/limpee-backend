@@ -25,6 +25,10 @@ public class Especializacao {
         this.especialidade = especialidade;
     }
 
+    public Especializacao(Especialidade especialidade) {
+        this.especialidade = especialidade;
+    }
+
     public long getId() {
         return id;
     }

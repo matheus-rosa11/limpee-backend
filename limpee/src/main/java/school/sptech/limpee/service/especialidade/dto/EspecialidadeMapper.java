@@ -14,8 +14,13 @@ public class EspecialidadeMapper {
     public static EspecialidadeDto of(Especialidade especialidade) {
         EspecialidadeDto especialidadeDto = new EspecialidadeDto();
 
+        especialidadeDto.setId(especialidade.getId());
         especialidadeDto.setDescricao(especialidade.getDescricao());
 
         return especialidadeDto;
+    }
+
+    public static Especialidade of(EspecialidadeCriacaoDto e) {
+        return new Especialidade(e.getEspecialidade());
     }
 }
