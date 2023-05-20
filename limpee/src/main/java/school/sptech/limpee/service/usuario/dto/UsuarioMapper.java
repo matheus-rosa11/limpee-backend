@@ -5,6 +5,7 @@ import school.sptech.limpee.domain.usuario.Usuario;
 import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoDTO;
 import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoMapper;
 import school.sptech.limpee.service.endereco.dto.EnderecoMapper;
+import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
 import school.sptech.limpee.service.especializacao.dto.EspecializacaoMapper;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
 
@@ -48,6 +49,8 @@ public class UsuarioMapper {
         usuarioDto.setGenero(usuario.getGenero());
         usuarioDto.setTipoUsuario(usuario.getTipoUsuario());
         usuarioDto.setEndereco(EnderecoMapper.of(usuario.getEndereco()));
+        var teste = usuario.getEspecializacoes();
+        usuarioDto.setEspecializacoes(usuario.getEspecializacoes().stream().map(EspecializacaoMapper::of).toList());
 
         List<FormularioServicoDTO> formulariosPrestadorDto = usuario.getFormularioPrestador()
                 .stream()
@@ -59,20 +62,10 @@ public class UsuarioMapper {
                 .map(FormularioServicoMapper::of)
                 .toList();
 
-        if (usuario.getTipoUsuario().equals("prestador"))
+        if (usuario.getTipoUsuario().equalsIgnoreCase("prestador"))
             usuarioDto.setFormularios(formulariosPrestadorDto);
-        else if (usuario.getTipoUsuario().equals("cliente"))
+        else if (usuario.getTipoUsuario().equalsIgnoreCase("cliente"))
             usuarioDto.setFormularios(formulariosClienteDto);
-        else {
-            usuarioDto.setFormularios(new ArrayList<>());
-            throw new IllegalStateException("Tipo de usuário inválido");
-        }
-
-        if (!usuario.getEspecializacoes().isEmpty()) {
-            for (Especializacao e : usuario.getEspecializacoes()) {
-                usuarioDto.getEspecializacoes().add(EspecializacaoMapper.of(e));
-            }
-        }
 
         return usuarioDto;
     }

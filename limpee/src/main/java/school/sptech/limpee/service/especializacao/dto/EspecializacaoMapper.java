@@ -16,6 +16,15 @@ public class EspecializacaoMapper {
         return e;
     }
 
+    public static Especializacao of(EspecializacaoDto especializacaoDto) {
+        Especializacao e = new Especializacao();
+
+        e.setId(especializacaoDto.getId());
+        e.setEspecialidade(EspecialidadeMapper.of(especializacaoDto.getEspecialidade()));
+
+        return e;
+    }
+
 //    public static List<Especializacao> of(List<EspecializacaoCriacaoDto> especializacaoCriacaoDtos) {
 //        List<Especializacao> especializacoes = new ArrayList<>();
 //

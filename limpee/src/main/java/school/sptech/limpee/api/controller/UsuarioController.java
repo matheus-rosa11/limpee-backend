@@ -15,7 +15,6 @@ import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioDto;
-import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
 
 import java.util.List;
 
