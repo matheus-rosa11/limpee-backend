@@ -23,6 +23,7 @@ import school.sptech.limpee.service.especialidade.dto.EspecialidadeMapper;
 import school.sptech.limpee.service.especializacao.dto.EspecializacaoMapper;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
+import school.sptech.limpee.service.usuario.dto.UsuarioAvaliacaoDTO;
 import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
@@ -232,6 +233,11 @@ public class UsuarioService {
     public List<Usuario> findAllByNomeIgnoreCase(String nome) {
         return usuarioRepository.findAllByNomeIgnoreCase(nome);
     }
+    public List<UsuarioAvaliacaoDTO> orderByUsuarioByNotaDesc(){
+
+        return usuarioRepository.getUsuarioOrderByNota();
+    }
+
 
 //    public List<UsuarioResponseDto> listar() {
 //        List<Usuario> usuarios = usuarioRepository.findAll();
