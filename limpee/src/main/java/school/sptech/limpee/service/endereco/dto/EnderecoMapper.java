@@ -47,5 +47,18 @@ public class EnderecoMapper {
         return enderecoDTO;
     }
 
+    public static EnderecoListagemDTO mapToListagem(Endereco endereco) {
+        EnderecoListagemDTO enderecoListagemDTO = new EnderecoListagemDTO();
 
+        enderecoListagemDTO.setCep(endereco.getCep());
+        enderecoListagemDTO.setBairro(endereco.getBairro());
+        enderecoListagemDTO.setLogradouro(endereco.getLogradouro());
+        enderecoListagemDTO.setComplemento(endereco.getComplemento());
+        enderecoListagemDTO.setCidade(endereco.getCidade());
+        enderecoListagemDTO.setEstado(endereco.getEstado());
+        enderecoListagemDTO.setNumero(endereco.getNumero());
+        enderecoListagemDTO.setIdUsuario(endereco.getUsuario().getId());
+
+        return enderecoListagemDTO;
+    }
 }

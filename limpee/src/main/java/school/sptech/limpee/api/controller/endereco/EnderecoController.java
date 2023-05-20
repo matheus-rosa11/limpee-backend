@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import school.sptech.limpee.domain.endereco.Endereco;
 import school.sptech.limpee.service.endereco.EnderecoService;
 import school.sptech.limpee.service.endereco.dto.EnderecoDTO;
+import school.sptech.limpee.service.endereco.dto.EnderecoListagemDTO;
 import school.sptech.limpee.service.endereco.dto.EnderecoMapper;
 
 import java.util.List;
@@ -27,9 +28,11 @@ public class EnderecoController {
     }
     @SecurityRequirement(name = "Bearer")
     @GetMapping()
-    public ResponseEntity<List<Endereco>> listar(){
-        List<Endereco> endereco = enderecoService.findAll();
-        return ResponseEntity.status(200).body(endereco);
+    public ResponseEntity<List<EnderecoListagemDTO>> listar(){
+        List<EnderecoListagemDTO> enderecos = enderecoService.listar();
+        return enderecos.isEmpty() ?
+                ResponseEntity.created(null).build() :
+                ResponseEntity.ok(enderecos);
     }
 
 }

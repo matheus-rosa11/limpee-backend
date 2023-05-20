@@ -34,14 +34,8 @@ public class UsuarioController {
     @Operation(summary = "Login")
     @PostMapping("/login")
     public ResponseEntity<UsuarioTokenDto> login(@RequestBody UsuarioLoginDto usuarioLoginDto) {
-
-        try {
-            UsuarioTokenDto usuarioTokenDto = usuarioService.autenticar(usuarioLoginDto);
-            return ResponseEntity.status(200).body(usuarioTokenDto);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Houve um erro ao tentar realizar o login: " + e.getMessage());
-        }
+        UsuarioTokenDto usuarioTokenDto = usuarioService.autenticar(usuarioLoginDto);
+        return ResponseEntity.status(200).body(usuarioTokenDto);
     }
 
     @ApiResponses({

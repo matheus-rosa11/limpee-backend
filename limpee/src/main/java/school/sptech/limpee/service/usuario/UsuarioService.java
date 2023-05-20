@@ -98,6 +98,10 @@ public class UsuarioService {
 
         usuarioRepository.save(novoUsuario);
 
+        novoUsuario.getEndereco().setUsuario(novoUsuario);
+
+        enderecoRepository.save(novoUsuario.getEndereco());
+
         return UsuarioMapper.of(novoUsuario);
     }
 
