@@ -10,22 +10,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import school.sptech.limpee.api.configuration.security.jwt.GerenciadorTokenJwt;
+import school.sptech.limpee.api.repository.endereco.EnderecoRepository;
+import school.sptech.limpee.api.repository.especialidade.EspecialidadeRepository;
 import school.sptech.limpee.api.repository.especializacao.EspecializacaoRepository;
 import school.sptech.limpee.api.repository.usuario.UsuarioRepository;
 import school.sptech.limpee.domain.csv.ListaObj;
 import school.sptech.limpee.domain.especialidade.Especialidade;
 import school.sptech.limpee.domain.especializacao.Especializacao;
 import school.sptech.limpee.domain.usuario.Usuario;
+import school.sptech.limpee.service.especialidade.dto.EspecialidadeCriacaoDto;
+import school.sptech.limpee.service.especialidade.dto.EspecialidadeMapper;
+import school.sptech.limpee.service.especializacao.dto.EspecializacaoMapper;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
+import school.sptech.limpee.service.usuario.dto.UsuarioAvaliacaoDTO;
 import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -39,6 +43,10 @@ public class UsuarioService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private EspecializacaoRepository especializacaoRepository;
+    @Autowired
+    private EnderecoRepository enderecoRepository;
+    @Autowired
+    private EspecialidadeRepository especialidadeRepository;
 
     public List<Usuario> findAll() {
         return usuarioRepository.findAll();
@@ -57,12 +65,45 @@ public class UsuarioService {
     }
 
     // Tem retorno de um
-    public Usuario criar(UsuarioCriacaoDto usuarioCriacaoDto) {
+    public UsuarioDto criar(UsuarioCriacaoDto usuarioCriacaoDto) {
+
+        if (!usuarioCriacaoDto.getTipoUsuario().equalsIgnoreCase("cliente") && !usuarioCriacaoDto.getTipoUsuario().equalsIgnoreCase("prestador"))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O tipo de usuário é inválido. Deve ser \"cliente\" ou \"prestador\"");
+
+        if (Objects.isNull(usuarioCriacaoDto.getEnderecoDTO()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O usuário deve obrigatoriamente ter um endereço.");
+
         final Usuario novoUsuario = UsuarioMapper.of(usuarioCriacaoDto);
+
         String senhaCriptografada = passwordEncoder.encode(novoUsuario.getSenha());
+
         novoUsuario.setSenha(senhaCriptografada);
+
+        novoUsuario.setEndereco(enderecoRepository.save(novoUsuario.getEndereco()));
+
+        if (!usuarioCriacaoDto.getEspecialidades().isEmpty()) {
+            List<Especializacao> especializacoes = new ArrayList<>();
+
+            for (String e : usuarioCriacaoDto.getEspecialidades()) {
+                Especialidade especialidade = especialidadeRepository.save(new Especialidade(e));
+                especializacoes.add(new Especializacao(novoUsuario, especialidade));
+            }
+
+            novoUsuario.setEspecializacoes(especializacoes);
+        }
+
+        if (!novoUsuario.getEspecializacoes().isEmpty()) {
+            List<Especializacao> especializacoes = especializacaoRepository.saveAll(novoUsuario.getEspecializacoes());
+            novoUsuario.setEspecializacoes(especializacoes);
+        }
+
         usuarioRepository.save(novoUsuario);
-        return novoUsuario;
+
+        novoUsuario.getEndereco().setUsuario(novoUsuario);
+
+        enderecoRepository.save(novoUsuario.getEndereco());
+
+        return UsuarioMapper.of(novoUsuario);
     }
 
     public UsuarioTokenDto autenticar(UsuarioLoginDto usuarioLoginDto) {
@@ -192,6 +233,11 @@ public class UsuarioService {
     public List<Usuario> findAllByNomeIgnoreCase(String nome) {
         return usuarioRepository.findAllByNomeIgnoreCase(nome);
     }
+    public List<UsuarioAvaliacaoDTO> orderByUsuarioByNotaDesc(){
+
+        return usuarioRepository.getUsuarioOrderByNota();
+    }
+
 
 //    public List<UsuarioResponseDto> listar() {
 //        List<Usuario> usuarios = usuarioRepository.findAll();
@@ -223,7 +269,7 @@ public class UsuarioService {
         List<UsuarioDto> usuariosDto = new ArrayList<>();
 
         for (Usuario usuario : usuarios) {
-            usuario.getEspecializacoes().add(new Especializacao(usuario, new Especialidade("teste")));
+//            usuario.getEspecializacoes().add(new Especializacao(usuario, new Especialidade("teste")));
             usuariosDto.add(UsuarioMapper.of(usuario));
         }
 

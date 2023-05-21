@@ -5,6 +5,7 @@ import school.sptech.limpee.service.usuario.dto.UsuarioDto;
 public class FormularioServicoDTO {
     private String tipoServico;
     private String localServico;
+    private double valorServico;
     private Boolean areaExterna;
     private Boolean armario;
     private Boolean geladeira;
@@ -18,6 +19,14 @@ public class FormularioServicoDTO {
 //    private UsuarioDto usuarioDto;
     private long cliente;
     private long prestador;
+
+    public double getValorServico() {
+        return valorServico;
+    }
+
+    public void setValorServico(double valorServico) {
+        this.valorServico = valorServico;
+    }
 
     public String getTipoServico() {
         return tipoServico;
