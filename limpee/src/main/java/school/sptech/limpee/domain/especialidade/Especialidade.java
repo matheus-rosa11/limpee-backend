@@ -1,7 +1,9 @@
 package school.sptech.limpee.domain.especialidade;
 
 import jakarta.persistence.*;
+import school.sptech.limpee.domain.especializacao.Especializacao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,8 +13,17 @@ public class Especialidade {
     private long id;
     private String descricao;
 
-    @OneToMany
+    @OneToMany(mappedBy = "especialidade")
     private List<Especializacao> especializacoes;
+
+    public Especialidade() {
+        especializacoes = new ArrayList<>();
+    }
+
+    public Especialidade(String descricao) {
+        this.descricao = descricao;
+        especializacoes = new ArrayList<>();
+    }
 
     public String getDescricao() {
         return descricao;
@@ -28,5 +39,13 @@ public class Especialidade {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public List<Especializacao> getEspecializacoes() {
+        return especializacoes;
+    }
+
+    public void setEspecializacoes(List<Especializacao> especializacoes) {
+        this.especializacoes = especializacoes;
     }
 }

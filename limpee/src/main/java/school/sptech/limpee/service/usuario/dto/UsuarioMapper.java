@@ -1,10 +1,16 @@
 package school.sptech.limpee.service.usuario.dto;
 
+import school.sptech.limpee.domain.especializacao.Especializacao;
 import school.sptech.limpee.domain.usuario.Usuario;
-import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioDetalhesDto;
+import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoDTO;
+import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoMapper;
+import school.sptech.limpee.service.endereco.dto.EnderecoMapper;
+import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
+import school.sptech.limpee.service.especializacao.dto.EspecializacaoMapper;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
 
-import javax.naming.directory.InvalidAttributeValueException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioMapper {
     public static Usuario of(UsuarioCriacaoDto usuarioCriacaoDto) {
@@ -13,12 +19,9 @@ public class UsuarioMapper {
         usuario.setEmail(usuarioCriacaoDto.getEmail());
         usuario.setNome(usuarioCriacaoDto.getNome());
         usuario.setSenha(usuarioCriacaoDto.getSenha());
-        usuario.setRanking(usuarioCriacaoDto.getRanking());
-        usuario.setQtdServicosSolicitados(usuarioCriacaoDto.getQtdServicosSolicitados());
-        usuario.setQtdServicosFinalizados(3);
         usuario.setGenero(usuarioCriacaoDto.getGenero());
         usuario.setTipoUsuario(usuarioCriacaoDto.getTipoUsuario());
-        usuario.setAnosExperiencia(10);
+        usuario.setEndereco(EnderecoMapper.of(usuarioCriacaoDto.getEnderecoDTO()));
 
         return usuario;
     }
@@ -38,13 +41,71 @@ public class UsuarioMapper {
     public static UsuarioDto of(Usuario usuario) {
         UsuarioDto usuarioDto = new UsuarioDto();
 
+        usuarioDto.setId(usuario.getId());
         usuarioDto.setEmail(usuario.getEmail());
         usuarioDto.setNome(usuario.getNome());
         usuarioDto.setRanking(usuario.getRanking());
         usuarioDto.setQtdServicosSolicitados(usuario.getQtdServicosSolicitados());
+        usuarioDto.setQtdServicosFinalizados(usuario.getQtdServicosFinalizados());
         usuarioDto.setGenero(usuario.getGenero());
-        usuarioDto.setTipoUsuario("cliente");
+        usuarioDto.setTipoUsuario(usuario.getTipoUsuario());
+        usuarioDto.setEndereco(EnderecoMapper.of(usuario.getEndereco()));
+        var teste = usuario.getEspecializacoes();
+        usuarioDto.setEspecializacoes(usuario.getEspecializacoes().stream().map(EspecializacaoMapper::of).toList());
+
+        List<FormularioServicoDTO> formulariosPrestadorDto = usuario.getFormularioPrestador()
+                .stream()
+                .map(FormularioServicoMapper::of)
+                .toList();
+
+        List<FormularioServicoDTO> formulariosClienteDto = usuario.getFormularioCliente()
+                .stream()
+                .map(FormularioServicoMapper::of)
+                .toList();
+
+        if (usuario.getTipoUsuario().equalsIgnoreCase("prestador"))
+            usuarioDto.setFormularios(formulariosPrestadorDto);
+        else if (usuario.getTipoUsuario().equalsIgnoreCase("cliente"))
+            usuarioDto.setFormularios(formulariosClienteDto);
 
         return usuarioDto;
+    }
+
+//    public static UsuarioResponseDto mapToResponse(Usuario usuario) {
+//        UsuarioResponseDto usuarioResponseDto = new UsuarioResponseDto();
+//
+//        usuarioResponseDto.setEmail(usuario.getEmail());
+//        usuarioResponseDto.setNome(usuario.getNome());
+//        usuarioResponseDto.setRanking(usuario.getRanking());
+//        usuarioResponseDto.setQtdServicosSolicitados(usuario.getQtdServicosSolicitados());
+//        usuarioResponseDto.setGenero(usuario.getGenero());
+//        usuarioResponseDto.setTipoUsuario(usuario.getTipoUsuario());
+//
+//        return usuarioResponseDto;
+//    }
+
+    public static Usuario of(UsuarioDto usuarioDto) {
+        Usuario u = new Usuario();
+
+        u.setEmail(usuarioDto.getEmail());
+        u.setNome(usuarioDto.getNome());
+        u.setRanking(u.getRanking());
+        u.setQtdServicosSolicitados(u.getQtdServicosSolicitados());
+        u.setQtdServicosFinalizados(u.getQtdServicosFinalizados());
+        u.setGenero(usuarioDto.getGenero());
+        u.setTipoUsuario(usuarioDto.getTipoUsuario());
+
+        return u;
+    }
+
+
+    public static UsuarioNotificacaoDto mapToNotificacao(Usuario cliente) {
+        UsuarioNotificacaoDto u = new UsuarioNotificacaoDto();
+
+        u.setId(cliente.getId());
+        u.setNome(cliente.getNome());
+        u.setEndereco(EnderecoMapper.mapToNotificacao(cliente.getEndereco()));
+
+        return u;
     }
 }

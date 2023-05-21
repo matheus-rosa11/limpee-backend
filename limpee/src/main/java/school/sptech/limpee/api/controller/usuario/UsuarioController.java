@@ -1,32 +1,23 @@
 package school.sptech.limpee.api.controller.usuario;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.limpee.domain.csv.ListaObj;
 import school.sptech.limpee.domain.usuario.Usuario;
 import school.sptech.limpee.service.usuario.UsuarioService;
-import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioDetalhesDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
+import school.sptech.limpee.service.usuario.dto.UsuarioAvaliacaoDTO;
 import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioDto;
-import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
 
-import java.time.LocalDate;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @Tag(name = "Usuários", description = "Grupo de requisições de Usuários")
 @RestController
@@ -44,36 +35,25 @@ public class UsuarioController {
     @Operation(summary = "Login")
     @PostMapping("/login")
     public ResponseEntity<UsuarioTokenDto> login(@RequestBody UsuarioLoginDto usuarioLoginDto) {
-
-        try {
-            UsuarioTokenDto usuarioTokenDto = usuarioService.autenticar(usuarioLoginDto);
-            return ResponseEntity.status(200).body(usuarioTokenDto);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Houve um erro ao tentar realizar o login: " + e.getMessage());
-        }
+        UsuarioTokenDto usuarioTokenDto = usuarioService.autenticar(usuarioLoginDto);
+        return ResponseEntity.status(200).body(usuarioTokenDto);
     }
 
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Cadastro realizado com sucesso."),
-            @ApiResponse(responseCode = "409", description = "E-mail já existente.")
+            @ApiResponse(responseCode = "409", description = "E-mail já cadastrado.")
     })
 
     @Operation(summary = "Cadastro de Usuário")
     @PostMapping
-    public ResponseEntity<Usuario> criar(@RequestBody @Valid UsuarioCriacaoDto usuarioCriacaoDto) {
+    public ResponseEntity<UsuarioDto> criar(@RequestBody @Valid UsuarioCriacaoDto usuarioCriacaoDto) {
 
-        try {
-            if (usuarioService.existsByEmail(usuarioCriacaoDto.getEmail())) {
-                return ResponseEntity.status(409).build();
-            }
-
-            Usuario usuario = this.usuarioService.criar(usuarioCriacaoDto);
-            return ResponseEntity.status(201).body(usuario);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Houve um erro ao tentar cadastrar o novo usuário: " + e.getMessage());
+        if (usuarioService.existsByEmail(usuarioCriacaoDto.getEmail())) {
+            return ResponseEntity.status(409).build();
         }
+
+        UsuarioDto usuarioDto = this.usuarioService.criar(usuarioCriacaoDto);
+        return ResponseEntity.created(null).body(usuarioDto);
     }
 
     @ApiResponses({
@@ -85,20 +65,13 @@ public class UsuarioController {
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Lista usuários cadastrados")
     @GetMapping("/lista")
-    public ResponseEntity<List<Usuario>> listar() {
+    public ResponseEntity<List<UsuarioDto>> listar() {
 
-        try {
-            List<Usuario> usuario = usuarioService.findAll();
+        List<UsuarioDto> usuarios = usuarioService.listar();
 
-            if (usuario.isEmpty()) {
-                return ResponseEntity.status(204).build();
-            }
-
-            return ResponseEntity.status(200).body(usuario);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Houve um erro ao tentar listar os usuários: " + e.getMessage());
-        }
+        return usuarios.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok(usuarios);
     }
 
     @ApiResponses({
@@ -109,18 +82,12 @@ public class UsuarioController {
     @SecurityRequirement(name = "Bearer")
     @GetMapping("/lista/nome")
     @Operation(summary = "Busca usuários por nome")
-    public ResponseEntity<List<Usuario>> buscarPorNome(@RequestParam String nome) {
+    public ResponseEntity<List<UsuarioDto>> buscarPorNome(@RequestParam String nome) {
+        List<UsuarioDto> usuarios = usuarioService.buscarPorNome(nome);
 
-        try {
-            List<Usuario> usuarios = usuarioService.findAllByNomeIgnoreCase(nome);
-
-            return usuarios.isEmpty() ?
-                    ResponseEntity.noContent().build() :
-                    ResponseEntity.ok(usuarios);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Houve um erro ao tentar buscar os usuários pelo nome solicitado.");
-        }
+        return usuarios.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok(usuarios);
     }
 
     @ApiResponses({
@@ -133,22 +100,11 @@ public class UsuarioController {
     @Operation(summary = "Busca usuários com base no seu tipo de usuário")
     public ResponseEntity<List<Usuario>> buscarPorTipo(@RequestParam String tipoUsuario) {
 
-        try {
-            if (tipoUsuario.isBlank())
-                return ResponseEntity.badRequest().build();
+        List<Usuario> usuarios = usuarioService.buscarPorTipo(tipoUsuario);
 
-            if (!(tipoUsuario.equalsIgnoreCase("cliente") || tipoUsuario.equalsIgnoreCase("prestador")))
-                return ResponseEntity.badRequest().build();
-
-            List<Usuario> usuarios = usuarioService.findByTipoUsuarioIgnoreCase(tipoUsuario);
-
-            return usuarios.isEmpty() ?
-                    ResponseEntity.noContent().build() :
-                    ResponseEntity.ok(usuarios);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Houve um erro ao buscar os usuários pelo tipo solicitado.");
-        }
+        return usuarios.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok(usuarios);
     }
 
     @ApiResponses({
@@ -160,21 +116,7 @@ public class UsuarioController {
     @PatchMapping("/nome")
     @Operation(summary = "Atualiza nome de usuário")
     public ResponseEntity<UsuarioDto> atualizarNome(@RequestParam long id, @RequestBody UsuarioCriacaoDto novoUsuario) {
-
-        try {
-            Optional<Usuario> usuario = usuarioService.findById(id);
-
-            if (usuario.isPresent()) {
-                usuario.get().setNome(novoUsuario.getNome());
-                usuarioService.save(usuario.get());
-                return ResponseEntity.ok(UsuarioMapper.of(usuario.get()));
-            }
-
-            return ResponseEntity.notFound().build();
-
-        } catch (Exception e) {
-            throw new RuntimeException("Houve um erro ao tentar atualizar o nome do usuário solicitado.");
-        }
+        return ResponseEntity.ok(usuarioService.atualizarNome(id, novoUsuario));
     }
 
     @ApiResponses({
@@ -187,28 +129,42 @@ public class UsuarioController {
     @Operation(summary = "Gravar arquivo CSV com dados de usuário")
     @GetMapping("/csv")
     public ResponseEntity<String> gravarCsv() {
-
-        try {
-            ListaObj<Usuario> usuariosOrdenados = usuarioService.ordenarPorRanking();
-            usuarioService.gravaArquivoCsv(usuariosOrdenados, "ClientesLimpee");
-            return ResponseEntity.ok("CSV gerado com sucesso.");
-
-        } catch (Exception e) {
-            throw new RuntimeException("Houve um erro ao gerar o arquivo CSV.");
-        }
+        return ResponseEntity.ok(usuarioService.gravaArquivoCsv("ClientesLimpee"));
     }
 
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Pesquisa binária gerada com sucesso."),
-            @ApiResponse(responseCode = "401", description = "Não autorizado.")
-    })
+//    @ApiResponses({
+//            @ApiResponse(responseCode = "200", description = "Pesquisa binária gerada com sucesso."),
+//            @ApiResponse(responseCode = "401", description = "Não autorizado.")
+//    })
+//
+//    @SecurityRequirement(name = "Bearer")
+//    @Operation(summary = "Realizar pesquisa binária por ranking de usuário")
+//    @GetMapping("/pesquisaBinaria/ranking")
+//    public ResponseEntity<UsuarioResponseDto> pesquisaBinaria(@RequestParam int ranking) {
+//        return ResponseEntity.ok(usuarioService.pesquisaBinaria(ranking));
+//    }
 
+//    @ApiResponses({
+//            @ApiResponse(responseCode = "200", description = "Atualização realizada com sucesso."),
+//            @ApiResponse(responseCode = "401", description = "Não autorizado."),
+//            @ApiResponse(responseCode = "404", description = "Usuário não encontrado.")
+//    })
+//
+//    @SecurityRequirement(name = "Bearer")
+//    @Operation(summary = "Atualizar especializações de um usuário")
+//    @PostMapping("/especializacoes/{id}")
+//    public ResponseEntity<UsuarioResponseDto> adicionarEspecializacoes(@PathVariable long id, @RequestParam List<EspecializacaoCriacaoDto> especializacoes) {
+//        return ResponseEntity.ok(usuarioService.atualizarEspecializacao(id, especializacoes));
+//    }
     @SecurityRequirement(name = "Bearer")
-    @Operation(summary = "Realizar pesquisa binária por ranking de usuário")
-    @GetMapping("/pesquisaBinaria/ranking")
-    public ResponseEntity<Usuario> pesquisaBinaria(@RequestParam int ranking) {
-        Usuario usuario = usuarioService.pesquisaBinaria(ranking);
+    @Operation(summary = "Lista usuários cadastrados")
+    @GetMapping("/lista/ranking")
+    public ResponseEntity<List<UsuarioAvaliacaoDTO>> selectNomeOrderByMediaNota() {
 
-        return ResponseEntity.ok(usuario);
+        List<UsuarioAvaliacaoDTO> usuarios = usuarioService.orderByUsuarioByNotaDesc();
+
+        return usuarios.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok(usuarios);
     }
 }

@@ -1,12 +1,42 @@
 package school.sptech.limpee.service.usuario.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoDTO;
+import school.sptech.limpee.service.endereco.dto.EnderecoDTO;
+import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class UsuarioDto {
+    private long id;
+    @Size(min = 2, max = 100)
     private String nome;
+    private String tipoUsuario;
+    @Email
+    @NotBlank
+    @Size(min = 6, max = 100)
     private String email;
+    @NotBlank
+    @Size(min = 6, max = 100)
     private String genero;
+    @NotBlank
     private int ranking;
     private int qtdServicosSolicitados;
-    private String tipoUsuario;
+    private int qtdServicosFinalizados;
+    @Min(3)
+    private int anosExperiencia;
+    private EnderecoDTO endereco;
+    private List<FormularioServicoDTO> formularios;
+    private List<EspecializacaoDto> especializacoes;
+
+    public UsuarioDto() {
+        especializacoes = new ArrayList<>();
+        formularios = new ArrayList<>();
+    }
 
     public String getNome() {
         return nome;
@@ -54,5 +84,53 @@ public class UsuarioDto {
 
     public void setTipoUsuario(String tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
+    }
+
+    public int getAnosExperiencia() {
+        return anosExperiencia;
+    }
+
+    public void setAnosExperiencia(int anosExperiencia) {
+        this.anosExperiencia = anosExperiencia;
+    }
+
+    public int getQtdServicosFinalizados() {
+        return qtdServicosFinalizados;
+    }
+
+    public void setQtdServicosFinalizados(int qtdServicosFinalizados) {
+        this.qtdServicosFinalizados = qtdServicosFinalizados;
+    }
+
+    public List<EspecializacaoDto> getEspecializacoes() {
+        return especializacoes;
+    }
+
+    public void setEspecializacoes(List<EspecializacaoDto> especializacoes) {
+        this.especializacoes = especializacoes;
+    }
+
+    public List<FormularioServicoDTO> getFormularios() {
+        return formularios;
+    }
+
+    public void setFormularios(List<FormularioServicoDTO> formularios) {
+        this.formularios = formularios;
+    }
+
+    public EnderecoDTO getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(EnderecoDTO enderecoDTO) {
+        this.endereco = enderecoDTO;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
