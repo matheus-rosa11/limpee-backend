@@ -31,12 +31,10 @@ public class AvaliacaoController {
     public ResponseEntity<AvaliacaoDTO> criar(@RequestBody AvaliacaoDTO avaliacaoDTO, @RequestParam long idUsuario){
         Optional<Usuario> usuarioOptional = usuarioService.findById(idUsuario);
 
-
         if (usuarioOptional.isEmpty())
             return ResponseEntity.notFound().build();
 
         avaliacaoDTO.setUsuario(usuarioOptional.get().getId());
-
 
         AvaliacaoDTO avaliacaoDTO1 = this.avaliacaoService.save(avaliacaoDTO, usuarioOptional.get());
         return ResponseEntity.status(201).body(avaliacaoDTO1);
