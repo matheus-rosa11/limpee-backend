@@ -28,15 +28,11 @@ public class AvaliacaoService {
         List<Avaliacao> avaliacoes = avaliacaoRepository.findAll();
         List<AvaliacaoDTO> avaliacoesDTO = new ArrayList<>();
 
-
-
         for (Avaliacao f : avaliacoes) {
             avaliacoesDTO.add(AvalicaoMapper.of(f));
         }
 
         return avaliacoesDTO;
-
-
     }
 
     public AvaliacaoDTO save(AvaliacaoDTO avaliacaoDTO, Usuario usuario) {

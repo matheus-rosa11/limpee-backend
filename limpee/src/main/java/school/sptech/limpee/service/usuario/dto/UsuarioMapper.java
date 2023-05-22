@@ -41,6 +41,7 @@ public class UsuarioMapper {
     public static UsuarioDto of(Usuario usuario) {
         UsuarioDto usuarioDto = new UsuarioDto();
 
+        usuarioDto.setId(usuario.getId());
         usuarioDto.setEmail(usuario.getEmail());
         usuarioDto.setNome(usuario.getNome());
         usuarioDto.setRanking(usuario.getRanking());
@@ -98,4 +99,13 @@ public class UsuarioMapper {
     }
 
 
+    public static UsuarioNotificacaoDto mapToNotificacao(Usuario cliente) {
+        UsuarioNotificacaoDto u = new UsuarioNotificacaoDto();
+
+        u.setId(cliente.getId());
+        u.setNome(cliente.getNome());
+        u.setEndereco(EnderecoMapper.mapToNotificacao(cliente.getEndereco()));
+
+        return u;
+    }
 }

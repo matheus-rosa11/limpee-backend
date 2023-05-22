@@ -61,4 +61,14 @@ public class EnderecoMapper {
 
         return enderecoListagemDTO;
     }
+
+    public static EnderecoNotificacaoDto mapToNotificacao(Endereco endereco) {
+        EnderecoNotificacaoDto e = new EnderecoNotificacaoDto();
+
+        e.setCep(endereco.getCep());
+        e.setLogradouro(endereco.getLogradouro());
+        e.setNumero(endereco.getNumero());
+
+        return e;
+    }
 }

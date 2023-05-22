@@ -2,6 +2,9 @@ package school.sptech.limpee.service.FormularioServico.dto;
 
 import school.sptech.limpee.domain.FormularioServico.FormularioServico;
 import school.sptech.limpee.domain.usuario.Usuario;
+import school.sptech.limpee.service.notificacao.NotificacaoService;
+
+import java.util.List;
 
 public class FormularioServicoMapper {
 
@@ -53,10 +56,10 @@ public class FormularioServicoMapper {
 
         formularioServicoDTO.setTipoServico(formularioServico.getTipoServico());
         formularioServicoDTO.setLocalServico(formularioServico.getLocalServico());
-        formularioServicoDTO.setAreaExterna(formularioServico.getAreaExterna());
-        formularioServicoDTO.setArmario(formularioServico.getArmario());
-        formularioServicoDTO.setGeladeira(formularioServico.getGeladeira());
-        formularioServicoDTO.setJanelas(formularioServico.getJanelas());
+        formularioServicoDTO.setAreaExterna(formularioServico.hasAreaExterna());
+        formularioServicoDTO.setArmario(formularioServico.hasArmario());
+        formularioServicoDTO.setGeladeira(formularioServico.hasGeladeira());
+        formularioServicoDTO.setJanelas(formularioServico.hasJanelas());
         formularioServicoDTO.setLavarRoupa(formularioServico.getLavarRoupa());
         formularioServicoDTO.setPassarRoupa(formularioServico.getPassarRoupa());
         formularioServicoDTO.setOutros(formularioServico.getOutros());
@@ -71,5 +74,22 @@ public class FormularioServicoMapper {
     }
 
 
+    public static FormularioNotificacaoDto mapToFormNotificacaoDto(FormularioServico formulario) {
+        FormularioNotificacaoDto f = new FormularioNotificacaoDto();
+
+        f.setId(formulario.getId());
+        f.setIdCliente(formulario.getCliente().getId());
+        f.setIdPrestador(formulario.getPrestador().getId());
+        f.setLocalServico(formulario.getLocalServico());
+        f.setTipoServico(formulario.getTipoServico());
+        f.setQtdComodos(formulario.getQtdComodos());
+        f.setQtdBanheiros(formulario.getQtdBanheiro());
+
+        List<String> camposTrue = NotificacaoService.getAllTrue(formulario);
+
+        f.setServicos(camposTrue);
+
+        return f;
+    }
 
 }

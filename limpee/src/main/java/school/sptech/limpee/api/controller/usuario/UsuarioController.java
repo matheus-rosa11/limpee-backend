@@ -1,4 +1,4 @@
-package school.sptech.limpee.api.controller;
+package school.sptech.limpee.api.controller.usuario;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,7 +26,6 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
-
 
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Usuário atualizado."),
@@ -71,7 +70,7 @@ public class UsuarioController {
         List<UsuarioDto> usuarios = usuarioService.listar();
 
         return usuarios.isEmpty() ?
-                ResponseEntity.created(null).build() :
+                ResponseEntity.noContent().build() :
                 ResponseEntity.ok(usuarios);
     }
 
@@ -157,18 +156,15 @@ public class UsuarioController {
 //    public ResponseEntity<UsuarioResponseDto> adicionarEspecializacoes(@PathVariable long id, @RequestParam List<EspecializacaoCriacaoDto> especializacoes) {
 //        return ResponseEntity.ok(usuarioService.atualizarEspecializacao(id, especializacoes));
 //    }
-@SecurityRequirement(name = "Bearer")
-@Operation(summary = "Lista usuários cadastrados")
-@GetMapping("/lista/ranking")
-public ResponseEntity<List<UsuarioAvaliacaoDTO>> selectNomeOrderByMediaNota() {
+    @SecurityRequirement(name = "Bearer")
+    @Operation(summary = "Lista usuários cadastrados")
+    @GetMapping("/lista/ranking")
+    public ResponseEntity<List<UsuarioAvaliacaoDTO>> selectNomeOrderByMediaNota() {
 
-    List<UsuarioAvaliacaoDTO> usuarios = usuarioService.orderByUsuarioByNotaDesc();
+        List<UsuarioAvaliacaoDTO> usuarios = usuarioService.orderByUsuarioByNotaDesc();
 
-    return usuarios.isEmpty() ?
-            ResponseEntity.created(null).build() :
-            ResponseEntity.ok(usuarios);
-}
-
-
-
+        return usuarios.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok(usuarios);
+    }
 }

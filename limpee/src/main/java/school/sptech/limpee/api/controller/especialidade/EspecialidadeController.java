@@ -1,4 +1,4 @@
-package school.sptech.limpee.api.controller;
+package school.sptech.limpee.api.controller.especialidade;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,6 +27,7 @@ public class EspecialidadeController {
             @ApiResponse(responseCode = "200", description = "Listagem realizada com sucesso."),
             @ApiResponse(responseCode = "204", description = "Listagem realizada com sucesso. A lista está vazia.")
     })
+
     @SecurityRequirement(name = "Bearer")
     @GetMapping
     @Operation(summary = "Lista todas as especialidades cadastradas")

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioDto {
+    private long id;
     @Size(min = 2, max = 100)
     private String nome;
     private String tipoUsuario;
@@ -123,5 +124,13 @@ public class UsuarioDto {
 
     public void setEndereco(EnderecoDTO enderecoDTO) {
         this.endereco = enderecoDTO;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
