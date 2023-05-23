@@ -3,6 +3,7 @@ package school.sptech.limpee.domain.usuario;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import school.sptech.limpee.domain.FormularioServico.FormularioServico;
+import school.sptech.limpee.domain.avaliacao.Avaliacao;
 import school.sptech.limpee.domain.endereco.Endereco;
 import school.sptech.limpee.domain.especialidade.Especialidade;
 import school.sptech.limpee.domain.especializacao.Especializacao;
@@ -33,6 +34,17 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private List<Especializacao> especializacoes;
     private boolean isAprovado;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Avaliacao> avaliacoes;
+
+    public List<Avaliacao> getAvaliacoes() {
+        return avaliacoes;
+    }
+
+    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+        this.avaliacoes = avaliacoes;
+    }
 
     public Usuario() {
         especializacoes = new ArrayList<>();

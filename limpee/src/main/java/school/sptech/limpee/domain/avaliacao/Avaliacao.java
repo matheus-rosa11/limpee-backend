@@ -1,9 +1,7 @@
 package school.sptech.limpee.domain.avaliacao;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import school.sptech.limpee.domain.usuario.Usuario;
 
 @Entity
 public class Avaliacao {
@@ -12,6 +10,9 @@ public class Avaliacao {
     public Long id;
     public String comentario;
     public int nota;
+
+    @ManyToOne
+    public Usuario usuario;
 
     public Avaliacao(Long id, String comentario, int nota) {
         this.id = id;
@@ -45,5 +46,13 @@ public class Avaliacao {
 
     public void setNota(int nota) {
         this.nota = nota;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

@@ -7,26 +7,30 @@ import school.sptech.limpee.domain.usuario.Usuario;
 public class FormularioServico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
-    public String tipoServico;
-    public String localServico;
-    public Boolean areaExterna;
-    public Boolean armario;
-    public Boolean geladeira;
-    public Boolean janelas;
-    public Boolean lavarRoupa;
-    public Boolean passarRoupa;
-    public Boolean outros;
-    public String outrosAdcional;
-    public int qtdComodos;
-    public int qtdBanheiro;
+    private Long id;
+    private String tipoServico;
+    private String localServico;
+    private Boolean areaExterna;
+    private Boolean armario;
+    private Boolean geladeira;
+    private Boolean janelas;
+    private Boolean lavarRoupa;
+    private Boolean passarRoupa;
+    private Boolean outros;
+    private String outrosAdcional;
+    private int qtdComodos;
+    private int qtdBanheiro;
+    private double valorServico;
     @ManyToOne
-    public Usuario cliente;
+    private Usuario cliente;
     @ManyToOne
-    public Usuario prestador;
-    public FormularioServico(Long id, String tipoServico, String localServico, Boolean areaExterna, Boolean armario, Boolean geladeira, Boolean janelas, Boolean lavarRoupa, Boolean passarRoupa, Boolean outros, String outrosAdcional, int qtdComodos, int qtdBanheiro) {
+    private Usuario prestador;
+
+    public FormularioServico(Long id, double valorServico, String tipoServico, String localServico, Boolean areaExterna, Boolean armario, Boolean geladeira, Boolean janelas, Boolean lavarRoupa, Boolean passarRoupa, Boolean outros, String outrosAdcional, int qtdComodos, int qtdBanheiro, Usuario cliente, Usuario prestador) {
         this.id = id;
+
         this.tipoServico = tipoServico;
+        this.valorServico = valorServico;
         this.localServico = localServico;
         this.areaExterna = areaExterna;
         this.armario = armario;
@@ -38,6 +42,8 @@ public class FormularioServico {
         this.outrosAdcional = outrosAdcional;
         this.qtdComodos = qtdComodos;
         this.qtdBanheiro = qtdBanheiro;
+        this.cliente = cliente;
+        this.prestador = prestador;
     }
 
     public FormularioServico() {
@@ -55,6 +61,14 @@ public class FormularioServico {
         return tipoServico;
     }
 
+    public double getValorServico() {
+        return valorServico;
+    }
+
+    public void setValorServico(double valorServico) {
+        this.valorServico = valorServico;
+    }
+
     public void setTipoServico(String tipoServico) {
         this.tipoServico = tipoServico;
     }
@@ -67,7 +81,7 @@ public class FormularioServico {
         this.localServico = localServico;
     }
 
-    public Boolean getAreaExterna() {
+    public Boolean hasAreaExterna() {
         return areaExterna;
     }
 
@@ -75,7 +89,7 @@ public class FormularioServico {
         this.areaExterna = areaExterna;
     }
 
-    public Boolean getArmario() {
+    public Boolean hasArmario() {
         return armario;
     }
 
@@ -83,7 +97,7 @@ public class FormularioServico {
         this.armario = armario;
     }
 
-    public Boolean getGeladeira() {
+    public Boolean hasGeladeira() {
         return geladeira;
     }
 
@@ -91,7 +105,7 @@ public class FormularioServico {
         this.geladeira = geladeira;
     }
 
-    public Boolean getJanelas() {
+    public Boolean hasJanelas() {
         return janelas;
     }
 

@@ -1,5 +1,6 @@
 package school.sptech.limpee.api.controller.formularioServico;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoMappe
 import school.sptech.limpee.service.endereco.dto.EnderecoDTO;
 import school.sptech.limpee.service.endereco.dto.EnderecoMapper;
 import school.sptech.limpee.service.usuario.UsuarioService;
+import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
 
@@ -50,4 +52,9 @@ public class FormularioServicoController {
                 ResponseEntity.ok(list);
     }
 
+    @SecurityRequirement(name = "Bearer")
+    @PatchMapping("/valor")
+    public ResponseEntity<FormularioServicoDTO> atualizarValor(@RequestParam long id, @RequestParam double valor) {
+        return ResponseEntity.ok(formularioServicoService.atualizarValor(id, valor));
+    }
 }
