@@ -30,9 +30,9 @@ public class Usuario {
     public List<FormularioServico> formularioCliente;
     @OneToMany(mappedBy = "prestador")
     public List<FormularioServico> formularioPrestador;
-    public Usuario() {}
     @OneToMany(mappedBy = "usuario")
     private List<Especializacao> especializacoes;
+    private boolean isAprovado;
 
     public Usuario() {
         especializacoes = new ArrayList<>();
@@ -171,5 +171,13 @@ public class Usuario {
 
     public void setFormularioPrestador(List<FormularioServico> formularioPrestador) {
         this.formularioPrestador = formularioPrestador;
+    }
+
+    public boolean isAprovado() {
+        return isAprovado;
+    }
+
+    public void setAprovado(boolean aprovado) {
+        isAprovado = aprovado;
     }
 }

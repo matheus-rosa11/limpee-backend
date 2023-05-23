@@ -48,14 +48,8 @@ public class UsuarioController {
     @Operation(summary = "Login")
     @PostMapping("/login")
     public ResponseEntity<UsuarioTokenDto> login(@RequestBody UsuarioLoginDto usuarioLoginDto) {
-
-        try {
-            UsuarioTokenDto usuarioTokenDto = usuarioService.autenticar(usuarioLoginDto);
-            return ResponseEntity.status(200).body(usuarioTokenDto);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Houve um erro ao tentar realizar o login: " + e.getMessage());
-        }
+        UsuarioTokenDto usuarioTokenDto = usuarioService.autenticar(usuarioLoginDto);
+        return ResponseEntity.status(200).body(usuarioTokenDto);
     }
 
     @ApiResponses({
@@ -197,5 +191,11 @@ public class UsuarioController {
 //    @PostMapping("/especializacoes/{id}")
 //    public ResponseEntity<UsuarioResponseDto> adicionarEspecializacoes(@PathVariable long id, @RequestParam List<EspecializacaoCriacaoDto> especializacoes) {
 //        return ResponseEntity.ok(usuarioService.atualizarEspecializacao(id, especializacoes));
+//    }
+
+//    @Operation(summary = "Gravar arquivo TXT com dados de usuário de acordo com o arquivo de layout")
+//    @GetMapping("/export-txt")
+//    public ResponseEntity<String> gravarTxt() {
+//        return ResponseEntity.ok(usuarioService.gravaArquivoTxt("ClientesLimpee"));
 //    }
 }

@@ -29,8 +29,11 @@ import school.sptech.limpee.service.usuario.dto.UsuarioDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
 import school.sptech.limpee.service.usuario.dto.UsuarioResponseDto;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -266,6 +269,58 @@ public class UsuarioService {
         usuario.get().setNome(novoUsuario.getNome());
         return UsuarioMapper.of(usuarioRepository.save(usuario.get()));
     }
+
+//    public String gravaArquivoTxt(String nomeArq) {
+//        int contaRegDadosGravados = 0;
+//        List<Usuario> lista = usuarioRepository.findAll();
+//
+//        // Monta o registro de header
+//        String header = "00NOTA20231";
+//        header += LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+//        header += "01";
+//
+//        // Grava o registro de header
+//        BufferedWriter saida = null;
+//
+//        // Bloco try-catch para abrir o arquivo
+//        try {
+//            saida = new BufferedWriter(new FileWriter(nomeArq, true));
+//        }
+//        catch (IOException erro) {
+//            System.out.println("Erro ao abrir o arquivo");
+//            System.exit(1);
+//        }
+//
+//        // Bloco try-catch para gravar e fechar o arquivo
+//        try {
+//            saida.append(header + "\n");
+//            saida.close();
+//        }
+//        catch (IOException erro) {
+//            System.out.println("Erro ao gravar no arquivo");
+//        }
+//
+//        // Monta e grava os registros de dados ou registros de corpo
+//        String corpo;
+//        for (int i = 0; i < lista.size(); i++) {
+//            Usuario u = lista.get(i);
+//            corpo = "02";
+//            corpo += String.format("%-5.5s", a.getCurso());
+//            corpo += String.format("%-8.8s", a.getRa());
+//            corpo += String.format("%-50.50s", a.getNome());
+//            corpo += String.format("%-40.40s", a.getDisciplina());
+//            corpo += String.format("%05.2f", a.getMedia());
+//            corpo += String.format("%03d", a.getQtdFalta());
+//            gravaRegistro(corpo, nomeArq);
+//            contaRegDadosGravados++;
+//        }
+//
+//        // Monta e grava o registro de trailer
+//        String trailer = "01";
+//        trailer += String.format("%010d",contaRegDadosGravados);
+//        gravaRegistro(trailer, nomeArq);
+//
+//    }
 
 //    public void atualizarEspecializacao(long id, List<EspecializacaoCriacaoDto> especializacoesNovas) {
 //        if (!usuarioRepository.existsById(id))

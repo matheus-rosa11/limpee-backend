@@ -28,6 +28,7 @@ public class UsuarioDto {
     private int anosExperiencia;
 
     private List<EspecializacaoDto> especializacoes;
+    private boolean isAprovado;
 
     public UsuarioDto() {
         especializacoes = new ArrayList<>();
@@ -103,5 +104,13 @@ public class UsuarioDto {
 
     public void setEspecializacoes(List<EspecializacaoDto> especializacoes) {
         this.especializacoes = especializacoes;
+    }
+
+    public boolean isAprovado() {
+        return isAprovado;
+    }
+
+    public void setAprovado(boolean aprovado) {
+        isAprovado = aprovado;
     }
 }
