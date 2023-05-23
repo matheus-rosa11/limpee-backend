@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Size;
 import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoDTO;
 import school.sptech.limpee.service.endereco.dto.EnderecoDTO;
 import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +31,7 @@ public class UsuarioDto {
     private EnderecoDTO endereco;
     private List<FormularioServicoDTO> formularios;
     private List<EspecializacaoDto> especializacoes;
+    private boolean isAprovado;
 
     public UsuarioDto() {
         especializacoes = new ArrayList<>();
@@ -108,6 +108,14 @@ public class UsuarioDto {
 
     public void setEspecializacoes(List<EspecializacaoDto> especializacoes) {
         this.especializacoes = especializacoes;
+    }
+
+    public boolean isAprovado() {
+        return isAprovado;
+    }
+
+    public void setAprovado(boolean aprovado) {
+        isAprovado = aprovado;
     }
 
     public List<FormularioServicoDTO> getFormularios() {

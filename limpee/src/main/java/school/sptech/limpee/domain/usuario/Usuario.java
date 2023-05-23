@@ -33,6 +33,7 @@ public class Usuario {
     public List<FormularioServico> formularioPrestador;
     @OneToMany(mappedBy = "usuario")
     private List<Especializacao> especializacoes;
+    private boolean isAprovado;
 
     @OneToMany(mappedBy = "usuario")
     private List<Avaliacao> avaliacoes;
@@ -182,5 +183,13 @@ public class Usuario {
 
     public void setFormularioPrestador(List<FormularioServico> formularioPrestador) {
         this.formularioPrestador = formularioPrestador;
+    }
+
+    public boolean isAprovado() {
+        return isAprovado;
+    }
+
+    public void setAprovado(boolean aprovado) {
+        isAprovado = aprovado;
     }
 }
