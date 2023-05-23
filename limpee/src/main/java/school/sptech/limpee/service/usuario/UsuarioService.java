@@ -27,12 +27,8 @@ import school.sptech.limpee.service.usuario.dto.UsuarioAvaliacaoDTO;
 import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
-import school.sptech.limpee.service.usuario.dto.UsuarioResponseDto;
-import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -211,28 +207,6 @@ public class UsuarioService {
 
         return clienteObj;
     }
-
-
-   public UsuarioResponseDto pesquisaBinaria(int ranking) {
-       List<Especializacao> especializacoes = especializacaoRepository.findAll();
-       ListaObj<Usuario> usuarioListaObj = this.ordenarPorRanking();
-
-       Usuario usuario = usuarioListaObj.pesquisaBinaria(ranking, usuarioListaObj);
-
-       UsuarioResponseDto usuarioResponseDto = UsuarioMapper.mapToResponse(usuario);
-
-
-       for (Especializacao especializacao : especializacoes) {
-           if (especializacao.getUsuario().getId().equals(usuario.getId())) {
-
-               EspecializacaoDto especializacaoDto = EspecializacaoMapper.of(especializacao);
-
-               usuarioResponseDto.getEspecializacoes().add(especializacaoDto);
-           }
-       }
-
-       return usuarioResponseDto;
-   }
 
     public List<Usuario> findAllByNomeIgnoreCase(String nome) {
         return usuarioRepository.findAllByNomeIgnoreCase(nome);
