@@ -1,13 +1,17 @@
 package school.sptech.limpee.api.controller.imagem;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import school.sptech.limpee.api.exception.imagem.ImagemNaoEncontradaException;
 import school.sptech.limpee.api.repository.imagem.ImagemRepository;
+import school.sptech.limpee.domain.documento.message.ResponseMessage;
 import school.sptech.limpee.domain.imagem.Imagem;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -15,6 +19,24 @@ import java.util.List;
 public class ImagemController {
     @Autowired
     private ImagemRepository imagemRepository;
+
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ResponseMessage> uploadImage(@RequestBody MultipartFile file){
+        try {
+            String nome = file.getOriginalFilename();
+            byte[] conteudo = file.getBytes();
+
+            Imagem imagem = new Imagem();
+            imagem.setNome(nome);
+            imagem.setFoto(conteudo);
+
+            imagemRepository.save(imagem);
+
+            return ResponseEntity.ok(new ResponseMessage("Imagem enviada com sucesso!"));
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseMessage("Falha ao enviar a imagem."));
+        }
+    }
 
     @GetMapping
     public ResponseEntity<List<Imagem>> get() {
@@ -25,11 +47,12 @@ public class ImagemController {
                 : ResponseEntity.status(200).body(imagens);
     }
 
+    /*
     @PostMapping
     public ResponseEntity<Imagem> criar(@RequestBody Imagem novaImagem) {
         imagemRepository.save(novaImagem);
         return ResponseEntity.status(200).body(novaImagem);
-    }
+    }*/
 
     // atualiza a foto de uma planta
     // "consumes" indica o tipo de dado que será aceito no corpo da requisição
