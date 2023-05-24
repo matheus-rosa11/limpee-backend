@@ -11,14 +11,24 @@ public class Notificacao {
     @ManyToOne
     private FormularioServico formulario;
     private double valorOrcamento;
-    private boolean isAprovado;
+    private boolean isAprovadoPrestador;
+    private boolean isAprovadoCliente;
 
     public Notificacao() {
     }
 
     public Notificacao(FormularioServico formulario) {
         this.formulario = formulario;
-        this.isAprovado = false;
+        this.isAprovadoPrestador = false;
+        this.isAprovadoCliente = false;
+    }
+
+    public boolean isAprovadoCliente() {
+        return isAprovadoCliente;
+    }
+
+    public void setAprovadoCliente(boolean aprovadoCliente) {
+        isAprovadoCliente = aprovadoCliente;
     }
 
     public long getId() {
@@ -45,11 +55,11 @@ public class Notificacao {
         this.valorOrcamento = valorOrcamento;
     }
 
-    public boolean isAprovado() {
-        return isAprovado;
+    public boolean isAprovadoPrestador() {
+        return isAprovadoPrestador;
     }
 
-    public void setAprovado(boolean aprovado) {
-        isAprovado = aprovado;
+    public void setAprovadoPrestador(boolean aprovadoPrestador) {
+        isAprovadoPrestador = aprovadoPrestador;
     }
 }

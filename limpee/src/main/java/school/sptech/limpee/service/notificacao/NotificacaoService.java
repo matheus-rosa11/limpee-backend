@@ -7,6 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 import school.sptech.limpee.api.repository.notificacao.NotificacaoRepository;
 import school.sptech.limpee.domain.FormularioServico.FormularioServico;
 import school.sptech.limpee.domain.notificacao.Notificacao;
+import school.sptech.limpee.service.notificacao.dto.NotificacaoClienteDto;
 import school.sptech.limpee.service.notificacao.dto.NotificacaoDto;
 import school.sptech.limpee.service.notificacao.dto.NotificacaoMapper;
 
@@ -26,9 +27,21 @@ public class NotificacaoService {
         if (notificacoes.isEmpty())
             return new ArrayList<>();
 
-        notificacoes = notificacoes.stream().filter(notificacao -> !notificacao.isAprovado()).toList();
+        notificacoes = notificacoes.stream().filter(notificacao -> !notificacao.isAprovadoPrestador()).toList();
 
         return notificacoes.stream().map(NotificacaoMapper::of).toList();
+    }
+
+    public List<NotificacaoClienteDto> buscarNotificacoesCliente(long id) {
+
+        List<Notificacao> notificacoes = notificacaoRepository.findAllByIdCliente(id);
+
+        if (notificacoes.isEmpty())
+            return new ArrayList<>();
+
+        notificacoes = notificacoes.stream().filter(Notificacao::isAprovadoPrestador).toList();
+
+        return notificacoes.stream().map(NotificacaoMapper::mapToClienteDto).toList();
     }
 
     public static List<String> getAllTrue(FormularioServico form) {
@@ -64,7 +77,22 @@ public class NotificacaoService {
             notificacaoRepository.delete(notificacao.get());
 
         notificacao.get().setValorOrcamento(valorOrcamento);
-        notificacao.get().setAprovado(true);
+        notificacao.get().setAprovadoPrestador(true);
+
+        notificacaoRepository.save(notificacao.get());
+    }
+    public void aprovarNotificacaoCliente(long idNotificacao, boolean aprovado) {
+
+        Optional<Notificacao> notificacao = notificacaoRepository.findById(idNotificacao);
+
+        if (notificacao.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi encontrada nenhuma notificação com o ID especificado");
+
+        if (!aprovado)
+            notificacaoRepository.delete(notificacao.get());
+
+
+        notificacao.get().setAprovadoCliente(true);
 
         notificacaoRepository.save(notificacao.get());
     }

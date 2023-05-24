@@ -10,4 +10,9 @@ import java.util.List;
 public interface NotificacaoRepository extends JpaRepository<Notificacao, Long> {
     @Query("SELECT n FROM Notificacao n WHERE n.formulario.prestador.id = :id")
     List<Notificacao> findAllByIdUsuario(long id);
+
+    @Query("Select n from Notificacao n where n.formulario.cliente.id = :id")
+    List<Notificacao> findAllByIdCliente(Long id);
+
+
 }
