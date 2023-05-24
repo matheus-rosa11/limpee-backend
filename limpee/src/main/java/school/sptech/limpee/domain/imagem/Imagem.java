@@ -9,7 +9,7 @@ public class Imagem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    @JsonIgnore
+    //@JsonIgnore
     @Column(length = 50 * 1024 * 1024)
     private byte[] foto;
 
