@@ -1,8 +1,6 @@
 package school.sptech.limpee.service.notificacao.dto;
 
-import school.sptech.limpee.domain.FormularioServico.FormularioServico;
 import school.sptech.limpee.service.FormularioServico.dto.FormularioNotificacaoDto;
-import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoDTO;
 import school.sptech.limpee.service.usuario.dto.UsuarioNotificacaoDto;
 
 public class NotificacaoDto {
@@ -10,16 +8,27 @@ public class NotificacaoDto {
     private UsuarioNotificacaoDto cliente;
     private FormularioNotificacaoDto formulario;
     private double valorOrcamento;
-    private boolean isAprovado;
+    private boolean isAprovadoPrestador;
+
+    private boolean isAprovadoCliente;
 
     public NotificacaoDto() {
     }
 
-    public NotificacaoDto(long id, FormularioNotificacaoDto formulario, double valorOrcamento, boolean isAprovado) {
+    public NotificacaoDto(long id, FormularioNotificacaoDto formulario, double valorOrcamento, boolean isAprovadoPrestador,boolean isAprovadoCliente) {
         this.id = id;
         this.formulario = formulario;
         this.valorOrcamento = valorOrcamento;
-        this.isAprovado = isAprovado;
+        this.isAprovadoPrestador = isAprovadoPrestador;
+        this.isAprovadoCliente = isAprovadoCliente;
+    }
+
+    public boolean isAprovadoCliente() {
+        return isAprovadoCliente;
+    }
+
+    public void setAprovadoCliente(boolean aprovadoCliente) {
+        isAprovadoCliente = aprovadoCliente;
     }
 
     public long getId() {
@@ -38,12 +47,12 @@ public class NotificacaoDto {
         this.valorOrcamento = valorOrcamento;
     }
 
-    public boolean isAprovado() {
-        return isAprovado;
+    public boolean isAprovadoPrestador() {
+        return isAprovadoPrestador;
     }
 
-    public void setAprovado(boolean aprovado) {
-        isAprovado = aprovado;
+    public void setAprovadoPrestador(boolean aprovadoPrestador) {
+        isAprovadoPrestador = aprovadoPrestador;
     }
 
     public FormularioNotificacaoDto getFormulario() {
