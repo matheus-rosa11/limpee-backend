@@ -1,11 +1,9 @@
 package school.sptech.limpee.domain.usuario;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import school.sptech.limpee.domain.FormularioServico.FormularioServico;
 import school.sptech.limpee.domain.avaliacao.Avaliacao;
 import school.sptech.limpee.domain.endereco.Endereco;
-import school.sptech.limpee.domain.especialidade.Especialidade;
 import school.sptech.limpee.domain.especializacao.Especializacao;
 
 import java.util.ArrayList;
@@ -20,7 +18,10 @@ public class Usuario {
     private String email;
     private String senha;
     private String genero;
+    private String cpf;
+    private String rg;
     private String tipoUsuario;
+    private String telefone;
     private int qtdServicosSolicitados;
     private int qtdServicosFinalizados;
     private int anosExperiencia;
@@ -191,5 +192,29 @@ public class Usuario {
 
     public void setAprovado(boolean aprovado) {
         isAprovado = aprovado;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getRg() {
+        return rg;
+    }
+
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 }

@@ -12,21 +12,16 @@ import java.util.List;
 
 public class UsuarioDto {
     private long id;
-    @Size(min = 2, max = 100)
     private String nome;
     private String tipoUsuario;
-    @Email
-    @NotBlank
-    @Size(min = 6, max = 100)
     private String email;
-    @NotBlank
-    @Size(min = 6, max = 100)
     private String genero;
-    @NotBlank
+    private String cpf;
+    private String rg;
+    private String telefone;
     private int ranking;
     private int qtdServicosSolicitados;
     private int qtdServicosFinalizados;
-    @Min(3)
     private int anosExperiencia;
     private EnderecoDTO endereco;
     private List<FormularioServicoDTO> formularios;
@@ -140,5 +135,29 @@ public class UsuarioDto {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getRg() {
+        return rg;
+    }
+
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 }

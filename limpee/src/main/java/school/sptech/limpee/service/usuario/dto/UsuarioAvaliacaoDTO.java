@@ -1,9 +1,8 @@
 package school.sptech.limpee.service.usuario.dto;
 
 public class UsuarioAvaliacaoDTO {
-private String nome;
-private double media;
-
+    private String nome;
+    private double media;
 
     public UsuarioAvaliacaoDTO(String nome, double media) {
         this.nome = nome;

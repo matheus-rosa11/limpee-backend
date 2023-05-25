@@ -20,6 +20,9 @@ public class UsuarioMapper {
         usuario.setNome(usuarioCriacaoDto.getNome());
         usuario.setSenha(usuarioCriacaoDto.getSenha());
         usuario.setGenero(usuarioCriacaoDto.getGenero());
+        usuario.setCpf(usuarioCriacaoDto.getCpf());
+        usuario.setRg(usuarioCriacaoDto.getRg());
+        usuario.setTelefone(usuarioCriacaoDto.getTelefone());
         usuario.setTipoUsuario(usuarioCriacaoDto.getTipoUsuario());
         usuario.setEndereco(EnderecoMapper.of(usuarioCriacaoDto.getEnderecoDTO()));
 
@@ -48,9 +51,11 @@ public class UsuarioMapper {
         usuarioDto.setQtdServicosSolicitados(usuario.getQtdServicosSolicitados());
         usuarioDto.setQtdServicosFinalizados(usuario.getQtdServicosFinalizados());
         usuarioDto.setGenero(usuario.getGenero());
+        usuarioDto.setCpf(usuario.getCpf());
+        usuarioDto.setRg(usuario.getRg());
+        usuarioDto.setTelefone(usuario.getTelefone());
         usuarioDto.setTipoUsuario(usuario.getTipoUsuario());
         usuarioDto.setEndereco(EnderecoMapper.of(usuario.getEndereco()));
-        var teste = usuario.getEspecializacoes();
         usuarioDto.setEspecializacoes(usuario.getEspecializacoes().stream().map(EspecializacaoMapper::of).toList());
 
         List<FormularioServicoDTO> formulariosPrestadorDto = usuario.getFormularioPrestador()
@@ -93,6 +98,9 @@ public class UsuarioMapper {
         u.setQtdServicosSolicitados(u.getQtdServicosSolicitados());
         u.setQtdServicosFinalizados(u.getQtdServicosFinalizados());
         u.setGenero(usuarioDto.getGenero());
+        u.setCpf(usuarioDto.getCpf());
+        u.setRg(usuarioDto.getRg());
+        u.setTelefone(usuarioDto.getTelefone());
         u.setTipoUsuario(usuarioDto.getTipoUsuario());
 
         return u;
