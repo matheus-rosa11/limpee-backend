@@ -10,8 +10,8 @@ public class NotificacaoMapper {
 
         n.setId(notificacao.getId());
         n.setValorOrcamento(notificacao.getValorOrcamento());
-        n.setAprovadoPrestador(notificacao.isAprovadoByPrestador());
-        n.setAprovadoCliente(notificacao.isAprovadoByCliente());
+        n.setAprovadoByCliente(notificacao.isAprovadoByPrestador());
+        n.setAprovadoByCliente(notificacao.isAprovadoByCliente());
         n.setFinalizado(notificacao.isFinalizado());
         n.setCliente(UsuarioMapper.mapToNotificacao(notificacao.getFormulario().getCliente()));
         n.setFormulario(FormularioServicoMapper.mapToFormNotificacaoDto(notificacao.getFormulario()));
@@ -23,9 +23,12 @@ public class NotificacaoMapper {
         NotificacaoClienteDto n = new NotificacaoClienteDto();
 
         n.setId(notificacao.getId());
-        n.setIdCliente(notificacao.getFormulario().getCliente().getId());
-        n.setNomeCliente(notificacao.getFormulario().getCliente().getNome());
+        n.setIdPrestador(notificacao.getFormulario().getPrestador().getId());
+        n.setNomePrestador(notificacao.getFormulario().getPrestador().getNome());
         n.setValorOrcamento(notificacao.getValorOrcamento());
+        n.setAprovadoByPrestador(notificacao.isAprovadoByPrestador());
+        n.setAprovadoByCliente(notificacao.isAprovadoByCliente());
+        n.setFinalizado(notificacao.isFinalizado());
 
         return n;
     }

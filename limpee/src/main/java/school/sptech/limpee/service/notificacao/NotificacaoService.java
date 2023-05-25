@@ -75,11 +75,12 @@ public class NotificacaoService {
 
         if (!aprovado)
             notificacaoRepository.delete(notificacao.get());
+        else {
+            notificacao.get().setValorOrcamento(valorOrcamento);
+            notificacao.get().setAprovadoByPrestador(true);
+            notificacaoRepository.save(notificacao.get());
+        }
 
-        notificacao.get().setValorOrcamento(valorOrcamento);
-        notificacao.get().setAprovadoByPrestador(true);
-
-        notificacaoRepository.save(notificacao.get());
     }
     public void aprovarNotificacaoCliente(long idNotificacao, boolean aprovado) {
 
@@ -90,10 +91,11 @@ public class NotificacaoService {
 
         if (!aprovado)
             notificacaoRepository.delete(notificacao.get());
+        else {
+            notificacao.get().setAprovadoByCliente(true);
+            notificacaoRepository.save(notificacao.get());
+        }
 
-        notificacao.get().setAprovadoByCliente(true);
-
-        notificacaoRepository.save(notificacao.get());
     }
 
     public void finalizarNotificacao(long idNotificacao, boolean finalizado) {

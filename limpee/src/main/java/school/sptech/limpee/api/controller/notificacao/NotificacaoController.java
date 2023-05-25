@@ -44,7 +44,6 @@ public class NotificacaoController {
             @RequestParam double valorOrcamento
     ) {
         notificacaoService.aprovarNotificacaoPrestador(idNotificacao, aprovado, valorOrcamento);
-
         return ResponseEntity.ok().build();
     }
     @SecurityRequirement(name = "Bearer")
@@ -54,7 +53,6 @@ public class NotificacaoController {
             @RequestParam boolean aprovado
     ) {
         notificacaoService.aprovarNotificacaoCliente(idNotificacao, aprovado);
-
         return ResponseEntity.ok().build();
     }
 

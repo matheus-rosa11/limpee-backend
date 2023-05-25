@@ -8,51 +8,11 @@ public class NotificacaoDto {
     private UsuarioNotificacaoDto cliente;
     private FormularioNotificacaoDto formulario;
     private double valorOrcamento;
-    private boolean isAprovadoPrestador;
-    private boolean isAprovadoCliente;
-    private boolean isFinalizado;
+    private boolean aprovadoByPrestador;
+    private boolean aprovadoByCliente;
+    private boolean finalizado;
 
     public NotificacaoDto() {
-    }
-
-    public NotificacaoDto(long id, FormularioNotificacaoDto formulario, double valorOrcamento, boolean isAprovadoPrestador,boolean isAprovadoCliente) {
-        this.id = id;
-        this.formulario = formulario;
-        this.valorOrcamento = valorOrcamento;
-        this.isAprovadoPrestador = isAprovadoPrestador;
-        this.isAprovadoCliente = isAprovadoCliente;
-    }
-
-    public boolean isAprovadoCliente() {
-        return isAprovadoCliente;
-    }
-
-    public void setAprovadoCliente(boolean aprovadoCliente) {
-        isAprovadoCliente = aprovadoCliente;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public double getValorOrcamento() {
-        return valorOrcamento;
-    }
-
-    public void setValorOrcamento(double valorOrcamento) {
-        this.valorOrcamento = valorOrcamento;
-    }
-
-    public boolean isAprovadoPrestador() {
-        return isAprovadoPrestador;
-    }
-
-    public void setAprovadoPrestador(boolean aprovadoPrestador) {
-        isAprovadoPrestador = aprovadoPrestador;
     }
 
     public FormularioNotificacaoDto getFormulario() {
@@ -71,11 +31,43 @@ public class NotificacaoDto {
         this.cliente = cliente;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public double getValorOrcamento() {
+        return valorOrcamento;
+    }
+
+    public void setValorOrcamento(double valorOrcamento) {
+        this.valorOrcamento = valorOrcamento;
+    }
+
+    public boolean isAprovadoByPrestador() {
+        return aprovadoByPrestador;
+    }
+
+    public void setAprovadoByPrestador(boolean aprovadoByPrestador) {
+        this.aprovadoByPrestador = aprovadoByPrestador;
+    }
+
+    public boolean isAprovadoByCliente() {
+        return aprovadoByCliente;
+    }
+
+    public void setAprovadoByCliente(boolean aprovadoByCliente) {
+        this.aprovadoByCliente = aprovadoByCliente;
+    }
+
     public boolean isFinalizado() {
-        return isFinalizado;
+        return finalizado;
     }
 
     public void setFinalizado(boolean finalizado) {
-        isFinalizado = finalizado;
+        this.finalizado = finalizado;
     }
 }
