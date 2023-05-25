@@ -20,14 +20,14 @@ public class NotificacaoService {
     @Autowired
     private NotificacaoRepository notificacaoRepository;
 
-    public List<NotificacaoDto> buscarNotificacoes(long id) {
+    public List<NotificacaoDto> buscarNotificacoesPrestador(long id) {
 
         List<Notificacao> notificacoes = notificacaoRepository.findAllByIdUsuario(id);
 
         if (notificacoes.isEmpty())
             return new ArrayList<>();
 
-        notificacoes = notificacoes.stream().filter(notificacao -> !notificacao.isAprovadoPrestador()).toList();
+        notificacoes = notificacoes.stream().filter(notificacao -> !notificacao.isAprovadoByPrestador() && !notificacao.isFinalizado()).toList();
 
         return notificacoes.stream().map(NotificacaoMapper::of).toList();
     }
@@ -39,7 +39,7 @@ public class NotificacaoService {
         if (notificacoes.isEmpty())
             return new ArrayList<>();
 
-        notificacoes = notificacoes.stream().filter(Notificacao::isAprovadoPrestador).toList();
+        notificacoes = notificacoes.stream().filter(notificacao -> notificacao.isAprovadoByPrestador() && !notificacao.isFinalizado()).toList();
 
         return notificacoes.stream().map(NotificacaoMapper::mapToClienteDto).toList();
     }
@@ -63,7 +63,7 @@ public class NotificacaoService {
         return camposTrue;
     }
 
-    public void aprovarNotificacao(long idNotificacao, boolean aprovado, double valorOrcamento) {
+    public void aprovarNotificacaoPrestador(long idNotificacao, boolean aprovado, double valorOrcamento) {
 
         if (valorOrcamento <= 0)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O valor do orçamento deve ser maior que zero.");
@@ -77,7 +77,7 @@ public class NotificacaoService {
             notificacaoRepository.delete(notificacao.get());
 
         notificacao.get().setValorOrcamento(valorOrcamento);
-        notificacao.get().setAprovadoPrestador(true);
+        notificacao.get().setAprovadoByPrestador(true);
 
         notificacaoRepository.save(notificacao.get());
     }
@@ -91,9 +91,25 @@ public class NotificacaoService {
         if (!aprovado)
             notificacaoRepository.delete(notificacao.get());
 
+        notificacao.get().setAprovadoByCliente(true);
 
-        notificacao.get().setAprovadoCliente(true);
+        notificacaoRepository.save(notificacao.get());
+    }
 
+    public void finalizarNotificacao(long idNotificacao, boolean finalizado) {
+
+        Optional<Notificacao> notificacao = notificacaoRepository.findById(idNotificacao);
+
+        if (notificacao.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possível encontrar a notificação especificada.");
+
+        if (!finalizado)
+            notificacaoRepository.delete(notificacao.get());
+
+        if (!notificacao.get().isAprovadoByCliente() || !notificacao.get().isAprovadoByPrestador())
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Só é possível finalizar solicitações aprovadas por ambos os usuários relacionados.");
+
+        notificacao.get().setFinalizado(true);
         notificacaoRepository.save(notificacao.get());
     }
 }

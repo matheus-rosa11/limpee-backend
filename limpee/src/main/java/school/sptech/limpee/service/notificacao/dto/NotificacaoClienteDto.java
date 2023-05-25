@@ -1,6 +1,7 @@
 package school.sptech.limpee.service.notificacao.dto;
 
 public class NotificacaoClienteDto {
+    private long id;
     private long idCliente;
     private String nomeCliente;
     private double valorOrcamento;
@@ -35,6 +36,14 @@ public class NotificacaoClienteDto {
 
     public void setIdCliente(long idCliente) {
         this.idCliente = idCliente;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
 
