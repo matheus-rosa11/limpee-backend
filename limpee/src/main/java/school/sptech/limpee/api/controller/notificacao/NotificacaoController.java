@@ -1,7 +1,6 @@
 package school.sptech.limpee.api.controller.notificacao;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +19,7 @@ public class NotificacaoController {
     @GetMapping("/prestador/{idPrestador}")
     public ResponseEntity<List<NotificacaoDto>> buscarNotificacoes(@PathVariable long idPrestador) {
 
-        List<NotificacaoDto> notificacoes = notificacaoService.buscarNotificacoes(idPrestador);
+        List<NotificacaoDto> notificacoes = notificacaoService.buscarNotificacoesPrestador(idPrestador);
 
         return notificacoes.isEmpty() ?
                 ResponseEntity.noContent().build() :
@@ -44,7 +43,7 @@ public class NotificacaoController {
             @RequestParam boolean aprovado,
             @RequestParam double valorOrcamento
     ) {
-        notificacaoService.aprovarNotificacao(idNotificacao, aprovado, valorOrcamento);
+        notificacaoService.aprovarNotificacaoPrestador(idNotificacao, aprovado, valorOrcamento);
 
         return ResponseEntity.ok().build();
     }
@@ -53,10 +52,19 @@ public class NotificacaoController {
     public ResponseEntity<NotificacaoDto> aprovarNotificacaoCliente(
             @PathVariable long idNotificacao,
             @RequestParam boolean aprovado
-
     ) {
         notificacaoService.aprovarNotificacaoCliente(idNotificacao, aprovado);
 
+        return ResponseEntity.ok().build();
+    }
+
+    @SecurityRequirement(name = "Bearer")
+    @PutMapping("/cliente/finalizar/{idNotificacao}")
+    public ResponseEntity<NotificacaoDto> finalizarNotificacao(
+            @PathVariable long idNotificacao,
+            @RequestParam boolean finalizado
+    ) {
+        notificacaoService.finalizarNotificacao(idNotificacao, finalizado);
         return ResponseEntity.ok().build();
     }
 }

@@ -9,8 +9,8 @@ public class NotificacaoDto {
     private FormularioNotificacaoDto formulario;
     private double valorOrcamento;
     private boolean isAprovadoPrestador;
-
     private boolean isAprovadoCliente;
+    private boolean isFinalizado;
 
     public NotificacaoDto() {
     }
@@ -69,5 +69,13 @@ public class NotificacaoDto {
 
     public void setCliente(UsuarioNotificacaoDto cliente) {
         this.cliente = cliente;
+    }
+
+    public boolean isFinalizado() {
+        return isFinalizado;
+    }
+
+    public void setFinalizado(boolean finalizado) {
+        isFinalizado = finalizado;
     }
 }
