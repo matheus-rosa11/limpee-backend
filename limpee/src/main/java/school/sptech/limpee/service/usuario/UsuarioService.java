@@ -138,48 +138,6 @@ public class UsuarioService {
         return usuarioRepository.existsByEmail(email);
     }
 
-    public String gravaArquivoCsv(String nomeArq) {
-        ListaObj<Usuario> lista = this.ordenarPorRanking();
-        FileWriter arq = null;
-        Formatter saida = null;
-        boolean deuRuim = false;
-
-        if (!nomeArq.contains(".csv"))
-            nomeArq += ".csv";
-
-        try {
-            arq = new FileWriter(nomeArq);
-            saida = new Formatter(arq);
-        } catch (IOException erro) {
-            System.out.println("Houve um erro ao abrir o arquivo CSV: " + erro.getMessage());
-        }
-
-        try {
-            for (int i = 0; i < lista.getTamanho(); i++) {
-                Usuario usuario = lista.getElemento(i);
-                saida.format("%d;%S;%S;%S;%s;%d\n", usuario.getId(), usuario.getTipoUsuario(), usuario.getNome(), usuario.getGenero(), usuario.getEmail(), usuario.getRanking());
-            }
-        } catch (FormatterClosedException erro) {
-            System.out.println("Houve um erro ao gravar o arquivo CSV: " + erro.getMessage());
-            deuRuim = true;
-
-        } finally {
-            saida.close();
-            try {
-                arq.close();
-            } catch (IOException erro) {
-                System.out.println("Erro ao fechar o arquivo: " + erro.getMessage());
-                deuRuim = true;
-            }
-
-            if (deuRuim) {
-                throw new RuntimeException("Houve um erro ao gravar o arquivo CSV.");
-            }
-        }
-
-        return "CSV gerado com sucesso";
-    }
-
     public ListaObj<Usuario> ordenarPorRanking() {
         List<Usuario> usuarios = usuarioRepository.findAll();
         ListaObj<Usuario> clienteObj = new ListaObj<>(usuarios.size());
