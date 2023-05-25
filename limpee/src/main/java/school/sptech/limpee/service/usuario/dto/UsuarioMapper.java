@@ -108,4 +108,15 @@ public class UsuarioMapper {
 
         return u;
     }
+    public static UsuarioCsvDto mapToUsuarioCsv(Usuario usuario) {
+        UsuarioCsvDto u = new UsuarioCsvDto();
+        u.setNome(usuario.getNome());
+        u.setEmail(usuario.getEmail());
+        u.setGenero(usuario.getGenero());
+        u.setTipoUsuario(usuario.getTipoUsuario());
+        u.setRanking(usuario.getRanking());
+        u.setAnosExperiencia(usuario.getAnosExperiencia());
+
+        return u;
+    }
 }

@@ -18,9 +18,6 @@ import school.sptech.limpee.domain.csv.ListaObj;
 import school.sptech.limpee.domain.especialidade.Especialidade;
 import school.sptech.limpee.domain.especializacao.Especializacao;
 import school.sptech.limpee.domain.usuario.Usuario;
-import school.sptech.limpee.service.especialidade.dto.EspecialidadeCriacaoDto;
-import school.sptech.limpee.service.especialidade.dto.EspecialidadeMapper;
-import school.sptech.limpee.service.especializacao.dto.EspecializacaoMapper;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioAvaliacaoDTO;
@@ -88,7 +85,6 @@ public class UsuarioService {
                 Especialidade especialidade = especialidadeRepository.save(new Especialidade(e));
                 especializacoes.add(new Especializacao(novoUsuario, especialidade));
             }
-
             novoUsuario.setEspecializacoes(especializacoes);
         }
 
@@ -261,6 +257,14 @@ public class UsuarioService {
 
         usuario.get().setNome(novoUsuario.getNome());
         return UsuarioMapper.of(usuarioRepository.save(usuario.get()));
+    }
+
+    public List<Usuario> saveAll(List<Usuario> usuarios) {
+        return usuarioRepository.saveAll(usuarios);
+    }
+
+    public List<Usuario> findAllOrderByRanking() {
+        return usuarioRepository.findAllByOrderByRankingDesc();
     }
 
 //    public String gravaArquivoTxt(String nomeArq) {
