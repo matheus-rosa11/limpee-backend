@@ -46,6 +46,7 @@ public class NotificacaoController {
         notificacaoService.aprovarNotificacaoPrestador(idNotificacao, aprovado, valorOrcamento);
         return ResponseEntity.ok().build();
     }
+
     @SecurityRequirement(name = "Bearer")
     @PutMapping("/cliente/aprovar/{idNotificacao}")
     public ResponseEntity<NotificacaoDto> aprovarNotificacaoCliente(

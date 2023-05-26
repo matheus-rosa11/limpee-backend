@@ -7,6 +7,7 @@ public class NotificacaoClienteDto {
     private double valorOrcamento;
     private boolean aprovadoByCliente;
     private boolean aprovadoByPrestador;
+    private boolean recusadoByPrestador;
     private boolean finalizado;
 
     public NotificacaoClienteDto() {
@@ -72,6 +73,14 @@ public class NotificacaoClienteDto {
 
     public void setFinalizado(boolean finalizado) {
         this.finalizado = finalizado;
+    }
+
+    public boolean isRecusadoByPrestador() {
+        return recusadoByPrestador;
+    }
+
+    public void setRecusadoByPrestador(boolean recusadoByPrestador) {
+        this.recusadoByPrestador = recusadoByPrestador;
     }
 }
 

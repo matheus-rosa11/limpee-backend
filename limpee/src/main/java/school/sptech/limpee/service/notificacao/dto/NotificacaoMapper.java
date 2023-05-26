@@ -27,6 +27,7 @@ public class NotificacaoMapper {
         n.setNomePrestador(notificacao.getFormulario().getPrestador().getNome());
         n.setValorOrcamento(notificacao.getValorOrcamento());
         n.setAprovadoByPrestador(notificacao.isAprovadoByPrestador());
+        n.setRecusadoByPrestador(notificacao.isRecusadoByPrestador());
         n.setAprovadoByCliente(notificacao.isAprovadoByCliente());
         n.setFinalizado(notificacao.isFinalizado());
 

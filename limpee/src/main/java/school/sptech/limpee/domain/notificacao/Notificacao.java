@@ -11,25 +11,16 @@ public class Notificacao {
     @ManyToOne
     private FormularioServico formulario;
     private double valorOrcamento;
-    private boolean isAprovadoByPrestador;
-    private boolean isAprovadoByCliente;
-    private boolean isFinalizado;
+    private boolean recusadoByPrestador;
+    private boolean aprovadoByPrestador;
+    private boolean aprovadoByCliente;
+    private boolean finalizado;
 
     public Notificacao() {
     }
 
     public Notificacao(FormularioServico formulario) {
         this.formulario = formulario;
-        this.isAprovadoByPrestador = false;
-        this.isAprovadoByCliente = false;
-    }
-
-    public boolean isAprovadoByCliente() {
-        return isAprovadoByCliente;
-    }
-
-    public void setAprovadoByCliente(boolean aprovadoByCliente) {
-        isAprovadoByCliente = aprovadoByCliente;
     }
 
     public long getId() {
@@ -56,19 +47,35 @@ public class Notificacao {
         this.valorOrcamento = valorOrcamento;
     }
 
+    public void setRecusadoByPrestador(boolean recusadoByPrestador) {
+        this.recusadoByPrestador = recusadoByPrestador;
+    }
+
+    public boolean isRecusadoByPrestador() {
+        return recusadoByPrestador;
+    }
+
     public boolean isAprovadoByPrestador() {
-        return isAprovadoByPrestador;
+        return aprovadoByPrestador;
     }
 
     public void setAprovadoByPrestador(boolean aprovadoByPrestador) {
-        isAprovadoByPrestador = aprovadoByPrestador;
+        this.aprovadoByPrestador = aprovadoByPrestador;
+    }
+
+    public boolean isAprovadoByCliente() {
+        return aprovadoByCliente;
+    }
+
+    public void setAprovadoByCliente(boolean aprovadoByCliente) {
+        this.aprovadoByCliente = aprovadoByCliente;
     }
 
     public boolean isFinalizado() {
-        return isFinalizado;
+        return finalizado;
     }
 
     public void setFinalizado(boolean finalizado) {
-        isFinalizado = finalizado;
+        this.finalizado = finalizado;
     }
 }

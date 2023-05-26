@@ -73,14 +73,17 @@ public class NotificacaoService {
         if (notificacao.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi encontrada nenhuma notificação com o ID especificado");
 
-        if (!aprovado)
-            notificacaoRepository.delete(notificacao.get());
+        if (!aprovado) {
+            notificacao.get().setRecusadoByPrestador(true);
+            notificacao.get().setAprovadoByPrestador(false);
+        }
         else {
             notificacao.get().setValorOrcamento(valorOrcamento);
+            notificacao.get().setRecusadoByPrestador(false);
             notificacao.get().setAprovadoByPrestador(true);
-            notificacaoRepository.save(notificacao.get());
         }
 
+        notificacaoRepository.save(notificacao.get());
     }
     public void aprovarNotificacaoCliente(long idNotificacao, boolean aprovado) {
 
