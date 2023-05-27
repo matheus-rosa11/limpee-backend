@@ -27,7 +27,7 @@ public class NotificacaoService {
         if (notificacoes.isEmpty())
             return new ArrayList<>();
 
-        notificacoes = notificacoes.stream().filter(notificacao -> !notificacao.isAprovadoByPrestador() && !notificacao.isFinalizado()).toList();
+        notificacoes = notificacoes.stream().filter(notificacao -> !notificacao.isAprovadoByPrestador() && !notificacao.isFinalizado() && !notificacao.isRecusadoByPrestador()).toList();
 
         return notificacoes.stream().map(NotificacaoMapper::of).toList();
     }
