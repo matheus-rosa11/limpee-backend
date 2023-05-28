@@ -50,6 +50,15 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/v3/api-docs/**"),
             new AntPathRequestMatcher("/actuator/*"),
             new AntPathRequestMatcher("/error/**"),
+            new AntPathRequestMatcher("/administradores/lista"),
+            new AntPathRequestMatcher("/imagens"),
+            new AntPathRequestMatcher("/imagens/foto/*"),
+            new AntPathRequestMatcher("/documentos"),
+            new AntPathRequestMatcher("/documentos/*"),
+
+
+
+
             //  new AntPathRequestMatcher("/registros"),
             //  new AntPathRequestMatcher("/registros/{id}"),
     };

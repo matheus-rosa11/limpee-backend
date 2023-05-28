@@ -3,7 +3,7 @@ package school.sptech.limpee.domain.csv;
 import school.sptech.limpee.domain.usuario.Usuario;
 
 public class ListaObj<T> {
-        private T[] vetor;
+        private final T[] vetor;
         private int nroElem;
 
         public ListaObj(int tamanho) {

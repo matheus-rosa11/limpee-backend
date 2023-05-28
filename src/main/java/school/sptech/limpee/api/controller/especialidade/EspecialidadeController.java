@@ -5,17 +5,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.limpee.domain.especialidade.Especialidade;
 import school.sptech.limpee.service.especialidade.EspecialidadeService;
 import school.sptech.limpee.service.especialidade.dto.EspecialidadeDto;
-import school.sptech.limpee.service.especialidade.dto.EspecialidadeMapper;
 
 import java.util.List;
 
-@Tag(name ="Especialidades",description = "Grupo de requisições de Especialidades")
+@Tag(name = "Especialidades", description = "Grupo de requisições de Especialidades")
 @RestController
 @RequestMapping("/especialidade")
 public class EspecialidadeController {
@@ -24,41 +24,28 @@ public class EspecialidadeController {
 
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Listagem realizada com sucesso."),
-            @ApiResponse(responseCode = "204", description = "Não foram encontrados registros.")
+            @ApiResponse(responseCode = "204", description = "Listagem realizada com sucesso. A lista está vazia.")
     })
+
     @SecurityRequirement(name = "Bearer")
     @GetMapping
     @Operation(summary = "Lista todas as especialidades cadastradas")
-    public ResponseEntity<List<Especialidade>> listar() {
+    public ResponseEntity<List<EspecialidadeDto>> listar() {
+        List<EspecialidadeDto> especialidades = especialidadeService.listar();
 
-        try {
-            List<Especialidade> especialidades = especialidadeService.findAll();
-
-            return especialidades.isEmpty() ?
-                    ResponseEntity.noContent().build() :
-                    ResponseEntity.ok(especialidades);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Houve um erro ao tentar listar as especialidades.");
-        }
+        return especialidades.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok(especialidades);
     }
 
     @ApiResponses({
-            @ApiResponse(responseCode = "201",description = "Especialidade cadastrada com sucesso.")
+            @ApiResponse(responseCode = "201", description = "Especialidade cadastrada com sucesso.")
     })
 
     @SecurityRequirement(name = "Bearer")
     @PostMapping
     @Operation(summary = "Cadastrar nova especialidade")
-    public ResponseEntity<Especialidade> cadastrar(@RequestBody EspecialidadeDto especialidadeDto) {
-
-        try {
-            Especialidade especialidade = EspecialidadeMapper.of(especialidadeDto);
-            Especialidade novaEspecialidade = especialidadeService.save(especialidade);
-            return ResponseEntity.status(201).body(novaEspecialidade);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Houve um erro ao tentar realizar o cadastro da nova especialidade.");
-        }
+    public ResponseEntity<Especialidade> cadastrar(@RequestBody @Valid EspecialidadeDto especialidadeDto) {
+        return ResponseEntity.created(null).body(especialidadeService.cadastrar(especialidadeDto));
     }
 }
