@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import school.sptech.limpee.domain.especialidade.Especialidade;
 import school.sptech.limpee.service.especialidade.EspecialidadeService;
 import school.sptech.limpee.service.especialidade.dto.EspecialidadeDto;
-import school.sptech.limpee.service.especialidade.dto.EspecialidadeMapper;
 
 import java.util.List;
 
@@ -31,8 +30,8 @@ public class EspecialidadeController {
     @SecurityRequirement(name = "Bearer")
     @GetMapping
     @Operation(summary = "Lista todas as especialidades cadastradas")
-    public ResponseEntity<List<Especialidade>> listar() {
-        List<Especialidade> especialidades = especialidadeService.listar();
+    public ResponseEntity<List<EspecialidadeDto>> listar() {
+        List<EspecialidadeDto> especialidades = especialidadeService.listar();
 
         return especialidades.isEmpty() ?
                 ResponseEntity.noContent().build() :

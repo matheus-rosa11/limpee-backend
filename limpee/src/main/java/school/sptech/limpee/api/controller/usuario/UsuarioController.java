@@ -83,6 +83,7 @@ public class UsuarioController {
     @GetMapping("/lista/nome")
     @Operation(summary = "Busca usuários por nome")
     public ResponseEntity<List<UsuarioDto>> buscarPorNome(@RequestParam String nome) {
+
         List<UsuarioDto> usuarios = usuarioService.buscarPorNome(nome);
 
         return usuarios.isEmpty() ?

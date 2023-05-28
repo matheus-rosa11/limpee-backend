@@ -6,7 +6,6 @@ import school.sptech.limpee.api.repository.especialidade.EspecialidadeRepository
 import school.sptech.limpee.domain.especialidade.Especialidade;
 import school.sptech.limpee.service.especialidade.dto.EspecialidadeDto;
 import school.sptech.limpee.service.especialidade.dto.EspecialidadeMapper;
-
 import java.util.List;
 
 @Service
@@ -18,12 +17,9 @@ public class EspecialidadeService {
         return especialidadeRepository.save(especialidade);
     }
 
-    public boolean existsById(long id) {
-        return especialidadeRepository.existsById(id);
-    }
-
-    public List<Especialidade> listar() {
-        return especialidadeRepository.findAll();
+    public List<EspecialidadeDto> listar() {
+        List<Especialidade> especialidades = especialidadeRepository.findAll();
+        return especialidades.stream().map(EspecialidadeMapper::of).toList();
     }
 
     public Especialidade cadastrar(EspecialidadeDto especialidadeDto) {
