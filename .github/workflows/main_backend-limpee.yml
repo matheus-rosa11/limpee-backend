@@ -6,7 +6,7 @@ name: Build and deploy JAR app to Azure Web App - backend-limpee
 on:
   push:
     branches:
-      - main
+      - main-deploy-test
   workflow_dispatch:
 
 jobs:
