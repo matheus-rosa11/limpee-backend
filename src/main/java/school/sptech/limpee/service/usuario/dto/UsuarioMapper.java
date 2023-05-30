@@ -127,4 +127,18 @@ public class UsuarioMapper {
 
         return u;
     }
+    public static UsuarioTxtDto mapToUsuarioTxt(Usuario usuario) {
+        UsuarioTxtDto u = new UsuarioTxtDto();
+        u.setNome(usuario.getNome());
+        u.setEmail(usuario.getEmail());
+        u.setGenero(usuario.getGenero());
+        u.setTipoUsuario(usuario.getTipoUsuario());
+        u.setQtdServicosSolicitados(usuario.getQtdServicosSolicitados());
+        u.setQtdServicosFinalizados(usuario.getQtdServicosFinalizados());
+        u.setAnosExperiencia(usuario.getAnosExperiencia());
+        u.setRanking(usuario.getRanking());
+        u.setCPF(usuario.getCpf());
+        u.setRG(usuario.getRg());
+        return u;
+    }
 }

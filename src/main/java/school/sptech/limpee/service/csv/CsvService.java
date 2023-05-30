@@ -30,13 +30,6 @@ public class CsvService {
 
     public CsvAgenda agendar() {
         List<Usuario> usuarios = new ArrayList<>();
-        Usuario u1 = new Usuario("Felix", "felix@email.com", "1234", "Masculino", 5, "Cliente", 0, 0, 0);
-        Usuario u2 = new Usuario("Rosa", "rosa@email.com", "1234", "Masculino", 3, "Cliente", 0, 0, 0);
-        Usuario u3 = new Usuario("David", "david@email.com", "1234", "Masculino", 10, "Cliente", 0, 0, 0);
-        usuarios.add(u1);
-        usuarios.add(u2);
-        usuarios.add(u3);
-        usuarioService.saveAll(usuarios);
 
         CsvAgenda csvAgenda = new CsvAgenda(usuarioService.findAllOrderByRanking().stream().map(UsuarioMapper::mapToUsuarioCsv).toList());
         filaObj.insert(csvAgenda);

@@ -12,6 +12,9 @@ public class UsuarioTxtDto {
     private String CPF;
     private String RG;
 
+    public UsuarioTxtDto() {
+    }
+
     public UsuarioTxtDto(String nome, String email, String genero, String tipoUsuario,
                          int qtdServicosSolicitados, int qtdServicosFinalizados,
                          int anosExperiencia, int ranking, String CPF, String RG) {

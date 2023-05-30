@@ -71,4 +71,16 @@ public class EnderecoMapper {
 
         return e;
     }
+    public static EnderecoTxtDTO mapToTxt(Endereco endereco) {
+        EnderecoTxtDTO e = new EnderecoTxtDTO();
+        e.setId((int)endereco.getId());
+        e.setCEP(endereco.getCep());
+        e.setComplemento(endereco.getComplemento());
+        e.setLogradouro(endereco.getLogradouro());
+        e.setBairro(endereco.getBairro());
+        e.setNumero(endereco.getNumero());
+        e.setCidade(endereco.getCidade());
+        e.setEstado(endereco.getEstado());
+        return e;
+    }
 }

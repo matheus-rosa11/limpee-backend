@@ -12,6 +12,7 @@ public class EnderecoDTO {
     private String cidade;
     private String estado;
 
+
     public String getCep() {
         return cep;
     }
