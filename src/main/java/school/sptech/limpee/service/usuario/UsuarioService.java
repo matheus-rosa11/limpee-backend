@@ -18,6 +18,9 @@ import school.sptech.limpee.domain.csv.ListaObj;
 import school.sptech.limpee.domain.especialidade.Especialidade;
 import school.sptech.limpee.domain.especializacao.Especializacao;
 import school.sptech.limpee.domain.usuario.Usuario;
+import school.sptech.limpee.service.endereco.dto.EnderecoMapper;
+import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
+import school.sptech.limpee.service.especializacao.dto.EspecializacaoMapper;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioAvaliacaoDTO;
@@ -247,6 +250,14 @@ public class UsuarioService {
     }
 
     public UsuarioDto editarPerfil(UsuarioDto usuarioDto) {
+        if (!enderecoRepository.existsById(usuarioDto.getEndereco().getId()))
+            enderecoRepository.save(EnderecoMapper.of(usuarioDto.getEndereco()));
+
+        for (EspecializacaoDto e : usuarioDto.getEspecializacoes()) {
+            if (!especializacaoRepository.existsById(e.getId()))
+                especializacaoRepository.save(EspecializacaoMapper.of(e));
+        }
+
         Usuario usuario = UsuarioMapper.of(usuarioDto);
         return UsuarioMapper.of(usuarioRepository.save(usuario));
     }

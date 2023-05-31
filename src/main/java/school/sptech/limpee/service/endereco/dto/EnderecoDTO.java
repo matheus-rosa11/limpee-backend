@@ -3,6 +3,7 @@ package school.sptech.limpee.service.endereco.dto;
 import jakarta.validation.constraints.Size;
 
 public class EnderecoDTO {
+    private long id;
     @Size(min = 8, max = 8)
     private String cep;
     private String complemento;
@@ -11,7 +12,6 @@ public class EnderecoDTO {
     private int numero;
     private String cidade;
     private String estado;
-
 
     public String getCep() {
         return cep;
@@ -67,5 +67,13 @@ public class EnderecoDTO {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

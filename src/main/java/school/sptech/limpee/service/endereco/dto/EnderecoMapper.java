@@ -7,6 +7,7 @@ public class EnderecoMapper {
     public static Endereco of(EnderecoDTO enderecoDTO){
         Endereco endereco = new Endereco();
 
+        endereco.setId(enderecoDTO.getId());
         endereco.setCep(enderecoDTO.getCep());
         endereco.setBairro(enderecoDTO.getBairro());
         endereco.setLogradouro(enderecoDTO.getLogradouro());
@@ -36,6 +37,7 @@ public class EnderecoMapper {
     public static EnderecoDTO of(Endereco endereco){
         EnderecoDTO enderecoDTO = new EnderecoDTO();
 
+        enderecoDTO.setId(endereco.getId());
         enderecoDTO.setCep(endereco.getCep());
         enderecoDTO.setBairro(endereco.getBairro());
         enderecoDTO.setLogradouro(endereco.getLogradouro());
