@@ -37,7 +37,7 @@ public class NotificacaoController {
     }
 
     @SecurityRequirement(name = "Bearer")
-    @PatchMapping("/prestador/aprovar/{idNotificacao}")
+    @PutMapping("/prestador/aprovar/{idNotificacao}")
     public ResponseEntity<NotificacaoDto> aprovarNotificacao(
             @PathVariable long idNotificacao,
             @RequestParam boolean aprovado,
@@ -48,7 +48,7 @@ public class NotificacaoController {
     }
 
     @SecurityRequirement(name = "Bearer")
-    @PatchMapping("/cliente/aprovar/{idNotificacao}")
+    @PutMapping("/cliente/aprovar/{idNotificacao}")
     public ResponseEntity<NotificacaoDto> aprovarNotificacaoCliente(
             @PathVariable long idNotificacao,
             @RequestParam boolean aprovado
@@ -58,7 +58,7 @@ public class NotificacaoController {
     }
 
     @SecurityRequirement(name = "Bearer")
-    @PatchMapping("/cliente/finalizar/{idNotificacao}")
+    @PutMapping("/cliente/finalizar/{idNotificacao}")
     public ResponseEntity<NotificacaoDto> finalizarNotificacao(
             @PathVariable long idNotificacao,
             @RequestParam boolean finalizado
