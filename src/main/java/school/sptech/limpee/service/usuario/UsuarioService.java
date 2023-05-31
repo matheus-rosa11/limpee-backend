@@ -241,8 +241,9 @@ public class UsuarioService {
         usuarioRepository.save(usuario.get());
     }
 
-    public void editarPerfil(long idUsuario) {
-
+    public UsuarioDto editarPerfil(UsuarioDto usuarioDto) {
+        Usuario usuario = UsuarioMapper.of(usuarioDto);
+        return UsuarioMapper.of(usuarioRepository.save(usuario));
     }
 
     public UsuarioDto buscaUsuarioPorId(long idUsuario) {

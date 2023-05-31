@@ -104,6 +104,13 @@ public class UsuarioMapper {
         u.setRg(usuarioDto.getRg());
         u.setTelefone(usuarioDto.getTelefone());
         u.setTipoUsuario(usuarioDto.getTipoUsuario());
+        u.setRejeitado(usuarioDto.isRejeitado());
+        u.setAprovado(usuarioDto.isAprovado());
+        u.setAnosExperiencia(usuarioDto.getAnosExperiencia());
+        u.setEndereco(EnderecoMapper.of(usuarioDto.getEndereco()));
+        u.setEspecializacoes(usuarioDto.getEspecializacoes().stream().map(EspecializacaoMapper::of).toList());
+        u.setQtdServicosFinalizados(usuarioDto.getQtdServicosFinalizados());
+        u.setQtdServicosSolicitados(usuarioDto.getQtdServicosSolicitados());
 
         return u;
     }

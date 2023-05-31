@@ -210,9 +210,8 @@ public class UsuarioController {
     @SecurityRequirement(name = "Bearer")
     @PutMapping("perfil/editar/{idUsuario}")
     @Operation(summary = "Editar perfil de usuário")
-    public ResponseEntity<UsuarioDto> editarPerfil(@PathVariable long idUsuario, @RequestBody UsuarioDto usuario) {
-        usuarioService.editarPerfil(idUsuario);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<UsuarioDto> editarPerfil(@RequestBody UsuarioDto usuario) {
+        return ResponseEntity.ok(usuarioService.editarPerfil(usuario));
     }
 
 }
