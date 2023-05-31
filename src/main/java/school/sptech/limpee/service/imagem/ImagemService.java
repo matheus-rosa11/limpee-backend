@@ -74,4 +74,8 @@ public class ImagemService {
     public List<ImagemPrestadorDto> findAllPrestadorDto() {
         return imagemRepository.findAll().stream().map(ImagemMapper::of).toList();
     }
+
+    public ImagemPrestadorDto getImgPrestadorDtoByIdPrestador(Long idPrestador) {
+        return ImagemMapper.of(imagemRepository.getImgPrestadorDtoByIdPrestador(idPrestador));
+    }
 }

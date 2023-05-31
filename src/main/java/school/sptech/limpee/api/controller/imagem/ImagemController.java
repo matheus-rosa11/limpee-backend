@@ -42,18 +42,14 @@ public class ImagemController {
 
 
     @GetMapping(value = "/foto/{idPrestador}")
-    public ResponseEntity<String> download(@PathVariable Long idPrestador) {
+    public ResponseEntity<ImagemPrestadorDto> download(@PathVariable Long idPrestador) {
 
         if (!imagemService.existsByIdByPrestador(idPrestador))
             return ResponseEntity.notFound().build();
 
-        byte[] foto = imagemService.getFotoByIdPrestador(idPrestador);
+        ImagemPrestadorDto imagem = imagemService.getImgPrestadorDtoByIdPrestador(idPrestador);
 
-        return ResponseEntity.status(200).body(new String(foto));
-
-
-        // esse header "content-disposition" indica o nome do arquivo em caso de download em navegador
-
+        return ResponseEntity.status(200).body(imagem);
     }
 
     /*

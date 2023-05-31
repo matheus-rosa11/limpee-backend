@@ -19,4 +19,7 @@ public interface ImagemRepository extends JpaRepository<Imagem, Long> {
 
     @Query("SELECT i.foto FROM Imagem i WHERE i.prestador.id = :idPrestador")
     Optional<byte[]> getFotoByIdPrestador(Long idPrestador);
+
+    @Query("SELECT i FROM Imagem i WHERE i.prestador.id = :idPrestador")
+    Imagem getImgPrestadorDtoByIdPrestador(Long idPrestador);
 }
