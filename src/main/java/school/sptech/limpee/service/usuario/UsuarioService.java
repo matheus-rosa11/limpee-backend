@@ -225,7 +225,12 @@ public class UsuarioService {
     }
 
     public List<UsuarioDto> buscarUsuariosNaoAprovados() {
-        return usuarioRepository.findAll().stream().filter(usuario -> !usuario.isAprovado() && !usuario.isRejeitado()).map(UsuarioMapper::of).toList();
+        return usuarioRepository.findAll()
+                .stream()
+                .filter(usuario -> usuario.getTipoUsuario().equalsIgnoreCase("prestador"))
+                .filter(usuario -> !usuario.isAprovado() && !usuario.isRejeitado())
+                .map(UsuarioMapper::of)
+                .toList();
     }
 
     public void aprovarUsuario(long idUsuario, boolean isAprovado) {
