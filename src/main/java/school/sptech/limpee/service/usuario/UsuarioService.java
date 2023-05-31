@@ -18,9 +18,6 @@ import school.sptech.limpee.domain.csv.ListaObj;
 import school.sptech.limpee.domain.especialidade.Especialidade;
 import school.sptech.limpee.domain.especializacao.Especializacao;
 import school.sptech.limpee.domain.usuario.Usuario;
-import school.sptech.limpee.service.especialidade.dto.EspecialidadeCriacaoDto;
-import school.sptech.limpee.service.especialidade.dto.EspecialidadeMapper;
-import school.sptech.limpee.service.especializacao.dto.EspecializacaoMapper;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioAvaliacaoDTO;
@@ -88,7 +85,6 @@ public class UsuarioService {
                 Especialidade especialidade = especialidadeRepository.save(new Especialidade(e));
                 especializacoes.add(new Especializacao(novoUsuario, especialidade));
             }
-
             novoUsuario.setEspecializacoes(especializacoes);
         }
 
@@ -140,48 +136,6 @@ public class UsuarioService {
 
     public boolean existsByEmail(String email) {
         return usuarioRepository.existsByEmail(email);
-    }
-
-    public String gravaArquivoCsv(String nomeArq) {
-        ListaObj<Usuario> lista = this.ordenarPorRanking();
-        FileWriter arq = null;
-        Formatter saida = null;
-        boolean deuRuim = false;
-
-        if (!nomeArq.contains(".csv"))
-            nomeArq += ".csv";
-
-        try {
-            arq = new FileWriter(nomeArq);
-            saida = new Formatter(arq);
-        } catch (IOException erro) {
-            System.out.println("Houve um erro ao abrir o arquivo CSV: " + erro.getMessage());
-        }
-
-        try {
-            for (int i = 0; i < lista.getTamanho(); i++) {
-                Usuario usuario = lista.getElemento(i);
-                saida.format("%d;%S;%S;%S;%s;%d\n", usuario.getId(), usuario.getTipoUsuario(), usuario.getNome(), usuario.getGenero(), usuario.getEmail(), usuario.getRanking());
-            }
-        } catch (FormatterClosedException erro) {
-            System.out.println("Houve um erro ao gravar o arquivo CSV: " + erro.getMessage());
-            deuRuim = true;
-
-        } finally {
-            saida.close();
-            try {
-                arq.close();
-            } catch (IOException erro) {
-                System.out.println("Erro ao fechar o arquivo: " + erro.getMessage());
-                deuRuim = true;
-            }
-
-            if (deuRuim) {
-                throw new RuntimeException("Houve um erro ao gravar o arquivo CSV.");
-            }
-        }
-
-        return "CSV gerado com sucesso";
     }
 
     public ListaObj<Usuario> ordenarPorRanking() {
@@ -261,6 +215,14 @@ public class UsuarioService {
 
         usuario.get().setNome(novoUsuario.getNome());
         return UsuarioMapper.of(usuarioRepository.save(usuario.get()));
+    }
+
+    public List<Usuario> saveAll(List<Usuario> usuarios) {
+        return usuarioRepository.saveAll(usuarios);
+    }
+
+    public List<Usuario> findAllOrderByRanking() {
+        return usuarioRepository.findAllByOrderByRankingDesc();
     }
 
 //    public String gravaArquivoTxt(String nomeArq) {

@@ -1,7 +1,6 @@
 package school.sptech.limpee.domain.especializacao;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import school.sptech.limpee.domain.especialidade.Especialidade;
 import school.sptech.limpee.domain.usuario.Usuario;
 

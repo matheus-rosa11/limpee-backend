@@ -120,18 +120,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.atualizarNome(id, novoUsuario));
     }
 
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "CSV gerado com sucesso."),
-            @ApiResponse(responseCode = "404", description = "O recurso solicitado não foi encontrado."),
-            @ApiResponse(responseCode = "500", description = "Houve um erro ao gerar o arquivo CSV.")
-    })
 
-    @SecurityRequirement(name = "Bearer")
-    @Operation(summary = "Gravar arquivo CSV com dados de usuário")
-    @GetMapping("/csv")
-    public ResponseEntity<String> gravarCsv() {
-        return ResponseEntity.ok(usuarioService.gravaArquivoCsv("ClientesLimpee"));
-    }
 
 //    @ApiResponses({
 //            @ApiResponse(responseCode = "200", description = "Pesquisa binária gerada com sucesso."),
