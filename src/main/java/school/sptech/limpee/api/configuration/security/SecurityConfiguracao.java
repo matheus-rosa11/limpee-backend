@@ -59,9 +59,9 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/csvs/export"),
             new AntPathRequestMatcher("/txts/import"),
             new AntPathRequestMatcher("/txts/export"),
-            new AntPathRequestMatcher("/txts/imagens"),
-            new AntPathRequestMatcher("/txts/imagens/*"),
-            new AntPathRequestMatcher("/txts/imagens/**"),
+            new AntPathRequestMatcher("/imagens"),
+            new AntPathRequestMatcher("/imagens/*"),
+            new AntPathRequestMatcher("/imagens/**"),
 
 
 
