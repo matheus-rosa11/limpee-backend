@@ -29,6 +29,7 @@ public class ImagemService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não existe um usuário com o ID especificado.");
 
         String nome = file.getOriginalFilename();
+
         byte[] conteudo;
 
         try {
