@@ -24,8 +24,7 @@ import school.sptech.limpee.service.usuario.dto.UsuarioAvaliacaoDTO;
 import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
-import java.io.FileWriter;
-import java.io.IOException;
+
 import java.util.*;
 
 @Service
@@ -223,6 +222,33 @@ public class UsuarioService {
 
     public List<Usuario> findAllOrderByRanking() {
         return usuarioRepository.findAllByOrderByRankingDesc();
+    }
+
+    public List<UsuarioDto> buscarUsuariosNaoAprovados() {
+        return usuarioRepository.findAll().stream().filter(usuario -> !usuario.isAprovado() && !usuario.isRejeitado()).map(UsuarioMapper::of).toList();
+    }
+
+    public void aprovarUsuario(long idUsuario, boolean isAprovado) {
+
+        Optional<Usuario> usuario = usuarioRepository.findById(idUsuario);
+
+        if (usuario.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não existe o usuário com ID especificado");
+
+        usuario.get().setAprovado(isAprovado);
+        usuario.get().setRejeitado(!isAprovado);
+
+        usuarioRepository.save(usuario.get());
+    }
+
+    public void editarPerfil(long idUsuario) {
+
+    }
+
+    public UsuarioDto buscaUsuarioPorId(long idUsuario) {
+        return UsuarioMapper.of(findById(idUsuario).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "O usuário com o ID especificado não foi encontrado.")
+        ));
     }
 
 //    public String gravaArquivoTxt(String nomeArq) {

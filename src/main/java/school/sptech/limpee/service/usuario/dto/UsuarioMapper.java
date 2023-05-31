@@ -57,6 +57,8 @@ public class UsuarioMapper {
         usuarioDto.setTipoUsuario(usuario.getTipoUsuario());
         usuarioDto.setEndereco(EnderecoMapper.of(usuario.getEndereco()));
         usuarioDto.setEspecializacoes(usuario.getEspecializacoes().stream().map(EspecializacaoMapper::of).toList());
+        usuarioDto.setRejeitado(usuarioDto.isRejeitado());
+        usuarioDto.setAprovado(usuarioDto.isAprovado());
 
         List<FormularioServicoDTO> formulariosPrestadorDto = usuario.getFormularioPrestador()
                 .stream()

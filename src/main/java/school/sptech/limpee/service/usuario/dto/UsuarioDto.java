@@ -1,9 +1,5 @@
 package school.sptech.limpee.service.usuario.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoDTO;
 import school.sptech.limpee.service.endereco.dto.EnderecoDTO;
 import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
@@ -26,7 +22,8 @@ public class UsuarioDto {
     private EnderecoDTO endereco;
     private List<FormularioServicoDTO> formularios;
     private List<EspecializacaoDto> especializacoes;
-    private boolean isAprovado;
+    private boolean aprovado;
+    private boolean rejeitado;
 
     public UsuarioDto() {
         especializacoes = new ArrayList<>();
@@ -106,11 +103,11 @@ public class UsuarioDto {
     }
 
     public boolean isAprovado() {
-        return isAprovado;
+        return aprovado;
     }
 
     public void setAprovado(boolean aprovado) {
-        isAprovado = aprovado;
+        this.aprovado = aprovado;
     }
 
     public List<FormularioServicoDTO> getFormularios() {
@@ -159,5 +156,13 @@ public class UsuarioDto {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public boolean isRejeitado() {
+        return rejeitado;
+    }
+
+    public void setRejeitado(boolean rejeitado) {
+        this.rejeitado = rejeitado;
     }
 }
