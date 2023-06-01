@@ -194,7 +194,7 @@ public class UsuarioController {
     })
 
     @SecurityRequirement(name = "Bearer")
-    @PatchMapping("admin/aprovar/{idUsuario}")
+    @PutMapping("admin/aprovar/{idUsuario}")
     @Operation(summary = "Aprovar usuários como administrador")
     public ResponseEntity<UsuarioDto> aprovarUsuario(@PathVariable long idUsuario, @RequestParam boolean isAprovado) {
         usuarioService.aprovarUsuario(idUsuario, isAprovado);
