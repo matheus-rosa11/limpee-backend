@@ -8,9 +8,6 @@ import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
 @Service
 public class EspecializacaoService {
 
-    @Autowired
-    private EspecializacaoRepository especializacaoRepository;
-    public void cadastrar(EspecializacaoDto especializacaoDto) {
 
-    }
+
 }

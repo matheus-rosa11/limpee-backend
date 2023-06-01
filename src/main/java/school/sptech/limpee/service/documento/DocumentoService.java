@@ -39,9 +39,7 @@ public class DocumentoService {
         return documentoRepository.save(FileDB);
     }
 
-    public Documento getFile(Long id) {
-        return documentoRepository.findById(id).get();
-    }
+
 
     public Stream<Documento> getAllFiles() {
         return documentoRepository.findAll().stream();

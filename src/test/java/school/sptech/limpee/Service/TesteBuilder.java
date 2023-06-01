@@ -7,6 +7,7 @@ import school.sptech.limpee.domain.documento.Documento;
 import school.sptech.limpee.domain.endereco.Endereco;
 import school.sptech.limpee.domain.especialidade.Especialidade;
 import school.sptech.limpee.domain.imagem.Imagem;
+import school.sptech.limpee.domain.notificacao.Notificacao;
 import school.sptech.limpee.domain.usuario.Usuario;
 import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoDTO;
 import school.sptech.limpee.service.admistrador.dto.AdministradorDto;
@@ -16,6 +17,10 @@ import school.sptech.limpee.service.endereco.dto.EnderecoDTO;
 import school.sptech.limpee.service.endereco.dto.EnderecoListagemDTO;
 import school.sptech.limpee.service.especialidade.EspecialidadeService;
 import school.sptech.limpee.service.especialidade.dto.EspecialidadeDto;
+import school.sptech.limpee.service.notificacao.dto.NotificacaoDto;
+import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
+import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
+import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioDto;
 
 import java.util.List;
@@ -27,6 +32,18 @@ public class TesteBuilder {
     }
     public static Usuario criarUsuario(){
         return new Usuario(1L,"teste","Teste@email.com");
+    }
+    public static UsuarioDto cadastrarUsuario(){
+        return new UsuarioDto();
+    }
+    public static UsuarioCriacaoDto cadastrarUsuario1(){
+        return new UsuarioCriacaoDto();
+    }
+    public static UsuarioTokenDto cadastrarTokenUsuario(){
+        return new UsuarioTokenDto();
+    }
+    public static UsuarioLoginDto cadastrarLoginDTO(){
+        return new UsuarioLoginDto();
     }
     public static List<Usuario> criarListaUsuarios(){
         return List.of(
@@ -133,5 +150,17 @@ public class TesteBuilder {
    }
     public static EspecialidadeDto cadastrarEspecialidadeDto(){
         return new EspecialidadeDto();
+    }
+    public static List<NotificacaoDto> criarNotificacaoDTO(){
+        return List.of(
+                new NotificacaoDto(),
+                new NotificacaoDto()
+        );
+    }
+    public static List<Notificacao> criarNotificacao(){
+        return List.of(
+                new Notificacao(),
+                new Notificacao()
+        );
     }
 }

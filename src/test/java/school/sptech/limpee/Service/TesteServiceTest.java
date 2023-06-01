@@ -14,6 +14,7 @@ import school.sptech.limpee.api.repository.endereco.EnderecoRepository;
 import school.sptech.limpee.api.repository.especialidade.EspecialidadeRepository;
 import school.sptech.limpee.api.repository.formularioServico.FormularioServicoRepository;
 import school.sptech.limpee.api.repository.imagem.ImagemRepository;
+import school.sptech.limpee.api.repository.notificacao.NotificacaoRepository;
 import school.sptech.limpee.api.repository.usuario.UsuarioRepository;
 import school.sptech.limpee.domain.FormularioServico.FormularioServico;
 import school.sptech.limpee.domain.administrador.Administrador;
@@ -22,6 +23,7 @@ import school.sptech.limpee.domain.documento.Documento;
 import school.sptech.limpee.domain.endereco.Endereco;
 import school.sptech.limpee.domain.especialidade.Especialidade;
 import school.sptech.limpee.domain.imagem.Imagem;
+import school.sptech.limpee.domain.notificacao.Notificacao;
 import school.sptech.limpee.domain.usuario.Usuario;
 import school.sptech.limpee.service.FormularioServico.FormularioServicoService;
 import school.sptech.limpee.service.FormularioServico.dto.FormularioServicoDTO;
@@ -37,7 +39,13 @@ import school.sptech.limpee.service.endereco.dto.EnderecoListagemDTO;
 import school.sptech.limpee.service.especialidade.EspecialidadeService;
 import school.sptech.limpee.service.especialidade.dto.EspecialidadeDto;
 import school.sptech.limpee.service.imagem.ImagemService;
+import school.sptech.limpee.service.notificacao.NotificacaoService;
+import school.sptech.limpee.service.notificacao.dto.NotificacaoClienteDto;
+import school.sptech.limpee.service.notificacao.dto.NotificacaoDto;
 import school.sptech.limpee.service.usuario.UsuarioService;
+import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
+import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
+import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioDto;
 
 import java.util.List;
@@ -49,6 +57,10 @@ import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 public class TesteServiceTest {
+    @Mock
+    NotificacaoRepository notificacaoRepository;
+    @InjectMocks
+    NotificacaoService notificacaoService;
 
     @Mock
     EspecialidadeRepository especialidadeRepository;
@@ -223,6 +235,36 @@ void listarImagens(){
     FormularioServicoDTO resultado = formularioServicoService.save(formularioServicoDTO, usuario.get(1) ,usuario.get(2));
     assertNotNull(resultado);
 }
+@Test
+    @DisplayName("Buscar notificacao por cliente")
+    void buscarNotificacaoCliente(){
+    List<Notificacao> notificacaos = TesteBuilder.criarNotificacao();
+    List<NotificacaoDto> notificacaoDtos = TesteBuilder.criarNotificacaoDTO();
+    List<Usuario> usuarios = TesteBuilder.criarListaUsuarios();
+    Mockito.when(notificacaoRepository.findAllByIdCliente(1L)).thenReturn(notificacaos);
+    List<NotificacaoClienteDto> resultado = notificacaoService.buscarNotificacoesCliente(1L);
+    assertNotNull(resultado);
 
+}
+    @Test
+    @DisplayName("Deve salvar o usuario e retornar o usuario salvo")
+    void salvarUsuario1(){
+        UsuarioDto usuario = TesteBuilder.cadastrarUsuario();
+        UsuarioCriacaoDto usuario2 = TesteBuilder.cadastrarUsuario1();
+        Usuario usuario1 = TesteBuilder.criarUsuario();
+        Mockito.when(usuarioRepository.save(usuario1)).thenReturn(usuario1);
+        UsuarioDto resultado = usuarioService.criar(usuario2);
+        assertNotNull(resultado);
+    }
+    @Test
+    @DisplayName("Deve testar se o token usuario")
+    void salvarToken(){
+        UsuarioTokenDto usuarioTokenDto = TesteBuilder.cadastrarTokenUsuario();
+        Usuario usuario = TesteBuilder.criarUsuario();
+        UsuarioLoginDto usuarioLoginDto = TesteBuilder.cadastrarLoginDTO();
+        Mockito.when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
+        UsuarioTokenDto resultado = usuarioService.autenticar(usuarioLoginDto);
+        assertNotNull(resultado);
+    }
 
 }
