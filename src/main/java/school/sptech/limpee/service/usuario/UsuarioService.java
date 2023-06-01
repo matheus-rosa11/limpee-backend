@@ -272,7 +272,7 @@ public class UsuarioService {
 //        especializacaoRepository.saveAll(especializacoes);
 
 
-        return UsuarioMapper.of(usuarioRepository.save(usuario));
+        return UsuarioMapper.of(usuarioRepository.saveAndFlush(usuario));
     }
 
     public UsuarioDto buscaUsuarioPorId(long idUsuario) {
