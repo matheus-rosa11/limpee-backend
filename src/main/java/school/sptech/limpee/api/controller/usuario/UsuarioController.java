@@ -177,7 +177,6 @@ public class UsuarioController {
             @ApiResponse(responseCode = "204", description = "Não foram encontrados registros correspondentes.")
     })
 
-    @SecurityRequirement(name = "Bearer")
     @GetMapping("/naoAprovados")
     @Operation(summary = "Busca usuários ainda não validados.")
     public ResponseEntity<List<UsuarioDto>> buscarUsuariosNaoAprovados() {
