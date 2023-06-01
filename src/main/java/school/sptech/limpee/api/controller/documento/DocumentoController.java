@@ -60,7 +60,7 @@ public class DocumentoController {
     }
 
     @GetMapping("/download/{idPrestador}")
-    public ResponseEntity<byte[]> getFile(@PathVariable Long idPrestador) {
+    public ResponseEntity<byte[]> getFile(@PathVariable long idPrestador) {
         DocumentoDto documento = documentoService.getFileByIdPrestador(idPrestador);
 
         return ResponseEntity.ok()
