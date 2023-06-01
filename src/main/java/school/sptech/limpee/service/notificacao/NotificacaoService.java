@@ -117,4 +117,5 @@ public class NotificacaoService {
         notificacao.get().setFinalizado(true);
         notificacaoRepository.save(notificacao.get());
     }
+
 }

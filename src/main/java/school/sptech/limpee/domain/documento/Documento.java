@@ -1,6 +1,7 @@
 package school.sptech.limpee.domain.documento;
 
 import jakarta.persistence.*;
+import school.sptech.limpee.domain.usuario.Usuario;
 
 @Entity
 public class Documento {
@@ -11,6 +12,8 @@ public class Documento {
     private String type;
     @Lob
     private byte[] arquivo;
+    @OneToOne
+    private Usuario usuario;
 
     public Documento() {
     }
@@ -51,5 +54,13 @@ public class Documento {
 
     public void setArquivo(byte[] arquivo) {
         this.arquivo = arquivo;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

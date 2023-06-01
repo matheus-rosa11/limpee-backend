@@ -2,6 +2,7 @@ package school.sptech.limpee.domain.imagem;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import school.sptech.limpee.domain.usuario.Usuario;
 
 @Entity
 public class Imagem {
@@ -9,6 +10,9 @@ public class Imagem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+    @OneToOne
+    private Usuario prestador;
+
     //@JsonIgnore
     @Column(length = 50 * 1024 * 1024)
     private byte[] foto;
@@ -35,5 +39,13 @@ public class Imagem {
 
     public void setFoto(byte[] foto) {
         this.foto = foto;
+    }
+
+    public Usuario getPrestador() {
+        return prestador;
+    }
+
+    public void setPrestador(Usuario prestador) {
+        this.prestador = prestador;
     }
 }

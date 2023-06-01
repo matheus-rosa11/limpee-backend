@@ -16,13 +16,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findByEmailAndSenha(String email, String senha);
     Optional<Usuario> findByEmail(String email);
     List<Usuario> findByTipoUsuarioIgnoreCase(String tipoUsuario);
-
     List<Usuario> findAllByNomeIgnoreCase(String nome);
     boolean existsByEmail(String email);
     @Query("SELECT u FROM Usuario u")
     List<Usuario> listarUsuarios();
 
-    @Query("select new school.sptech.limpee.service.usuario.dto.UsuarioAvaliacaoDTO(u.nome, AVG(a.nota)) from Usuario u join u.avaliacoes a GROUP BY u order by AVG(a.nota) DESC ")
+    @Query("select new school.sptech.limpee.service.usuario.dto.UsuarioAvaliacaoDTO(u.nome, AVG(a.nota)) from Usuario u join u.avaliacoes a GROUP BY u.nome order by AVG(a.nota) DESC ")
     List<UsuarioAvaliacaoDTO> getUsuarioOrderByNota();
 
+    List<Usuario> findAllByOrderByRankingDesc();
 }
