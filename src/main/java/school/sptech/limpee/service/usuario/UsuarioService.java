@@ -176,7 +176,7 @@ public class UsuarioService {
     }
 
     public List<UsuarioDto> listar() {
-        List<Usuario> usuarios = usuarioRepository.findAll();
+        List<Usuario> usuarios = usuarioRepository.findAll().stream().filter(Usuario::isAprovado).toList();
         List<UsuarioDto> usuariosDto = new ArrayList<>();
 
         for (Usuario usuario : usuarios) {
