@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("documentos")
+@CrossOrigin
 public class DocumentoController {
     @Autowired
     private DocumentoService documentoService;

@@ -23,6 +23,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/formulario-servico")
+@CrossOrigin
 public class FormularioServicoController {
     @Autowired
     FormularioServicoService formularioServicoService;

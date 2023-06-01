@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/avaliacao")
+@CrossOrigin
 public class AvaliacaoController {
     @Autowired
     AvaliacaoService avaliacaoService;

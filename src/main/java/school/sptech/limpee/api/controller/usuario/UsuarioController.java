@@ -22,6 +22,7 @@ import java.util.List;
 @Tag(name = "Usuários", description = "Grupo de requisições de Usuários")
 @RestController
 @RequestMapping("/usuarios")
+@CrossOrigin
 public class UsuarioController {
 
     @Autowired

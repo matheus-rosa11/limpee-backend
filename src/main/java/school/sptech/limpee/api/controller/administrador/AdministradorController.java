@@ -15,6 +15,7 @@ import java.util.List;
 @Tag(name = "Administradores", description = "Grupo de requisições de Administradores")
 @RestController
 @RequestMapping("/administradores")
+@CrossOrigin
 public class AdministradorController {
 
     @Autowired

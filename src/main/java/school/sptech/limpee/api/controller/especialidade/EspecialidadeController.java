@@ -18,6 +18,7 @@ import java.util.List;
 @Tag(name = "Especialidades", description = "Grupo de requisições de Especialidades")
 @RestController
 @RequestMapping("/especialidade")
+@CrossOrigin
 public class EspecialidadeController {
     @Autowired
     EspecialidadeService especialidadeService;

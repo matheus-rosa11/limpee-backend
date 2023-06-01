@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("imagens")
+@CrossOrigin
 public class ImagemController {
     @Autowired
     private ImagemRepository imagemRepository;
