@@ -26,7 +26,7 @@ public class DocumentoController {
     @Autowired
     private DocumentoService documentoService;
 
-    @PostMapping(value = "/{idPrestador}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/{idPrestador}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseMessage> uploadFile(@RequestBody MultipartFile file, @PathVariable long idPrestador) {
         String message = "";
         try {
