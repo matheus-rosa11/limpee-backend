@@ -15,11 +15,14 @@ import school.sptech.limpee.api.repository.especialidade.EspecialidadeRepository
 import school.sptech.limpee.api.repository.especializacao.EspecializacaoRepository;
 import school.sptech.limpee.api.repository.usuario.UsuarioRepository;
 import school.sptech.limpee.domain.csv.ListaObj;
+import school.sptech.limpee.domain.endereco.Endereco;
 import school.sptech.limpee.domain.especialidade.Especialidade;
 import school.sptech.limpee.domain.especializacao.Especializacao;
 import school.sptech.limpee.domain.usuario.Usuario;
-import school.sptech.limpee.service.especialidade.dto.EspecialidadeCriacaoDto;
+import school.sptech.limpee.service.endereco.dto.EnderecoDTO;
+import school.sptech.limpee.service.endereco.dto.EnderecoMapper;
 import school.sptech.limpee.service.especialidade.dto.EspecialidadeMapper;
+import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
 import school.sptech.limpee.service.especializacao.dto.EspecializacaoMapper;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioTokenDto;
@@ -27,8 +30,7 @@ import school.sptech.limpee.service.usuario.dto.UsuarioAvaliacaoDTO;
 import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioMapper;
-import java.io.FileWriter;
-import java.io.IOException;
+
 import java.util.*;
 
 @Service
@@ -88,7 +90,6 @@ public class UsuarioService {
                 Especialidade especialidade = especialidadeRepository.save(new Especialidade(e));
                 especializacoes.add(new Especializacao(novoUsuario, especialidade));
             }
-
             novoUsuario.setEspecializacoes(especializacoes);
         }
 
@@ -142,48 +143,6 @@ public class UsuarioService {
         return usuarioRepository.existsByEmail(email);
     }
 
-    public String gravaArquivoCsv(String nomeArq) {
-        ListaObj<Usuario> lista = this.ordenarPorRanking();
-        FileWriter arq = null;
-        Formatter saida = null;
-        boolean deuRuim = false;
-
-        if (!nomeArq.contains(".csv"))
-            nomeArq += ".csv";
-
-        try {
-            arq = new FileWriter(nomeArq);
-            saida = new Formatter(arq);
-        } catch (IOException erro) {
-            System.out.println("Houve um erro ao abrir o arquivo CSV: " + erro.getMessage());
-        }
-
-        try {
-            for (int i = 0; i < lista.getTamanho(); i++) {
-                Usuario usuario = lista.getElemento(i);
-                saida.format("%d;%S;%S;%S;%s;%d\n", usuario.getId(), usuario.getTipoUsuario(), usuario.getNome(), usuario.getGenero(), usuario.getEmail(), usuario.getRanking());
-            }
-        } catch (FormatterClosedException erro) {
-            System.out.println("Houve um erro ao gravar o arquivo CSV: " + erro.getMessage());
-            deuRuim = true;
-
-        } finally {
-            saida.close();
-            try {
-                arq.close();
-            } catch (IOException erro) {
-                System.out.println("Erro ao fechar o arquivo: " + erro.getMessage());
-                deuRuim = true;
-            }
-
-            if (deuRuim) {
-                throw new RuntimeException("Houve um erro ao gravar o arquivo CSV.");
-            }
-        }
-
-        return "CSV gerado com sucesso";
-    }
-
     public ListaObj<Usuario> ordenarPorRanking() {
         List<Usuario> usuarios = usuarioRepository.findAll();
         ListaObj<Usuario> clienteObj = new ListaObj<>(usuarios.size());
@@ -217,7 +176,7 @@ public class UsuarioService {
     }
 
     public List<UsuarioDto> listar() {
-        List<Usuario> usuarios = usuarioRepository.findAll();
+        List<Usuario> usuarios = usuarioRepository.findAll().stream().filter(Usuario::isAprovado).toList();
         List<UsuarioDto> usuariosDto = new ArrayList<>();
 
         for (Usuario usuario : usuarios) {
@@ -261,6 +220,65 @@ public class UsuarioService {
 
         usuario.get().setNome(novoUsuario.getNome());
         return UsuarioMapper.of(usuarioRepository.save(usuario.get()));
+    }
+
+    public List<Usuario> saveAll(List<Usuario> usuarios) {
+        return usuarioRepository.saveAll(usuarios);
+    }
+
+    public List<Usuario> findAllOrderByRanking() {
+        return usuarioRepository.findAllByOrderByRankingDesc();
+    }
+
+    public List<UsuarioDto> buscarUsuariosNaoAprovados() {
+        return usuarioRepository.findAll()
+                .stream()
+                .filter(usuario -> usuario.getTipoUsuario().equalsIgnoreCase("prestador"))
+                .filter(usuario -> !usuario.isAprovado() && !usuario.isRejeitado())
+                .map(UsuarioMapper::of)
+                .toList();
+    }
+
+    public void aprovarUsuario(long idUsuario, boolean isAprovado) {
+
+        Optional<Usuario> usuario = usuarioRepository.findById(idUsuario);
+
+        if (usuario.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não existe o usuário com ID especificado");
+
+        usuario.get().setAprovado(isAprovado);
+        usuario.get().setRejeitado(!isAprovado);
+
+        usuarioRepository.save(usuario.get());
+    }
+
+    public UsuarioDto editarPerfil(UsuarioDto usuarioDto) {
+
+        if (Objects.isNull(usuarioDto))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O objeto de usuário está nulo.");
+
+        Usuario usuario = usuarioRepository.findById(usuarioDto.getId()).get();
+
+        usuario.setNome(usuarioDto.getNome());
+        usuario.setEmail(usuarioDto.getEmail());
+        usuario.setTelefone(usuarioDto.getTelefone());
+
+//        enderecoRepository.save(EnderecoMapper.of(usuarioDto.getEndereco()));
+//
+//        List<Especializacao> especializacoes = usuarioDto.getEspecializacoes().stream().map(EspecializacaoMapper::of).toList();
+//        List<Especialidade> especialidades = especializacoes.stream().map(Especializacao::getEspecialidade).toList();
+//
+//        especialidadeRepository.saveAll(especialidades);
+//        especializacaoRepository.saveAll(especializacoes);
+
+
+        return UsuarioMapper.of(usuarioRepository.saveAndFlush(usuario));
+    }
+
+    public UsuarioDto buscaUsuarioPorId(long idUsuario) {
+        return UsuarioMapper.of(findById(idUsuario).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "O usuário com o ID especificado não foi encontrado.")
+        ));
     }
 
 //    public String gravaArquivoTxt(String nomeArq) {

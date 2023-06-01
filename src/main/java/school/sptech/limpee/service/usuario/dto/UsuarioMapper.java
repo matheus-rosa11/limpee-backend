@@ -57,6 +57,8 @@ public class UsuarioMapper {
         usuarioDto.setTipoUsuario(usuario.getTipoUsuario());
         usuarioDto.setEndereco(EnderecoMapper.of(usuario.getEndereco()));
         usuarioDto.setEspecializacoes(usuario.getEspecializacoes().stream().map(EspecializacaoMapper::of).toList());
+        usuarioDto.setRejeitado(usuarioDto.isRejeitado());
+        usuarioDto.setAprovado(usuarioDto.isAprovado());
 
         List<FormularioServicoDTO> formulariosPrestadorDto = usuario.getFormularioPrestador()
                 .stream()
@@ -92,6 +94,7 @@ public class UsuarioMapper {
     public static Usuario of(UsuarioDto usuarioDto) {
         Usuario u = new Usuario();
 
+        u.setId(usuarioDto.getId());
         u.setEmail(usuarioDto.getEmail());
         u.setNome(usuarioDto.getNome());
         u.setRanking(u.getRanking());
@@ -102,6 +105,13 @@ public class UsuarioMapper {
         u.setRg(usuarioDto.getRg());
         u.setTelefone(usuarioDto.getTelefone());
         u.setTipoUsuario(usuarioDto.getTipoUsuario());
+        u.setRejeitado(usuarioDto.isRejeitado());
+        u.setAprovado(usuarioDto.isAprovado());
+        u.setAnosExperiencia(usuarioDto.getAnosExperiencia());
+        u.setEndereco(EnderecoMapper.of(usuarioDto.getEndereco()));
+        u.setEspecializacoes(usuarioDto.getEspecializacoes().stream().map(EspecializacaoMapper::of).toList());
+        u.setQtdServicosFinalizados(usuarioDto.getQtdServicosFinalizados());
+        u.setQtdServicosSolicitados(usuarioDto.getQtdServicosSolicitados());
 
         return u;
     }
@@ -114,6 +124,31 @@ public class UsuarioMapper {
         u.setNome(cliente.getNome());
         u.setEndereco(EnderecoMapper.mapToNotificacao(cliente.getEndereco()));
 
+        return u;
+    }
+    public static UsuarioCsvDto mapToUsuarioCsv(Usuario usuario) {
+        UsuarioCsvDto u = new UsuarioCsvDto();
+        u.setNome(usuario.getNome());
+        u.setEmail(usuario.getEmail());
+        u.setGenero(usuario.getGenero());
+        u.setTipoUsuario(usuario.getTipoUsuario());
+        u.setRanking(usuario.getRanking());
+        u.setAnosExperiencia(usuario.getAnosExperiencia());
+
+        return u;
+    }
+    public static UsuarioTxtDto mapToUsuarioTxt(Usuario usuario) {
+        UsuarioTxtDto u = new UsuarioTxtDto();
+        u.setNome(usuario.getNome());
+        u.setEmail(usuario.getEmail());
+        u.setGenero(usuario.getGenero());
+        u.setTipoUsuario(usuario.getTipoUsuario());
+        u.setQtdServicosSolicitados(usuario.getQtdServicosSolicitados());
+        u.setQtdServicosFinalizados(usuario.getQtdServicosFinalizados());
+        u.setAnosExperiencia(usuario.getAnosExperiencia());
+        u.setRanking(usuario.getRanking());
+        u.setCPF(usuario.getCpf());
+        u.setRG(usuario.getRg());
         return u;
     }
 }

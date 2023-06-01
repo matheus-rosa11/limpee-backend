@@ -34,8 +34,8 @@ public class Usuario {
     public List<FormularioServico> formularioPrestador;
     @OneToMany(mappedBy = "usuario")
     private List<Especializacao> especializacoes;
-    private boolean isAprovado;
-
+    private boolean aprovado;
+    private boolean rejeitado;
     @OneToMany(mappedBy = "usuario")
     private List<Avaliacao> avaliacoes;
 
@@ -187,11 +187,11 @@ public class Usuario {
     }
 
     public boolean isAprovado() {
-        return isAprovado;
+        return aprovado;
     }
 
     public void setAprovado(boolean aprovado) {
-        isAprovado = aprovado;
+        this.aprovado = aprovado;
     }
 
     public String getCpf() {
@@ -216,5 +216,13 @@ public class Usuario {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public boolean isRejeitado() {
+        return rejeitado;
+    }
+
+    public void setRejeitado(boolean rejeitado) {
+        this.rejeitado = rejeitado;
     }
 }

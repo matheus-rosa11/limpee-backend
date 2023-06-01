@@ -18,6 +18,7 @@ import school.sptech.limpee.service.usuario.dto.UsuarioCriacaoDto;
 import school.sptech.limpee.service.usuario.dto.UsuarioDto;
 
 import java.util.List;
+import java.util.Optional;
 
 @Tag(name = "Usuários", description = "Grupo de requisições de Usuários")
 @RestController
@@ -76,6 +77,19 @@ public class UsuarioController {
     }
 
     @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Listagem realizada com sucesso. Não foram encontrados registros de usuário."),
+            @ApiResponse(responseCode = "200", description = "Listagem realizada com sucesso."),
+            @ApiResponse(responseCode = "401", description = "Não autorizado.")
+    })
+
+    @SecurityRequirement(name = "Bearer")
+    @Operation(summary = "Lista usuários cadastrados")
+    @GetMapping("/{idUsuario}")
+    public ResponseEntity<UsuarioDto> buscaUsuarioPorId(@PathVariable long idUsuario) {
+        return ResponseEntity.ok(usuarioService.buscaUsuarioPorId(idUsuario));
+    }
+
+    @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso."),
             @ApiResponse(responseCode = "204", description = "Não foram encontrados registros correspondentes.")
     })
@@ -121,18 +135,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.atualizarNome(id, novoUsuario));
     }
 
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "CSV gerado com sucesso."),
-            @ApiResponse(responseCode = "404", description = "O recurso solicitado não foi encontrado."),
-            @ApiResponse(responseCode = "500", description = "Houve um erro ao gerar o arquivo CSV.")
-    })
 
-    @SecurityRequirement(name = "Bearer")
-    @Operation(summary = "Gravar arquivo CSV com dados de usuário")
-    @GetMapping("/csv")
-    public ResponseEntity<String> gravarCsv() {
-        return ResponseEntity.ok(usuarioService.gravaArquivoCsv("ClientesLimpee"));
-    }
 
 //    @ApiResponses({
 //            @ApiResponse(responseCode = "200", description = "Pesquisa binária gerada com sucesso."),
@@ -169,4 +172,46 @@ public class UsuarioController {
                 ResponseEntity.noContent().build() :
                 ResponseEntity.ok(usuarios);
     }
+
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso."),
+            @ApiResponse(responseCode = "204", description = "Não foram encontrados registros correspondentes.")
+    })
+
+    @GetMapping("/naoAprovados")
+    @Operation(summary = "Busca usuários ainda não validados.")
+    public ResponseEntity<List<UsuarioDto>> buscarUsuariosNaoAprovados() {
+
+        List<UsuarioDto> usuarios = usuarioService.buscarUsuariosNaoAprovados();
+
+        return usuarios.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok(usuarios);
+    }
+
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso."),
+            @ApiResponse(responseCode = "204", description = "Não foram encontrados registros correspondentes.")
+    })
+
+    @SecurityRequirement(name = "Bearer")
+    @PutMapping("admin/aprovar/{idUsuario}")
+    @Operation(summary = "Aprovar usuários como administrador")
+    public ResponseEntity<UsuarioDto> aprovarUsuario(@PathVariable long idUsuario, @RequestParam boolean isAprovado) {
+        usuarioService.aprovarUsuario(idUsuario, isAprovado);
+        return ResponseEntity.noContent().build();
+    }
+
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso."),
+            @ApiResponse(responseCode = "204", description = "Não foram encontrados registros correspondentes.")
+    })
+
+    @SecurityRequirement(name = "Bearer")
+    @PutMapping("perfil/editar/{idUsuario}")
+    @Operation(summary = "Editar perfil de usuário")
+    public ResponseEntity<UsuarioDto> editarPerfil(@RequestBody UsuarioDto usuario) {
+        return ResponseEntity.ok(usuarioService.editarPerfil(usuario));
+    }
+
 }

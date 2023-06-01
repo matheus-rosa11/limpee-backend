@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import school.sptech.limpee.domain.imagem.Imagem;
 
+import java.util.Optional;
+
 public interface ImagemRepository extends JpaRepository<Imagem, Long> {
     @Modifying
     @Transactional
@@ -14,4 +16,10 @@ public interface ImagemRepository extends JpaRepository<Imagem, Long> {
 
     @Query("select i.foto from Imagem i where i.id = ?1")
     byte[] getFoto(Long id);
+
+    @Query("SELECT i.foto FROM Imagem i WHERE i.prestador.id = :idPrestador")
+    Optional<byte[]> getFotoByIdPrestador(Long idPrestador);
+
+    @Query("SELECT i FROM Imagem i WHERE i.prestador.id = :idPrestador")
+    Imagem getImgPrestadorDtoByIdPrestador(Long idPrestador);
 }

@@ -37,6 +37,11 @@ public class SecurityConfiguracao {
     private static final AntPathRequestMatcher[] URLS_PERMITIDAS = {
             new AntPathRequestMatcher("/h2-console/**"),
             new AntPathRequestMatcher("/usuarios/login"),
+            new AntPathRequestMatcher("/usuarios/naoAprovados"),
+            new AntPathRequestMatcher("/usuarios/admin/*"),
+            new AntPathRequestMatcher("/usuarios/admin/**"),
+            new AntPathRequestMatcher("/usuarios/admin/aprovar"),
+            new AntPathRequestMatcher("/usuarios/admin/aprovar/**"),
             new AntPathRequestMatcher("/usuarios"),
             new AntPathRequestMatcher("/swagger-ui/**"),
             new AntPathRequestMatcher("/swagger-ui.html"),
@@ -55,6 +60,15 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/imagens/foto/*"),
             new AntPathRequestMatcher("/documentos"),
             new AntPathRequestMatcher("/documentos/*"),
+            new AntPathRequestMatcher("/documentos/**"),
+            new AntPathRequestMatcher("/documentos/download"),
+            new AntPathRequestMatcher("/csvs"),
+            new AntPathRequestMatcher("/csvs/export"),
+            new AntPathRequestMatcher("/txts/import"),
+            new AntPathRequestMatcher("/txts/export"),
+            new AntPathRequestMatcher("/imagens"),
+            new AntPathRequestMatcher("/imagens/*"),
+            new AntPathRequestMatcher("/imagens/**"),
 
 
 
