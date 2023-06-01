@@ -27,7 +27,7 @@ public class DocumentoController {
     private DocumentoService documentoService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<ResponseMessage> uploadFile(@RequestBody MultipartFile file) {
         String message = "";
         try {
             documentoService.store(file);
