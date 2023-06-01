@@ -9,10 +9,13 @@ import org.springframework.web.server.ResponseStatusException;
 import school.sptech.limpee.api.repository.documento.DocumentoRepository;
 import school.sptech.limpee.api.repository.usuario.UsuarioRepository;
 import school.sptech.limpee.domain.documento.Documento;
+import school.sptech.limpee.domain.usuario.Usuario;
 import school.sptech.limpee.service.documento.dto.DocumentoDto;
 import school.sptech.limpee.service.documento.dto.DocumentoMapper;
 
 import java.io.IOException;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -22,9 +25,16 @@ public class DocumentoService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public Documento store(MultipartFile file) throws IOException {
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+    public Documento store(MultipartFile file, long idPrestador) throws IOException {
+
+        Optional<Usuario> usuario = usuarioRepository.findById(idPrestador);
+
+        if (usuario.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
+
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         Documento FileDB = new Documento(fileName, file.getContentType(), file.getBytes());
+        FileDB.setUsuario(usuario.get());
 
         return documentoRepository.save(FileDB);
     }

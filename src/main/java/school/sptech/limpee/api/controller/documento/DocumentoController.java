@@ -26,11 +26,11 @@ public class DocumentoController {
     @Autowired
     private DocumentoService documentoService;
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestBody MultipartFile file) {
+    @PostMapping(value = "/{idPrestador}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ResponseMessage> uploadFile(@RequestBody MultipartFile file, @PathVariable long idPrestador) {
         String message = "";
         try {
-            documentoService.store(file);
+            documentoService.store(file, idPrestador);
 
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
