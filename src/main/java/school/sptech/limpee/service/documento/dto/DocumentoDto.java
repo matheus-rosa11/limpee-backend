@@ -1,28 +1,14 @@
-package school.sptech.limpee.domain.documento;
+package school.sptech.limpee.service.documento.dto;
 
 import jakarta.persistence.*;
 import school.sptech.limpee.domain.usuario.Usuario;
 
-@Entity
-public class Documento {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class DocumentoDto {
     private Long id;
     private String nome;
     private String type;
-    @Lob
     private byte[] arquivo;
-    @OneToOne
-    private Usuario usuario;
-
-    public Documento() {
-    }
-
-    public Documento(String nome, String type, byte[] arquivo) {
-        this.nome = nome;
-        this.type = type;
-        this.arquivo = arquivo;
-    }
+    private long idUsuario;
 
     public Long getId() {
         return id;
@@ -56,11 +42,11 @@ public class Documento {
         this.arquivo = arquivo;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public long getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setIdUsuario(long idUsuario) {
+        this.idUsuario = idUsuario;
     }
 }
