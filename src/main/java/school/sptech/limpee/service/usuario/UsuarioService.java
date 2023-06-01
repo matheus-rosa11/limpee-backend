@@ -21,6 +21,7 @@ import school.sptech.limpee.domain.especializacao.Especializacao;
 import school.sptech.limpee.domain.usuario.Usuario;
 import school.sptech.limpee.service.endereco.dto.EnderecoDTO;
 import school.sptech.limpee.service.endereco.dto.EnderecoMapper;
+import school.sptech.limpee.service.especialidade.dto.EspecialidadeMapper;
 import school.sptech.limpee.service.especializacao.dto.EspecializacaoDto;
 import school.sptech.limpee.service.especializacao.dto.EspecializacaoMapper;
 import school.sptech.limpee.service.usuario.autenticacao.dto.UsuarioLoginDto;
@@ -253,7 +254,10 @@ public class UsuarioService {
 
     public UsuarioDto editarPerfil(UsuarioDto usuarioDto) {
         enderecoRepository.save(EnderecoMapper.of(usuarioDto.getEndereco()));
-        especializacaoRepository.saveAll(usuarioDto.getEspecializacoes().stream().map(EspecializacaoMapper::of).toList());
+        List<Especializacao> especializacoes = usuarioDto.getEspecializacoes().stream().map(EspecializacaoMapper::of).toList();
+        List<Especialidade> especialidades = especializacoes.stream().map(Especializacao::getEspecialidade).toList();
+        especialidadeRepository.saveAll(especialidades);
+        especializacaoRepository.saveAll(especializacoes);
         Usuario usuario = UsuarioMapper.of(usuarioDto);
         return UsuarioMapper.of(usuarioRepository.save(usuario));
     }
