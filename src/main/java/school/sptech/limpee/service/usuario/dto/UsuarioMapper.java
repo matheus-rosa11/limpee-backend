@@ -94,6 +94,7 @@ public class UsuarioMapper {
     public static Usuario of(UsuarioDto usuarioDto) {
         Usuario u = new Usuario();
 
+        u.setId(usuarioDto.getId());
         u.setEmail(usuarioDto.getEmail());
         u.setNome(usuarioDto.getNome());
         u.setRanking(u.getRanking());

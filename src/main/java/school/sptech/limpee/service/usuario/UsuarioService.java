@@ -253,12 +253,20 @@ public class UsuarioService {
     }
 
     public UsuarioDto editarPerfil(UsuarioDto usuarioDto) {
+
+        if (Objects.isNull(usuarioDto))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O objeto de usuário está nulo.");
+
         enderecoRepository.save(EnderecoMapper.of(usuarioDto.getEndereco()));
+
         List<Especializacao> especializacoes = usuarioDto.getEspecializacoes().stream().map(EspecializacaoMapper::of).toList();
         List<Especialidade> especialidades = especializacoes.stream().map(Especializacao::getEspecialidade).toList();
+
         especialidadeRepository.saveAll(especialidades);
         especializacaoRepository.saveAll(especializacoes);
+
         Usuario usuario = UsuarioMapper.of(usuarioDto);
+
         return UsuarioMapper.of(usuarioRepository.save(usuario));
     }
 
