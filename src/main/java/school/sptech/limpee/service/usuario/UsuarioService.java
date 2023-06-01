@@ -281,6 +281,12 @@ public class UsuarioService {
         ));
     }
 
+    public void deletarUsuario(long idUsuario) {
+        if (!usuarioRepository.existsById(idUsuario))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "O usuário com o ID especificado não existe.");
+        usuarioRepository.deleteById(idUsuario);
+    }
+
 //    public String gravaArquivoTxt(String nomeArq) {
 //        int contaRegDadosGravados = 0;
 //        List<Usuario> lista = usuarioRepository.findAll();

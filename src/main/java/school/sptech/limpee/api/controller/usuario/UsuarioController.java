@@ -190,8 +190,8 @@ public class UsuarioController {
     }
 
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso."),
-            @ApiResponse(responseCode = "204", description = "Não foram encontrados registros correspondentes.")
+            @ApiResponse(responseCode = "204", description = "Aprovação realizada com sucesso."),
+            @ApiResponse(responseCode = "404", description = "Não existe o usuário com ID especificado.")
     })
 
     @SecurityRequirement(name = "Bearer")
@@ -203,8 +203,8 @@ public class UsuarioController {
     }
 
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso."),
-            @ApiResponse(responseCode = "204", description = "Não foram encontrados registros correspondentes.")
+            @ApiResponse(responseCode = "200", description = "Edição realizada com sucesso."),
+            @ApiResponse(responseCode = "400", description = "Houve um erro na requisição.")
     })
 
     @SecurityRequirement(name = "Bearer")
@@ -212,6 +212,18 @@ public class UsuarioController {
     @Operation(summary = "Editar perfil de usuário")
     public ResponseEntity<UsuarioDto> editarPerfil(@RequestBody UsuarioDto usuario) {
         return ResponseEntity.ok(usuarioService.editarPerfil(usuario));
+    }
+
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Deleção realizada com sucesso."),
+            @ApiResponse(responseCode = "400", description = "Houve um erro na requisição.")
+    })
+
+    @PutMapping("deletar/{idUsuario}")
+    @Operation(summary = "Deletar usuário")
+    public ResponseEntity<UsuarioDto> deletarUsuario(@PathVariable long idUsuario) {
+        usuarioService.deletarUsuario(idUsuario);
+        return ResponseEntity.noContent().build();
     }
 
 }
