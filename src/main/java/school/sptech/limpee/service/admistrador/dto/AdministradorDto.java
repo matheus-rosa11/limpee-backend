@@ -13,6 +13,8 @@ public class AdministradorDto {
         this.nome = nome;
     }
 
+
+
     public String getNome() {
         return nome;
     }

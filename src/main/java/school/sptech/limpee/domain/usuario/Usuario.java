@@ -26,6 +26,13 @@ public class Usuario {
     private int qtdServicosFinalizados;
     private int anosExperiencia;
     private int ranking;
+
+    public Usuario(Long id, String nome, String email) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+    }
+
     @OneToOne
     public Endereco endereco;
     @OneToMany(mappedBy = "cliente")

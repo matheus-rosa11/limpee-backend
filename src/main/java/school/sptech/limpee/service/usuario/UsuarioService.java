@@ -222,10 +222,6 @@ public class UsuarioService {
         return UsuarioMapper.of(usuarioRepository.save(usuario.get()));
     }
 
-    public List<Usuario> saveAll(List<Usuario> usuarios) {
-        return usuarioRepository.saveAll(usuarios);
-    }
-
     public List<Usuario> findAllOrderByRanking() {
         return usuarioRepository.findAllByOrderByRankingDesc();
     }
