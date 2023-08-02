@@ -3,25 +3,25 @@
 [![forthebadge](http://forthebadge.com/images/badges/made-with-java.svg)](http://forthebadge.com)
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
 
-Uma REST API dedicada ao projeto Limpee afim de construir 100% do Backend do projeto utilizando `Java` e `Spring Boot`.
+A REST API dedicated to the Limpee project in order to build 100% of the Backend of the project using `Java` and `Spring Boot`.
 
-# Tecnologias utilizadas
+# Technologies used
 
 - Spring Data JPA
-- Json Web Token + Autorização
+- Json Web Token + Authorization
 - Validation
-- H2 Database ou MS SQL Server
+- H2 Database or MS SQL Server
 - JPQL
 
-# Descrição
+# Description
 
-Nosso projeto consiste em um Website de conexão entre *Prestadores de Serviço de Limpeza* e *Clientes*, que os contratariam, facilitando o meio de campo entre as partes.
-Esta API contém endpoints como:
-- Listagem de usuários
-- Listagem de especialidades de limpeza
-- Cadastro de usuários
-- Cadastro de especialidades e especializações
-- Atualização de usuários
+Our project consists of a Website connecting *Cleaning Service Providers* and *Customers*, who would hire them, facilitating the middle ground between the parties.
+This API contains endpoints such as:
+- User listing
+- Cleaning specialties listing
+- User registration
+- Specialties and specializations registration
+- User update
 
-# 
-Esta aplicação foi construída através do projeto [São Paulo Tech School | SPTech](https://sptech.school)
+#
+This application was built through the São Paulo Tech School | SPTech project.
